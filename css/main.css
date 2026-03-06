@@ -1,0 +1,3463 @@
+@font-face {
+    font-family: 'ddin-regular';
+    src: url('/fnt/ddin-regular.woff2') format('woff2'),
+         url('/fnt/ddin-regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'ddin-bold';
+    src: url('/fnt/ddin-bold.woff2') format('woff2'),
+         url('/fnt/ddin-bold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'ddin-expandedbold';
+    src: url('/fnt/ddin-expandedbold.woff2') format('woff2'),
+         url('/fnt/ddin-expandedbold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'roboto-regular';
+    src: url('/fnt/roboto-regular.woff2') format('woff2'),
+         url('/fnt/roboto-regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'roboto-bold';
+    src: url('/fnt/roboto-bold.woff2') format('woff2'),
+         url('/fnt/roboto-bold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+:root {
+    --block-bg: #c3d5e5;
+    --block-bg-rgb: 195, 213, 229;
+    --abschnitt-line-color: var(--ts-input-text);
+}
+
+body {
+    min-height: 100vh;
+    background-color: var(--block-bg, #c3d5e5);
+    color: #102a43;
+    font-family: 'roboto-regular', sans-serif;
+    font-size: 18px;
+    margin: 0;
+    padding: 18px 12px 12px;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+.block {
+    margin: 0;
+    padding: 0;
+    background-color: transparent;
+    color: #102a43;
+    border-radius: 0;
+}
+
+.block--suche {
+    margin-bottom: 18px;
+}
+
+.blockRow {
+    --block-row-gap: 18px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--block-row-gap);
+    margin: 0;
+    align-items: stretch;
+    flex: 1 1 auto;
+    min-height: 0;
+}
+
+.blockRow--twoThirds {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+}
+
+.blockGroup {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    min-height: 0;
+}
+
+.blockRow .block {
+    margin: 0;
+    flex: 1;
+}
+
+.block--karte {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    overflow: hidden;
+    border: 2px solid var(--ts-input-border-base);
+    border-radius: var(--ts-input-border-radius);
+    box-shadow: var(--ts-input-focus-glow);
+    background-color: var(--ts-input-bg);
+    position: relative;
+    box-sizing: border-box;
+    --referenz-divider-color: var(--ts-input-border-base);
+    --referenz-divider-size: 2px;
+    --karte-zoom-btn-size: 32px;
+    --karte-lens-toggle-size: 44px;
+    flex: 1 1 auto;
+    min-height: 0;
+}
+
+.karteMap {
+    flex: 1;
+    width: 100%;
+    min-height: 260px;
+    background-color: #f5f7fa;
+    border: 0;
+    border-radius: 0;
+    position: relative;
+    overflow: hidden;
+    --snap-frame-color: rgba(89, 143, 236, 0.9);
+    --lens-size-default: 90%;
+    --karte-zoom-btn-size: 32px;
+    --karte-search-control-height: 32px;
+    --karte-search-toggle-width: 144px;
+    --karte-geocoder-width: 216px;
+    --karte-lens-toggle-size: 44px;
+}
+
+@supports (width: min(1cqw, 1cqh)) {
+    .karteMap {
+        container-type: size;
+        --lens-size-default: min(90cqw, 90cqh);
+    }
+}
+
+.karteLens {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: var(--lens-size, var(--lens-size-default, 90%));
+    height: var(--lens-size, var(--lens-size-default, 90%));
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid rgba(255, 255, 255, 0.75);
+    box-shadow: 0 6px 18px rgba(16, 42, 67, 0.18);
+    pointer-events: none;
+    z-index: 4;
+    opacity: 1;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.karteMap .karteAerialLayer {
+    clip-path: circle(var(--lens-radius, 0px) at 50% 50%);
+    transition: clip-path 0.2s ease;
+}
+
+.karteMap--lens-off .karteLens {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+
+.karteMap .ol-zoom {
+    top: auto;
+    left: auto;
+    right: 12px;
+    bottom: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 0;
+    z-index: 9;
+}
+
+.karteMap .ol-control {
+    background-color: transparent;
+    border-radius: var(--ts-input-border-radius);
+    z-index: 9;
+}
+
+.karteMap .ol-scale-line,
+.karteMap .ol-scale-line-inner,
+.karteMap .ol-scale-bar,
+.karteMap .ol-scale-bar-inner {
+    overflow: visible;
+}
+
+.karteMap .ol-scale-line-inner,
+.karteMap .ol-scale-bar-inner {
+    position: relative;
+}
+
+.karteMap .ol-scale-line-inner::before,
+.karteMap .ol-scale-line-inner::after,
+.karteMap .ol-scale-bar-inner::before,
+.karteMap .ol-scale-bar-inner::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 0;
+    height: 0;
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    transform: translateY(-50%);
+    filter: drop-shadow(0 0 1px rgba(16, 42, 67, 0.45));
+}
+
+.karteMap .ol-scale-line-inner::before,
+.karteMap .ol-scale-bar-inner::before {
+    left: -6px;
+    border-right: 6px solid #fff;
+}
+
+.karteMap .ol-scale-line-inner::after,
+.karteMap .ol-scale-bar-inner::after {
+    right: -6px;
+    border-left: 6px solid #fff;
+}
+
+.karteMap .ol-layers {
+    position: relative;
+}
+
+.karteMap .ol-layers::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: rgba(var(--block-bg-rgb, 195, 213, 229), 0.55);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 2;
+    transition: opacity 0.15s ease;
+    -webkit-mask: radial-gradient(circle var(--lens-radius, 0px) at 50% 50%, transparent 0, transparent calc(var(--lens-radius, 0px) - 1px), #000 calc(var(--lens-radius, 0px) + 1px));
+    mask: radial-gradient(circle var(--lens-radius, 0px) at 50% 50%, transparent 0, transparent calc(var(--lens-radius, 0px) - 1px), #000 calc(var(--lens-radius, 0px) + 1px));
+}
+
+.karteMap:not(.karteMap--search) .ol-layers::after {
+    opacity: 1;
+}
+
+.karteMap.karteMap--search .ol-layers::after {
+    opacity: 1;
+    background-color: rgba(var(--block-bg-rgb, 195, 213, 229), 0.3);
+}
+
+
+.karteMap .ol-zoom button {
+    margin: 0;
+    width: var(--karte-zoom-btn-size);
+    height: var(--karte-zoom-btn-size);
+    line-height: 1;
+    border-radius: var(--ts-input-border-radius);
+    border: 2px solid #c3d5e5;
+    background-color: #f5f7fa;
+    color: #627d98;
+    font-family: 'roboto-bold', sans-serif;
+    font-size: 18px;
+    box-sizing: border-box;
+    transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.15s ease, color 0.15s ease;
+}
+
+.karteMap .ol-zoom button:hover {
+    background-color: #e2ebf3;
+    box-shadow: none;
+    outline: none;
+    color: #627d98;
+}
+
+.karteMap .ol-zoom button:focus {
+    outline: none;
+    box-shadow: none;
+    color: #627d98;
+}
+
+.karteMap .ol-zoom button:active {
+    background-color: #d7e2ec;
+    transform: translateY(1px);
+}
+
+.karteMap .ol-zoom button:focus-visible {
+    outline: 2px solid var(--ts-input-border-focus);
+    outline-offset: 2px;
+}
+
+.karteSearchToggle {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: var(--karte-search-control-height);
+    min-height: var(--karte-search-control-height);
+    width: var(--karte-search-toggle-width);
+    padding: 0 12px;
+    border-radius: var(--ts-input-border-radius);
+    border: 2px solid #c3d5e5;
+    background-color: #f5f7fa;
+    color: #627d98;
+    font-family: 'roboto-regular', sans-serif;
+    font-size: var(--ts-input-font-size);
+    line-height: 1.2;
+    cursor: pointer;
+    z-index: 9;
+    box-sizing: border-box;
+    transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.15s ease, color 0.15s ease;
+}
+
+.karteSearchToggle:hover {
+    background-color: #e2ebf3;
+}
+
+.karteSearchToggle:active {
+    transform: translateY(1px);
+}
+
+.karteSearchToggle:focus-visible {
+    outline: 2px solid var(--ts-input-border-focus);
+    outline-offset: 2px;
+}
+
+.karteSearchToggle.is-active {
+    background-color: #ff823a;
+    border-color: #c3d5e5;
+    color: var(--ts-input-bg);
+}
+
+.karteGeocoderWrap {
+    position: absolute;
+    top: calc(12px + var(--ts-input-height) + 6px + 8px);
+    left: 12px;
+    width: min(var(--karte-geocoder-width), calc(100% - 24px));
+    z-index: 9;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-4px);
+    transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.karteMap.karteMap--search .karteGeocoderWrap {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+
+.karteGeocoderWrap .ol-geocoder.gcd-txt-container {
+    position: relative;
+    width: 100%;
+    height: auto;
+    top: auto;
+    left: auto;
+    font-size: 0.9em;
+}
+
+.karteGeocoderWrap .ol-geocoder .gcd-txt-control {
+    height: var(--karte-search-control-height);
+    border-radius: var(--ts-input-border-radius);
+    border: 2px solid #c3d5e5;
+    background-color: #f5f7fa;
+    overflow: hidden;
+}
+
+.karteGeocoderWrap .ol-geocoder .gcd-txt-label {
+    display: none;
+}
+
+.karteGeocoderWrap .ol-geocoder .gcd-txt-input {
+    height: 100%;
+    padding: 0 44px 0 12px;
+    font-family: 'roboto-regular', sans-serif;
+    font-size: var(--ts-input-font-size);
+    color: var(--ts-input-text);
+}
+
+.karteGeocoderWrap .ol-geocoder .gcd-txt-input::placeholder {
+    color: var(--ts-input-placeholder);
+}
+
+.karteGeocoderWrap .ol-geocoder .gcd-txt-input:focus {
+    box-shadow: var(--ts-input-focus-glow);
+}
+
+.karteGeocoderWrap .ol-geocoder .gcd-txt-glass {
+    display: none;
+}
+
+.karteGeocoderWrap .ol-geocoder .gcd-txt-glass:after {
+    content: none;
+}
+
+.karteGeocoderWrap .ol-geocoder .gcd-txt-search {
+    width: 38px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.karteGeocoderWrap .ol-geocoder .gcd-txt-search::after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'><circle cx='12' cy='12' r='1' fill='%23ff823a' fill-opacity='0.85'/><circle cx='12' cy='12' r='8' stroke='%23ff823a' stroke-opacity='0.85' stroke-width='2'/><line x1='12' y1='2' x2='12' y2='6' stroke='%23ff823a' stroke-opacity='0.85' stroke-width='2' stroke-linecap='round'/><line x1='12' y1='18' x2='12' y2='22' stroke='%23ff823a' stroke-opacity='0.85' stroke-width='2' stroke-linecap='round'/><line x1='2' y1='12' x2='6' y2='12' stroke='%23ff823a' stroke-opacity='0.85' stroke-width='2' stroke-linecap='round'/><line x1='18' y1='12' x2='22' y2='12' stroke='%23ff823a' stroke-opacity='0.85' stroke-width='2' stroke-linecap='round'/></svg>");
+}
+
+.karteGeocoderWrap .ol-geocoder .gcd-pseudo-rotate::after {
+    animation: none;
+}
+
+.karteGeocoderWrap .ol-geocoder ul.gcd-txt-result {
+    position: absolute;
+    top: calc(var(--ts-input-height) + 8px);
+    left: 0;
+    width: 100%;
+    max-height: 240px;
+    border-radius: 0 0 var(--ts-input-border-radius) var(--ts-input-border-radius);
+    border: 2px solid #c3d5e5;
+    border-top: 0;
+    box-shadow: 0 6px 12px rgba(16, 42, 67, 0.18);
+}
+
+.karteGeocoderWrap .ol-geocoder ul.gcd-txt-result > li:nth-child(odd) {
+    background-color: #f5f7fa;
+}
+
+.karteGeocoderWrap .ol-geocoder ul.gcd-txt-result > li > a:hover {
+    background-color: #e2ebf3;
+}
+
+.karteLensToggleBtn {
+    --lens-toggle-size: var(--karte-lens-toggle-size, 44px);
+    position: absolute;
+    left: auto;
+    bottom: 12px;
+    right: calc(12px + var(--karte-zoom-btn-size) + 12px);
+    width: var(--lens-toggle-size);
+    height: var(--lens-toggle-size);
+    border-radius: 50%;
+    border: 2px solid #c3d5e5;
+    padding: 0;
+    margin: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background-color: #f5f7fa;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    box-shadow: inset 0 0 0 1px #f5f7fa;
+    transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+    z-index: 9;
+    pointer-events: auto;
+    overflow: hidden;
+    transform: none;
+}
+
+.karteLensToggleBtn.is-active {
+    border-color: #ff823a;
+    box-shadow: inset 0 0 0 1px #f5f7fa;
+}
+
+.karteLensToggleBtn:hover {
+    transform: scale(1.04);
+}
+
+.karteLensToggleBtn {
+    background-image: url('../gfx/aerial.png');
+}
+
+.karteLensToggleBtn.show-base {
+    background-image: url('../gfx/base.png');
+}
+
+.karteOutputTiles {
+    position: absolute;
+    top: auto;
+    left: 12px;
+    bottom: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: flex-start;
+    z-index: 9;
+    pointer-events: auto;
+    --ts-control-border: 2px;
+    --referenz-divider-color: #c3d5e5;
+}
+
+.karteOutputTiles.is-hidden {
+    display: none;
+}
+
+.karteOutputTiles .bkmTafel--aoa {
+    height: auto;
+}
+
+.karteOutputTiles .bkmTafel--tile .bkmContent {
+    height: 100%;
+    padding: 3px 6px;
+    align-items: baseline;
+    gap: 6px;
+    width: fit-content;
+    border-radius: var(--ts-input-border-radius);
+}
+
+.karteOutputTiles .bkmTafel--tile {
+    align-self: stretch;
+    min-height: var(--karte-zoom-btn-size);
+    height: var(--karte-zoom-btn-size);
+}
+
+.karteOutputTiles .bkmTafel--tile .bkmR2 {
+    font-size: 12px;
+    line-height: 1;
+    min-width: max-content;
+    text-align: left;
+}
+
+
+.karteOutputTiles .bkmTafel--tile .bkmR3 {
+    font-size: clamp(12px, 1.8vw, 18px);
+    line-height: 1;
+    height: 100%;
+}
+
+.karteOutputTiles .bkmTafel--aoa {
+    width: auto;
+}
+
+.karteOutputTiles .refTafel {
+    width: auto;
+}
+
+
+
+.karteLensToggleBtn:focus-visible {
+    outline: 2px solid var(--ts-input-border-focus);
+    outline-offset: 2px;
+}
+
+.karteLensToggleBtn:active {
+    transform: translateY(1px);
+}
+
+.karteSearchCrosshair {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 140px;
+    height: 140px;
+    margin-left: -70px;
+    margin-top: -70px;
+    opacity: 1;
+    pointer-events: none;
+    z-index: 7;
+}
+
+.karteSnapFrame {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+}
+
+.karteSnapBar {
+    position: absolute;
+    left: 0;
+    top: 100%;
+    width: 100%;
+    height: 18px;
+    margin-top: 4px;
+    background-color: var(--snap-frame-color);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-shadow: 0 1px 2px rgba(15, 41, 80, 0.35);
+    white-space: nowrap;
+    pointer-events: none;
+    overflow: visible;
+}
+
+.karteSnapBar::before,
+.karteSnapBar::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 0;
+    height: 0;
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    transform: translateY(-50%);
+}
+
+.karteSnapBar::before {
+    left: 3px;
+    border-right: 6px solid #ffffff;
+}
+
+.karteSnapBar::after {
+    right: 3px;
+    border-left: 6px solid #ffffff;
+}
+
+.karteSnapBarLabel {
+    padding: 0 6px;
+}
+
+.karteMap--search .karteSnapFrame {
+    opacity: 1;
+}
+
+.karteMap .karteScaleHidden {
+    position: absolute;
+    left: -9999px;
+    top: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.karteMstOutput {
+    position: absolute;
+    left: auto;
+    right: calc(12px + var(--karte-zoom-btn-size, 32px) + 12px + var(--lens-toggle-size, var(--karte-lens-toggle-size, 44px)) + 12px);
+    bottom: 12px;
+    top: auto;
+    z-index: 9;
+    pointer-events: auto;
+    --referenz-divider-color: #c3d5e5;
+    --ts-control-border: 2px;
+}
+
+.karteMstOutput.bkmTafel--tile {
+    align-self: stretch;
+    min-height: var(--karte-zoom-btn-size);
+    height: var(--karte-zoom-btn-size);
+}
+
+.karteMstOutput.bkmTafel--aoa {
+    width: auto;
+}
+
+.karteMstOutput.bkmTafel--tile .bkmContent {
+    height: 100%;
+    padding: 3px 6px;
+    align-items: baseline;
+    gap: 6px;
+    width: fit-content;
+    border-radius: var(--ts-input-border-radius);
+    position: relative;
+    background-color: var(--referenz-divider-color, #c3d5e5);
+    border-color: var(--ts-input-bg);
+}
+
+.karteMstOutput.bkmTafel--tile .bkmR2 {
+    display: none;
+    font-size: 12px;
+    line-height: 1;
+    min-width: max-content;
+    text-align: left;
+}
+
+.karteMstOutput.bkmTafel--tile .bkmR3 {
+    font-size: clamp(12px, 1.8vw, 18px);
+    line-height: 1;
+    height: 100%;
+    display: inline-flex;
+    align-items: center;
+    color: var(--ts-input-bg);
+}
+
+
+
+
+.karteMap:not(.karteMap--search) .karteSearchCrosshair {
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    transform: none;
+}
+
+.karteMap:not(.karteMap--search) .karteSnapFrame {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.karteMap:not(.karteMap--search) .karteSnapCorner {
+    display: none;
+}
+
+.karteMap:not(.karteMap--search) .karteSnapBar {
+    display: none;
+}
+
+.karteSnapCorner {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    pointer-events: none;
+    border-color: var(--snap-frame-color);
+}
+
+.karteSnapCorner--ul {
+    top: 0;
+    left: 0;
+    border-left: 4px solid var(--snap-frame-color);
+    border-top: 4px solid var(--snap-frame-color);
+}
+
+.karteSnapCorner--ur {
+    top: 0;
+    right: 0;
+    border-right: 4px solid var(--snap-frame-color);
+    border-top: 4px solid var(--snap-frame-color);
+}
+
+.karteSnapCorner--ll {
+    bottom: 0;
+    left: 0;
+    border-left: 4px solid var(--snap-frame-color);
+    border-bottom: 4px solid var(--snap-frame-color);
+}
+
+.karteSnapCorner--lr {
+    bottom: 0;
+    right: 0;
+    border-right: 4px solid var(--snap-frame-color);
+    border-bottom: 4px solid var(--snap-frame-color);
+}
+
+@keyframes snapBorderFlash {
+    0% {
+        border-color: rgba(255, 130, 58, 0.85);
+    }
+    50% {
+        border-color: rgba(255, 130, 58, 0.85);
+    }
+    100% {
+        border-color: rgba(255, 130, 58, 0.85);
+    }
+}
+
+.snap-flash {
+    animation: snapBorderFlash 0.6s ease-out;
+}
+
+.karteCrossCenter {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    background-color: var(--snap-frame-color);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
+
+.karteCrossDot {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: rgba(255, 130, 58, 0.85);
+    border-radius: 50%;
+    box-shadow: 0 0 0 2px rgba(245, 247, 250, 0.9);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: transform 0.3s ease-in;
+}
+
+.block--referenz {
+    --referenz-pad-top: 36px;
+    --referenz-pad-x: 24px;
+    --referenz-pad-bottom: 12px;
+    --referenz-output-lg: 36px;
+    --referenz-output-md: 22px;
+    --referenz-divider-color: var(--ts-input-border-base);
+    --referenz-divider-size: 2px;
+    position: relative;
+    padding: var(--referenz-pad-top) var(--referenz-pad-x) var(--referenz-pad-bottom);
+    overflow: hidden;
+    border: 2px solid var(--ts-input-border-base);
+    border-radius: var(--ts-input-border-radius);
+    box-shadow: var(--ts-input-focus-glow);
+    background-color: var(--ts-input-bg);
+    box-sizing: border-box;
+    flex: 1 1 auto;
+    min-height: 0;
+}
+
+.block--kollektion {
+    background-color: var(--ts-input-bg);
+    background-image: linear-gradient(
+        rgba(var(--block-bg-rgb, 195, 213, 229), 0.3),
+        rgba(var(--block-bg-rgb, 195, 213, 229), 0.3)
+    );
+}
+
+.blockFooterRow {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+    gap: var(--block-row-gap, 18px);
+    margin-top: 6px;
+}
+
+.blockFooterText {
+    font-size: 11px;
+    line-height: 1.2;
+    color: var(--ts-input-text);
+    opacity: 0.65;
+    pointer-events: none;
+}
+
+.blockFooterTitle {
+    text-align: left;
+    padding-left: 8px;
+}
+
+.blockCopyright {
+    text-align: right;
+    padding-right: 8px;
+}
+
+@media (max-width: 960px) {
+    .blockFooterRow {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 4px;
+    }
+    .blockCopyright {
+        padding-right: 0;
+    }
+}
+
+.block--referenz .karteMap {
+    height: 100%;
+    min-height: 0;
+    border-radius: var(--ts-input-border-radius, 7px);
+    overflow: hidden;
+}
+
+.referenzOverlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.block--karte .referenzOverlay {
+    align-items: flex-start;
+    justify-content: flex-end;
+    padding: 12px 12px 0 0;
+    z-index: 6;
+}
+
+.blockLabel {
+    margin-left: 32px;
+    margin-bottom: -32px;
+    position: relative;
+    z-index: 2;
+    display: none;
+}
+
+.blockLabel >span {
+    background-color: #f5f7fa;
+    color: #ff823a;
+    border-radius: 12px;
+    padding: 3px 9px;
+    border-bottom: 1px solid #ff823a;
+}
+
+.blockPlaceholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #627d98;
+    font-size: 20px;
+    letter-spacing: 0.02em;
+}
+
+.babRow {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-rows: auto;
+    column-gap: 12px;
+    align-items: center;
+    margin-bottom: 18px;
+}
+
+.babRow .ts-wrapper,
+.babRow .ts-number,
+.babRow .kilometerFilterBlock,
+.babRow .kilometerFilterField {
+    margin-bottom: 0;
+}
+
+.babRow .ts-wrapper {
+    width: 100%;
+}
+
+.babRow #babSelect,
+.babRow .ts-wrapper {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+.babRow .kilometerFilterBlock {
+    grid-column: 2;
+    grid-row: 1;
+}
+
+.absStationRow {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-rows: auto;
+    column-gap: 12px;
+    align-items: center;
+    width: 100%;
+}
+
+.absStationRow .ts-wrapper,
+.absStationRow .ts-number {
+    margin-bottom: 0;
+}
+
+.absStationRow .ts-wrapper {
+    width: 100%;
+}
+
+.absStationRow #absSelect,
+.absStationRow .ts-wrapper {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+.absStationRow .stationInputRow {
+    grid-column: 2;
+    grid-row: 1;
+    padding-left: 0;
+}
+
+.kilometerFilterBlock {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    width: auto;
+}
+
+.kilometerFilterFieldGroup {
+    display: flex;
+    align-items: stretch;
+    position: relative;
+}
+
+.kilometerFilterMessage {
+    position: absolute;
+    left: 0;
+    top: calc(100% - 1px);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding-left: 10px;
+    font-size: 12px;
+    line-height: 1.2;
+    color: #ff823a;
+    min-height: 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-2px);
+    transition: opacity 0.15s ease, transform 0.15s ease;
+    pointer-events: none;
+}
+
+.kilometerFilterMessage.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.kilometerFilterMessageBtn {
+    border: 1px solid #ff823a;
+    background-color: #ff823a;
+    color: #f5f7fa;
+    border-radius: 6px;
+    padding: 1px 6px;
+    font-family: 'roboto-bold', sans-serif;
+    font-size: 10px;
+    line-height: 1.2;
+    cursor: pointer;
+}
+
+.kilometerFilterMessageBtn:focus-visible {
+    outline: 2px solid rgba(255, 130, 58, 0.45);
+    outline-offset: 2px;
+}
+
+.kilometerFilterLabel {
+    display: inline-flex;
+    align-items: baseline;
+    justify-content: flex-end;
+    gap: 4px;
+    font-family: 'roboto-regular', sans-serif;
+    font-size: 18px;
+    color: #627d98;
+    line-height: 1.1;
+    white-space: nowrap;
+    min-width: var(--inline-label-width);
+    width: var(--inline-label-width);
+}
+
+.kilometerFilterLabel.is-disabled {
+    opacity: 0.6;
+}
+
+.kilometerFilterLabelStrong {
+    font-family: 'roboto-bold', sans-serif;
+}
+
+.babGrid {
+    display: grid;
+    justify-self: left;
+}
+
+.babBadge {
+    grid-column: 1;
+    grid-row: 1;
+    padding: 2px 3px;
+    border-radius: 7px;
+    border: 1px solid #005a8c;
+    background-color: #fff;
+}
+
+.babBadge--reset {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 36px;
+    padding: 0;
+    background-color: transparent;
+    border: none;
+}
+
+.babLabel {
+    grid-column: 1;
+    grid-row: 1;
+    height: 18px;
+    width: 36px;
+    text-align: center;
+    color: #fff;
+    font-family: 'roboto-bold', sans-serif;
+    font-size: 18px;
+    padding: 6px;
+    background-color: #005a8c;
+    clip-path: polygon(50% 0%,50% 0%,47.122% 0.33%,42.648% 1.255%,37.023% 2.626%,30.696% 4.296%,24.115% 6.116%,17.726% 7.938%,11.978% 9.613%,7.319% 10.993%,4.194% 11.93%,3.054% 12.275%,3.054% 12.275%,2.547% 12.465%,2.072% 12.769%,1.633% 13.178%,1.236% 13.683%,0.885% 14.273%,0.586% 14.94%,0.343% 15.673%,0.161% 16.463%,0.046% 17.301%,0.002% 18.175%,0% 18.175%,0% 81.825%,0.002% 81.825%,0.002% 81.825%,0.046% 82.7%,0.161% 83.538%,0.343% 84.328%,0.586% 85.062%,0.885% 85.728%,1.236% 86.319%,1.633% 86.824%,2.072% 87.233%,2.547% 87.538%,3.054% 87.728%,3.054% 87.728%,4.194% 88.073%,7.319% 89.01%,11.978% 90.389%,17.726% 92.064%,24.115% 93.885%,30.696% 95.705%,37.023% 97.375%,42.648% 98.746%,47.122% 99.67%,50% 100%,50% 100%,52.823% 99.652%,57.266% 98.717%,62.878% 97.341%,69.207% 95.672%,75.801% 93.857%,82.209% 92.042%,87.979% 90.375%,92.66% 89.002%,95.8% 88.071%,96.946% 87.728%,96.946% 87.728%,97.453% 87.538%,97.928% 87.233%,98.367% 86.824%,98.764% 86.319%,99.115% 85.728%,99.415% 85.062%,99.658% 84.328%,99.84% 83.538%,99.956% 82.7%,100% 81.825%,100% 81.825%,100% 18.179%,100% 18.179%,100% 18.179%,99.956% 17.303%,99.84% 16.465%,99.659% 15.674%,99.416% 14.941%,99.116% 14.274%,98.766% 13.683%,98.368% 13.178%,97.93% 12.769%,97.455% 12.465%,96.948% 12.275%,96.948% 12.275%,95.801% 11.932%,92.661% 11%,87.98% 9.627%,82.209% 7.96%,75.801% 6.144%,69.207% 4.329%,62.878% 2.659%,57.266% 1.284%,52.823% 0.348%,50% 0%,50% 0%);
+}
+
+.babLabel--reset {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.babResetIcon {
+    width: 28px;
+    height: 28px;
+}
+
+.blueSign {
+    display: inline-block;
+    margin: 1px;
+}
+
+.blueSignContent {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 9px;
+    border-radius: 7px;
+    border: 1px solid #005a8c;
+    box-shadow: inset 0 0 0 3px #fff;
+    background-color: #005a8c;
+}
+
+/* Let signs blend into the orange highlight when selected */
+.ts-dropdown .option.active .blueSignContent {
+    background-color: transparent;
+    border-color: #fff;
+    box-shadow: inset 0 0 0 3px rgba(255, 255, 255, 0.4);
+}
+
+.asIcon,
+.akIcon,
+.airportIcon {
+    height: 21px;
+    width: 26px;
+    background-color: #fff;
+}
+
+.asIcon {
+    clip-path: polygon( 30.476% 100%,0% 100%,22.855% 0%,33.095% 0%,30.476% 100%,39.042% 100.01%,69.517% 100.01%,66.089% 85.007%,65.213% 80.901%,64.465% 76.814%,63.847% 72.769%,63.361% 68.79%,63.009% 64.901%,62.791% 61.125%,62.711% 57.487%,62.77% 54.01%,62.969% 50.719%,63.311% 47.636%,63.311% 47.636%,63.361% 47.262%,63.941% 44.314%,64.821% 41.423%,65.984% 38.613%,67.412% 35.911%,69.085% 33.343%,70.985% 30.934%,73.094% 28.71%,75.393% 26.697%,77.863% 24.922%,80.486% 23.409%,80.486% 23.409%,85.033% 42.403%,85.111% 42.669%,85.211% 42.915%,85.331% 43.14%,85.468% 43.34%,85.622% 43.515%,85.789% 43.662%,85.969% 43.78%,86.159% 43.867%,86.358% 43.92%,86.563% 43.938%,86.563% 43.938%,86.755% 43.922%,86.943% 43.875%,87.123% 43.798%,87.294% 43.692%,87.455% 43.561%,87.604% 43.404%,87.74% 43.223%,87.86% 43.02%,87.964% 42.797%,88.049% 42.554%,88.049% 42.554%,99.877% 3.132%,99.9% 3.05%,99.921% 2.966%,99.939% 2.881%,99.955% 2.796%,99.968% 2.709%,99.98% 2.621%,99.989% 2.533%,99.995% 2.444%,99.999% 2.354%,100% 2.263%,100% 2.263%,99.979% 1.898%,99.918% 1.552%,99.82% 1.228%,99.689% 0.933%,99.528% 0.671%,99.341% 0.445%,99.13% 0.262%,98.899% 0.125%,98.651% 0.04%,98.391% 0.01%,98.391% 0.01%,67.85% 0.01%,67.589% 0.04%,67.342% 0.125%,67.111% 0.262%,66.9% 0.445%,66.713% 0.671%,66.552% 0.933%,66.421% 1.228%,66.323% 1.552%,66.262% 1.898%,66.241% 2.263%,66.241% 2.263%,66.247% 2.456%,66.264% 2.646%,66.292% 2.832%,66.332% 3.014%,66.382% 3.19%,66.442% 3.359%,66.512% 3.521%,66.593% 3.674%,66.683% 3.817%,66.782% 3.95%,66.782% 3.95%,75.976% 14.761%,73.512% 15.886%,71.103% 17.194%,68.753% 18.68%,66.467% 20.339%,64.25% 22.167%,62.107% 24.161%,60.043% 26.316%,58.062% 28.627%,56.169% 31.091%,54.37% 33.704%,54.37% 33.704%,46.67% 0%,36.429% 0%,39.049% 100% );
+}
+
+.akIcon {
+    clip-path: polygon( 0% 17.626%,7.35% 10.282%,89.71% 92.538%,82.323% 99.882%,82.323% 99.882%,79.369% 97.112%,76.334% 94.62%,73.225% 92.409%,70.05% 90.483%,66.814% 88.844%,63.525% 87.496%,60.19% 86.442%,56.817% 85.686%,53.412% 85.229%,49.982% 85.076%,49.982% 85.076%,46.551% 85.231%,43.143% 85.692%,39.765% 86.455%,36.425% 87.517%,33.131% 88.873%,29.89% 90.521%,26.709% 92.455%,23.596% 94.673%,20.558% 97.169%,17.604% 99.941%,10.254% 92.538%,41.125% 61.692%,48.475% 69.036%,33.48% 84.019%,33.48% 84.019%,35.105% 83.499%,36.738% 83.032%,38.377% 82.619%,40.022% 82.26%,41.671% 81.955%,43.324% 81.705%,44.979% 81.51%,46.634% 81.37%,48.29% 81.285%,49.945% 81.257%,49.945% 81.257%,51.601% 81.286%,53.26% 81.37%,54.92% 81.511%,56.581% 81.709%,58.241% 81.962%,59.899% 82.273%,61.554% 82.639%,63.204% 83.062%,64.847% 83.542%,66.483% 84.078%,14.847% 32.432%,14.847% 32.432%,15.414% 34.041%,15.923% 35.692%,16.374% 37.38%,16.766% 39.103%,17.098% 40.856%,17.372% 42.636%,17.585% 44.438%,17.738% 46.259%,17.83% 48.095%,17.861% 49.941%,17.861% 49.941%,17.83% 51.786%,17.738% 53.618%,17.586% 55.433%,17.374% 57.23%,17.103% 59.004%,16.774% 60.754%,16.386% 62.476%,15.942% 64.168%,15.441% 65.827%,14.884% 67.45%,30.908% 51.41%,38.258% 58.754%,7.35% 89.659%,0% 82.315%,0% 82.315%,4.822% 76.647%,8.573% 70.449%,11.252% 63.854%,12.86% 56.993%,13.396% 50%,12.86% 43.007%,11.252% 36.146%,8.573% 29.551%,4.822% 23.353%,0% 17.685%,17.641% 0%,10.29% 7.344%,92.65% 89.6%,100% 82.256%,95.178% 76.603%,91.427% 70.413%,88.748% 63.821%,87.14% 56.96%,86.604% 49.963%,87.14% 42.965%,88.748% 36.099%,91.427% 29.498%,95.178% 23.296%,100% 17.626%,100% 17.626%,92.65% 10.282%,61.742% 41.187%,69.092% 48.531%,85.189% 32.491%,84.632% 34.101%,84.128% 35.756%,83.679% 37.45%,83.287% 39.179%,82.952% 40.937%,82.675% 42.72%,82.458% 44.523%,82.302% 46.34%,82.207% 48.168%,82.176% 50%,82.176% 50%,82.206% 51.831%,82.299% 53.654%,82.452% 55.465%,82.665% 57.259%,82.938% 59.033%,83.271% 60.783%,83.663% 62.504%,84.114% 64.191%,84.623% 65.841%,85.189% 67.45%,85.189% 67.45%,33.517% 15.864%,35.14% 16.4%,36.768% 16.879%,38.4% 17.302%,40.038% 17.669%,41.68% 17.979%,43.329% 18.233%,44.983% 18.43%,46.643% 18.571%,48.309% 18.656%,49.982% 18.684%,49.982% 18.684%,51.655% 18.656%,53.325% 18.571%,54.989% 18.43%,56.65% 18.233%,58.306% 17.979%,59.957% 17.669%,61.605% 17.302%,63.247% 16.879%,64.886% 16.4%,66.52% 15.864%,66.52% 15.864%,51.452% 30.846%,58.802% 38.19%,89.71% 7.344%,82.359% 0%,79.405% 2.772%,76.368% 5.269%,73.255% 7.486%,70.076% 9.42%,66.837% 11.068%,63.546% 12.424%,60.211% 13.486%,56.839% 14.25%,53.439% 14.71%,50.018% 14.865%,50.018% 14.865%,46.596% 14.71%,43.194% 14.25%,39.818% 13.486%,36.478% 12.424%,33.182% 11.068%,29.937% 9.42%,26.753% 7.486%,23.636% 5.269%,20.596% 2.772%,17.641% 0%,17.641% 0% );
+}
+
+.airportIcon {
+    clip-path: polygon( 0% 61.54%,0% 71.15%,44.71% 51.93%,46.16% 84.62%,32.7% 94.23%,32.7% 100%,50% 96.15%,67.32% 100%,67.32% 94.23%,53.86% 84.61%,55.3% 51.92%,100.01% 71.14%,100.01% 61.53%,56.1% 29.09%,56.1% 29.09%,56.129% 27.433%,56.155% 25.776%,56.179% 24.118%,56.2% 22.459%,56.218% 20.8%,56.232% 19.141%,56.244% 17.482%,56.253% 15.824%,56.258% 14.167%,56.26% 12.51%,56.26% 12.51%,56.176% 10.481%,55.937% 8.556%,55.558% 6.761%,55.049% 5.121%,54.425% 3.664%,53.698% 2.413%,52.88% 1.396%,51.984% 0.638%,51.023% 0.164%,50.01% 0%,50.01% 0%,48.994% 0.164%,48.031% 0.638%,47.134% 1.396%,46.315% 2.413%,45.588% 3.663%,44.964% 5.119%,44.456% 6.757%,44.078% 8.55%,43.842% 10.473%,43.76% 12.5%,43.76% 12.5%,43.762% 14.161%,43.766% 15.822%,43.774% 17.481%,43.785% 19.14%,43.799% 20.798%,43.816% 22.455%,43.837% 24.111%,43.861% 25.768%,43.889% 27.424%,43.92% 29.08% );
+}
+
+.knPill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-family: 'ddin-regular', sans-serif;
+    font-size: 16px;
+    white-space: nowrap;
+    border: 1px solid #fff;
+    border-radius: 999px;
+    box-sizing: border-box;
+    height: 21px;
+    padding: 0 8px;
+    min-width: 24px;
+}
+
+.knPill--plain {
+    color: #005a8c;
+    border-color: #005a8c;
+    background-color: #fff;
+}
+
+.blueSignText {
+    color: #fff;
+    font-family: 'ddin-expandedbold', sans-serif;
+    font-size: 18px;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.signBadge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 21px;
+    padding: 0 8px;
+    border-radius: 6px;
+    background-color: #005a8c;
+    color: #fff;
+    font-family: 'ddin-bold', sans-serif;
+    font-size: 14px;
+    line-height: 1;
+}
+
+/* ===== no-icon variant ===== */
+.blueSign--noIcon .blueSignContent {
+  background-color: #e9f5ff;
+  border: 1px solid #005a8c;
+  box-shadow: inset 0 0 0 3px #fff;
+}
+
+/* dark text in no-icon case */
+.blueSign--noIcon .blueSignText {
+  color: #627d98;
+}
+
+/* Make no-icon variant follow the selected-row treatment */
+.ts-dropdown .option.active .blueSign--noIcon .blueSignContent {
+    background-color: transparent;
+    border-color: #fff;
+    box-shadow: inset 0 0 0 3px rgba(255, 255, 255, 0.4);
+}
+
+.ts-dropdown .option.active .blueSign--noIcon .blueSignText {
+    color: #fff;
+}
+
+.ts-wrapper {
+    margin-bottom: 18px;
+}
+
+.ts-wrapper.disabled {
+    opacity: 0.6;
+}
+
+.ts-wrapper.disabled .ts-control {
+    opacity: 1;
+    background-color: var(--ts-input-bg);
+    color: var(--ts-input-text);
+    cursor: not-allowed;
+}
+
+.ts-wrapper.disabled .ts-control,
+.ts-wrapper.disabled .ts-control * {
+    cursor: not-allowed !important;
+}
+
+.ts-wrapper .ts-control {
+    display: flex;
+    align-items: center;
+    background-color: #f5f7fa;
+    color: #627d98;
+    height: var(--ts-input-height);
+    box-sizing: border-box;
+    border: var(--ts-control-border) solid var(--ts-input-border-base);
+    border-radius: 7px;
+    box-shadow: var(--ts-input-focus-glow);
+    padding: 0 var(--ts-control-pad);
+    cursor: pointer;
+}
+
+/* Just inside Tom Select widgets */
+.ts-wrapper,
+.ts-wrapper .ts-control,
+.ts-wrapper .ts-control input,
+.ts-wrapper .ts-control::before,
+.ts-wrapper .ts-dropdown,
+.ts-wrapper .option {
+    font-size: 18px;
+    font-family: 'roboto-bold', sans-serif;
+    color: #627d98;
+}
+
+.ts-wrapper.single .ts-control .item {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 0;
+    flex: 1 1 100%;
+}
+
+.ts-wrapper.single .ts-control .tblItem--abs {
+    width: 100%;
+}
+
+.ts-wrapper.single .ts-control {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    overflow: hidden;
+}
+
+.ts-wrapper.single.has-items .ts-control input {
+    display: none;
+}
+
+.ts-wrapper.single .ts-control .absSelectedRow {
+    width: 100%;
+}
+
+.absSelectedRow {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0;
+    font-family: 'roboto-regular', sans-serif;
+    font-size: 18px;
+    color: #627d98;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+    width: 100%;
+}
+
+.absSelectedCell {
+    display: inline-flex;
+    align-items: center;
+    min-width: auto;
+    flex: 0 1 auto;
+}
+
+.absSelectedCell--abs {
+    font-family: 'roboto-bold', sans-serif;
+    font-size: 18px;
+    min-width: auto;
+}
+
+.absSelectedCell--dtl {
+    font-family: 'roboto-regular', sans-serif;
+    font-size: 18px;
+    min-width: auto;
+}
+
+.absSelectedCell--dtl >span {
+    font-family: 'roboto-bold', sans-serif;
+    margin-left: 6px;
+    margin-right: 6px;
+}
+
+/* Placeholder color inside Tom Select */
+.ts-wrapper .ts-control input::placeholder {
+    color: #627d98;                  /* your soft text color */
+    font-size: 18px;
+    font-family: 'roboto-bold', sans-serif;
+    opacity: 1;                      /* Firefox: don't fade it out */
+}
+
+/* For the “fake” placeholder some configs use */
+.ts-wrapper.single .ts-control::before {
+    color: #627d98;
+    font-size: 18px;
+    font-family: 'roboto-bold', sans-serif;
+}
+
+.ts-dropdown .ts-dropdown-content {
+    max-height: none;   /* or something big, e.g. 600px */
+}
+
+/* If your BAB grid is inside options, this keeps alignment tight */
+.ts-dropdown .option .tblOption--bab {
+    padding: 0;
+}
+
+/* If your ABS grid is inside options, this keeps alignment tight */
+.ts-dropdown .option .tblOption--abs {
+    padding: 0;
+}
+
+/* Each row */
+.ts-dropdown .option {
+    padding: 6px 10px;  /* you can tune this if your grid needs it */
+    font-size: 18px;
+    border-bottom: 3px solid #627d98;
+    overflow: visible;  /* you already use this for badges */
+    background-color: transparent; /* base */
+}
+
+/* ABS optgroup headers styled like BAB rows */
+#absSelect-ts-dropdown .optgroup {
+    position: relative;
+    padding: 0;
+    background: transparent;
+    border-top: 3px solid #ff823a;
+}
+
+#absSelect-ts-dropdown .optgroup > .tblOption--babGroup {
+    width: 100%;
+    padding: 6px 10px;
+    border-bottom: 3px solid #005a8c;
+    background-color: #005a8c;
+    color: #fff;
+}
+
+#absSelect-ts-dropdown .optgroup > .tblOption--babGroup .tblCell--babLbl,
+#absSelect-ts-dropdown .optgroup > .tblOption--babGroup .tblCell--babVAS,
+#absSelect-ts-dropdown .optgroup > .tblOption--babGroup .tblCell--babNAS,
+#absSelect-ts-dropdown .optgroup > .tblOption--babGroup .tblCell--dblArw {
+    font-size: 24px;
+    line-height: 1.1;
+}
+
+#absSelect-ts-dropdown .optgroup > .tblOption--babGroup .babBadge {
+    padding: 2px 4px;
+    border-radius: 8px;
+}
+
+#absSelect-ts-dropdown .optgroup > .tblOption--babGroup .tblCell--babGrafix {
+    width: 150px;
+    justify-content: flex-end;
+}
+
+#absSelect-ts-dropdown .optgroup > .tblOption--babGroup .babLabel {
+    height: 44px;
+    width: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+    line-height: 1;
+}
+
+#absSelect-ts-dropdown .optgroup > .tblOption--babGroup .babBadge--reset {
+    width: 80px;
+    height: 52px;
+}
+
+#absSelect-ts-dropdown .optgroup > .tblOption--babGroup .babResetIcon {
+    width: 34px;
+    height: 34px;
+}
+
+#absSelect-ts-dropdown .optgroup > .tblOption--babGroup .tblCell--babLbl {
+    margin-left: 24px;
+}
+
+
+/* Keep last BAB and ABS row clean of the divider */
+#absSelect-ts-dropdown .option:last-child,
+#babSelect-ts-dropdown .option:last-child {
+    border-bottom: none;
+}
+
+/* zebra striping for dropdown rows */
+.ts-dropdown .option:nth-child(odd) {
+    background-color: #f5f7fa;
+}
+
+.ts-dropdown .option:nth-child(even) {
+    background-color: #e4edf4;
+}
+
+/* keep / enhance the hover & keyboard-active effect */
+.ts-dropdown .option:hover,
+.ts-dropdown .option.active {
+    color: #f5f7fa;
+    background-color: #ff823a;   /* highlight */
+}
+
+/* Visually separate the BAB reset option when present */
+#babSelect-ts-dropdown .option[data-value="__ALL__"] {
+    background-color: transparent;
+    border: none;
+    color: #627d98;
+    border-radius: 0;
+    border-bottom: 3px solid #627d98;
+    margin: 0;
+    width: 100%;
+    padding: 8px 10px;
+}
+
+#babSelect-ts-dropdown .option[data-value="__ALL__"]:hover,
+#babSelect-ts-dropdown .option[data-value="__ALL__"].active {
+    background-color: #ff823a;
+    border-color: #ff823a;
+    color: #f5f7fa;
+}
+
+/* Focus / open state */
+.ts-wrapper.focus .ts-control,
+.ts-wrapper .ts-control.dropdown-active {
+    border-color: var(--ts-input-border-base);
+    box-shadow: var(--ts-input-focus-glow);
+    outline: var(--ts-input-focus-ring);
+    outline-offset: -2px;
+    background-color: #f5f7fa;
+}
+
+/* === Dropdown panel === */
+.ts-wrapper .ts-dropdown {
+    background-color: #f5f7fa;
+    border-radius: 7px;
+    border: 1px solid #c3d5e5;
+    overflow: hidden; /* keep rounded corners on scroll */
+}
+
+.tblOption--bab,
+.tblItem--bab {
+    display: grid;
+    grid-template-columns: auto 120px 1fr 120px 1fr;
+    column-gap: 24px;
+    font-size: 18px;
+}
+
+.tblOption--babGroup {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.tblOption--abs,
+.tblItem--abs {
+    display: grid;
+    grid-template-columns: 150px 360px 120px 120px 1fr;
+    column-gap: 24px;
+    font-size: 18px;
+}
+
+.tblCell--babLbl {
+    font-family: 'roboto-bold', sans-serif;
+    justify-self: left;
+    align-self: center;
+
+}
+
+.tblCell--babGrafix {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.tblCell--absLbl {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    display: flex;
+    font-family: 'roboto-bold', sans-serif;
+    font-size: 60px;
+    white-space: nowrap;
+    line-height: 1;
+    justify-content: flex-end;
+    align-items: center;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+
+.tblCell--lngLbl {
+    grid-column: 5;
+    grid-row: 1 / span 2;
+    display: flex;
+    font-family: 'roboto-bold', sans-serif;
+    font-size: 60px;
+    white-space: nowrap;
+    line-height: 1;
+    justify-content: flex-end;
+    align-items: center;
+    text-align: right;
+}
+
+.bkmWrapper {
+    display: inline-flex;
+    align-items: baseline;
+}
+
+.lngWrapper {
+    display: inline-flex;
+    align-items: baseline;
+}
+
+.bkmWrapper >span {
+    font-family: 'roboto-regular', sans-serif;
+    font-size: 9px;
+    padding-right: 3px;
+}
+
+.lngWrapper >span {
+    font-family: 'roboto-regular', sans-serif;
+    font-size: 12px;
+}
+
+.tblCell--babVAS {
+    justify-self: right;
+    align-self: center;
+}
+
+.tblCell--dblArw {
+    justify-self: center;
+    align-self: center;
+}
+
+.tblCell--babNAS {
+    justify-self: left;
+    align-self: center;
+}
+
+.tblCell--fromAndTo,
+.tblCell--AOA,
+.tblCell--BKM {
+    line-height: 1;
+    margin: 0;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    row-gap: 0px;
+    align-items: center;
+}
+
+.tblCell--fromRow,
+.tblCell--toRow {
+    justify-self: left;
+    align-self: center;
+}
+
+.tblCell--fromBKM,
+.tblCell--toBKM {
+    justify-self: right;
+}
+
+.tblCell--fromBKM {
+    position: relative;
+}
+
+.tblCell--fromAOA,
+.tblCell--toAOA {
+    justify-self: right;
+}
+
+.bkmGap {
+    border-top: 0px double #ff823a;
+}
+
+.bkmGapHint {
+    font-size: 12px;
+    font-family: 'roboto-bold', sans-serif;
+    color: #ff823a;
+    padding: 2px;
+    white-space: nowrap;
+    position: absolute;
+    justify-self: right;
+    left: calc(100%);
+    top: -14px;
+    transform: none;
+    pointer-events: none;
+}
+
+/* Make the gap hint readable on selected ABS rows */
+.ts-dropdown .option.active .bkmGapHint {
+    color: #fff;
+}
+
+/* Match Tom Select highlights to app accent */
+.ts-dropdown [data-selectable] .highlight {
+    background: rgba(255, 235, 59, 0.6);
+    color: #102a43;
+}
+
+/* Slider */
+/* Stepper on its own row above the slider stack */
+.stationRow {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    margin-top: calc(-1 * (var(--slider-pips-height) + 24px)); /* neutralize top padding so gap matches select spacing */
+    margin-bottom: 0;
+    padding-top: calc(var(--slider-pips-height) + 24px);
+    padding-bottom: 0; /* align bottom spacing with other input gaps */
+    /* Shared slider geometry for row children */
+    --slider-rail-color: transparent; /* hide the track */
+    --slider-bar-height: 9px;
+    --slider-handle-size: 28px;
+    --slider-handle-half: calc(var(--slider-handle-size) / 2); /* keep hitbox centered on the pointer */
+    --slider-tip-height: 12px;
+    --slider-pips-height: 36px;
+    --slider-total-height: calc(var(--slider-bar-height) + var(--slider-pips-height));
+    --slider-rail-radius: 0; /* square slider edges */
+    --slider-stack-gap: 28px;
+    --slider-bounds-gap: 2px;
+    --slider-bounds-gap-tight: 1px;
+    --slider-pad: calc(var(--ts-control-pad) + var(--ts-control-border) + 6px);
+    --slider-handle-left: 0px;
+    --slider-handle-bar-width: 21px;
+    --slider-handle-bar-height: 4px;
+}
+
+.stationRow--disabled .stationInputRow,
+.stationRow--disabled .stationSliderStack {
+    opacity: 0.6;
+}
+
+.stationRow--disabled .stationSliderStack {
+    pointer-events: none;
+    cursor: not-allowed;
+}
+
+.stationRow--disabled .ts-number {
+    cursor: not-allowed;
+}
+
+.stationInputRow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-left: calc(var(--ts-control-pad) + var(--ts-control-border));
+}
+
+.stationInputLabel {
+    font-family: 'roboto-bold', sans-serif;
+    font-size: 18px;
+    color: #627d98;
+    width: var(--inline-label-width);
+    text-align: right;
+    white-space: nowrap;
+    padding-left: 0;
+    box-sizing: border-box;
+}
+
+.stationInputRow .ts-number {
+    align-self: center;
+}
+
+/* Input: fixed-ish width, no extra bottom margin in row */
+.stationRow .ts-number {
+    flex: 0 0 auto;           /* keep natural height in column layout */
+    width: var(--station-input-width);
+    min-width: var(--station-input-width);
+    margin-bottom: 0;
+    align-self: flex-start;
+}
+
+.ts-number--fixedWidth {
+    width: var(--station-input-width);
+    min-width: var(--station-input-width);
+}
+
+.stationRow .stationSliderStack {
+    flex: 1 1 auto;
+    display: grid;
+    gap: var(--slider-stack-gap);
+    position: relative; /* allow a guide line between handles */
+    margin-top: 6px; /* keep the stack 12px below the stepper */
+    --slider-stack-pad-vertical: calc(var(--slider-pips-height) + 8px);
+    --slider-stack-pad-extra: 12px;
+    --slider-stack-pad-vertical-effective: calc(var(--slider-stack-pad-vertical) + var(--slider-stack-pad-extra));
+    padding: var(--slider-stack-pad-vertical-effective) var(--slider-pad);
+    box-sizing: border-box;
+    background-color: var(--ts-input-bg);
+    border: var(--ts-control-border) solid var(--ts-input-border-base);
+    border-radius: var(--ts-input-border-radius);
+    box-shadow: var(--ts-input-focus-glow);
+    cursor: crosshair;
+    --slider-guide-color: #c3d5e5;
+    --slider-guide-thickness: 28px;
+    --slider-guide-offset: -35px; /* nudge the guide upward to sit between handle tips */
+}
+
+.stationRow--hasPips .stationSliderStack {
+    --slider-stack-pad-vertical: calc(var(--slider-pips-height) + 8px); /* keep bounds rows inside the stack */
+}
+
+.stationRow .stationSliderStack:focus-within,
+.stationRow .stationSliderStack:focus {
+    border-color: var(--ts-input-border-base);
+    box-shadow: var(--ts-input-focus-glow);
+    outline: var(--ts-input-focus-ring);
+    outline-offset: -2px;
+}
+
+.stationRow--focus .stationSliderStack {
+    border-color: var(--ts-input-border-base);
+    box-shadow: var(--ts-input-focus-glow);
+    outline: var(--ts-input-focus-ring);
+    outline-offset: -2px;
+}
+
+.stationRow .stationSliderGuide {
+    position: absolute;
+    left: var(--slider-pad);  /* match rail offset */
+    right: var(--slider-pad); /* match rail width offset */
+    height: var(--slider-guide-thickness);
+    background: var(--slider-guide-color);
+    top: calc(
+      var(--slider-stack-pad-vertical-effective)
+      + var(--ts-input-height)
+  + (var(--slider-stack-gap) / 2)
+      + var(--slider-guide-offset)
+); /* centered between the two sliders, with a slight upward offset */
+z-index: 0;
+cursor: crosshair;
+}
+
+.stationSliderHandleBar {
+    position: absolute;
+    left: calc(var(--slider-pad) + var(--slider-handle-left));
+    top: calc(
+      var(--slider-stack-pad-vertical-effective)
+      + var(--ts-input-height)
+      + (var(--slider-stack-gap) / 2)
+      + var(--slider-guide-offset)
+      + (var(--slider-guide-thickness) / 2)
+    );
+    width: var(--slider-handle-bar-width);
+    height: var(--slider-handle-bar-height);
+    background-color: #f5f7fa;
+    transform: translate(-50%, -50%);
+    clip-path: polygon(
+      0% 50%,     /* left tip */
+      12% 0%,     /* left top */
+      88% 0%,     /* right top */
+      100% 50%,   /* right tip */
+      88% 100%,   /* right bottom */
+      12% 100%    /* left bottom */);
+    opacity: 0;
+    display: none;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.stationRow--focus .stationSliderHandleBar {
+    opacity: 1;
+}
+
+/* Slider fills remaining space */
+.stationRow .stationSlider {
+    flex: 1 1 auto;
+    margin: 0;
+    width: 100%;
+    padding: 0;       /* 🔹 remove TomSelect-like shell */
+    height: var(--ts-input-height);  /* match select/input height by default */
+    display: flex;
+    align-items: flex-end;           /* rail sits on the bottom */
+    position: relative;              /* for absolute adornments like extremes */
+    z-index: 1;                      /* ensure content sits above the guide line */
+}
+
+/* Number input */
+/* Root variables: tuned to your app / TomSelect look */
+:root {
+  --ts-input-height: 30px;                 /* a bit taller for 18px font */
+  --ts-input-border-radius: 7px;           /* like .ts-wrapper .ts-control */
+  --ts-input-border-base: #b4c9db;         /* subtle blue border */
+  --ts-input-border-focus: #9fb8cf;        /* focus border color */
+  --ts-input-focus-glow: 0 0 8px 2px rgba(159, 184, 207, 0.55);
+  --ts-input-focus-glow-strong: 0 0 0 1px rgba(159, 184, 207, 0.95);
+  --ts-input-focus-ring: 2px solid var(--ts-input-border-focus);
+  --ts-input-bg: #f5f7fa;                  /* same as TS control bg */
+  --ts-input-text: #627d98;                /* same text color */
+  --ts-input-placeholder: #9fb3c8;
+  --ts-input-font-size: 18px;              /* to match TS font size */
+  --ts-spinner-bg: transparent;
+  --ts-spinner-bg-hover: #e2ebf3;
+  --ts-spinner-bg-active: #d7e2ec;
+  --ts-spinner-divider: transparent;
+  --ts-spinner-color: var(--ts-input-text);
+  --ts-control-pad: 10px;
+  --ts-control-border: 3px;
+  --kilometer-filter-width: 140px;
+  --station-input-width: var(--kilometer-filter-width);
+  --inline-label-width: 110px;
+  --output-field-width: 144px;
+  --output-block-width: calc(var(--output-field-width) * 0.5);
+}
+
+/* Match TomSelect control & selected ABS look, but without jump */
+.ts-number {
+    display: inline-flex;
+    align-items: center;
+    height: var(--ts-input-height);
+    background-color: #f5f7fa;
+    color: #627d98;
+    font-family: 'roboto-bold', sans-serif;
+    font-size: 18px;
+
+    padding: 0 6px 0 10px; /* tighten space to the right of spinner */
+
+    border-radius: 7px;
+    border: var(--ts-control-border) solid var(--ts-input-border-base);
+    box-shadow: var(--ts-input-focus-glow);
+    box-sizing: border-box;
+    margin-bottom: 18px;
+}
+
+/* Focus ring matches TomSelect, no layout shift because border width is constant */
+.ts-number:focus-within {
+    border-color: var(--ts-input-border-base);
+    box-shadow: var(--ts-input-focus-glow);
+    outline: var(--ts-input-focus-ring);
+    outline-offset: -2px;
+}
+
+.stationRow--focus .ts-number {
+    border-color: var(--ts-input-border-base);
+    box-shadow: var(--ts-input-focus-glow);
+    outline: var(--ts-input-focus-ring);
+    outline-offset: -2px;
+}
+/* Input inside the control */
+.ts-number-input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    outline: none;
+    padding: 0 2px 0 0;
+
+    font-family: 'roboto-bold', sans-serif;
+    font-size: 18px;
+    color: #627d98;
+
+    min-width: 0;
+    height: 100%;
+    line-height: 1.2;
+
+    -webkit-appearance: auto;
+    appearance: auto;
+    -moz-appearance: auto;
+}
+
+.ts-number--customStepper .ts-number-input {
+    -webkit-appearance: textfield;
+    appearance: textfield;
+    -moz-appearance: textfield;
+}
+
+.ts-number--customStepper .ts-number-input::-webkit-inner-spin-button,
+.ts-number--customStepper .ts-number-input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.ts-number--customStepper {
+    gap: 6px;
+    padding-right: 4px;
+}
+
+.ts-number-stepper {
+    display: flex;
+    flex-direction: column;
+    height: calc(var(--ts-input-height) - (var(--ts-control-border) * 2));
+    width: calc(var(--ts-input-height) - (var(--ts-control-border) * 2));
+    gap: 2px;
+}
+
+.ts-number-stepper-btn {
+    flex: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: none;
+    border-radius: 4px;
+    background-color: transparent;
+    color: var(--ts-input-text);
+    cursor: pointer;
+    transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+}
+
+.ts-number-stepper-btn::before {
+    content: '';
+    display: block;
+    width: 0;
+    height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+}
+
+.ts-number-stepper-btn--up::before {
+    border-bottom: 6px solid currentColor;
+}
+
+.ts-number-stepper-btn--down::before {
+    border-top: 6px solid currentColor;
+}
+
+.ts-number-stepper-btn:hover {
+    background-color: #e2ebf3;
+}
+
+.ts-number-stepper-btn:active {
+    background-color: #d7e2ec;
+    transform: translateY(1px);
+}
+
+.ts-number-stepper-btn:focus-visible {
+    outline: 2px solid var(--ts-input-border-focus);
+    outline-offset: 1px;
+}
+
+.ts-number-stepper-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.ts-number-input:disabled {
+    cursor: not-allowed;
+}
+
+.ts-number-input::placeholder {
+    color: #627d98; /* match Tom Select placeholders */
+    font-family: 'roboto-bold', sans-serif;
+    font-size: 18px;
+    opacity: 1;
+}
+
+.kilometerOutputRow {
+    display: flex;
+    align-items: center;
+    gap: 0px;
+    flex-wrap: wrap;
+    --ts-input-height: 42px;
+    --output-column-gap: 24px;
+}
+
+.kilometerOutputRow--double {
+    column-gap: var(--output-column-gap);
+    row-gap: 0px;
+}
+
+.kilometerOutputGroup {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0px;
+    flex-wrap: wrap;
+    padding-top: 14px;
+}
+
+
+.kilometerOutputRow + .kilometerOutputRow {
+    margin-top: 18px;
+    margin-bottom: 18px;
+}
+
+.kilometerOutputRow .ts-number {
+    margin-bottom: 0;
+    padding-left: 12px;
+    padding-top: 6px;
+    padding-bottom: 3px;
+    gap: 0px;
+    width: var(--output-field-width);
+    min-width: var(--output-field-width);
+    background-color: #d7e2ec;
+    box-shadow: none;
+    transition: background-color 0.2s ease;
+}
+
+.kilometerOutputRow .kilometerOutputGroup--span2 .ts-number {
+    width: calc(var(--output-field-width) + var(--output-column-gap) + var(--output-block-width));
+    min-width: calc(var(--output-field-width) + var(--output-column-gap) + var(--output-block-width));
+}
+
+.kilometerOutputRow .kilometerOutputGroup--block .ts-number {
+    width: var(--output-block-width);
+    min-width: var(--output-block-width);
+}
+
+.kilometerOutputLabel {
+    font-family: 'roboto-regular', sans-serif;
+    font-size: 14px;
+    position: absolute;
+    top: 0px;
+    left: calc(var(--ts-control-pad) + var(--ts-control-border) - 3px);
+    width: auto;
+    text-align: left;
+    white-space: nowrap;
+    padding-left: 0;
+    box-sizing: border-box;
+    display: block;
+}
+
+.referenzLabelPill {
+    background-color: #c3d5e5;
+    color: #627d98;
+    font-family: 'roboto-bold', sans-serif;
+    border-radius: 6px;
+    padding: 2px 6px;
+    display: inline-block;
+}
+
+.kilometerCopyBtn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: calc(var(--ts-input-height) - (var(--ts-control-border) * 2));
+    width: calc(var(--ts-input-height) - (var(--ts-control-border) * 2));
+    padding: 0;
+    border-radius: 4px;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+}
+
+.kilometerCopyBtn:hover {
+    transform: scale(1.2);
+}
+
+.kilometerCopyBtn:active {
+    transform: scale(0.8);
+}
+
+.kilometerCopyBtn:focus-visible {
+    outline: 2px solid var(--ts-input-border-focus);
+    outline-offset: 1px;
+}
+
+.kilometerCopyBtn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.kilometerCopyIcon {
+    position: relative;
+    width: 12px;
+    height: 12px;
+    display: block;
+}
+
+.kilometerCopyIcon::before,
+.kilometerCopyIcon::after {
+    content: '';
+    position: absolute;
+    border: 1px solid #627d98;
+    border-radius: 2px;
+    width: 10px;
+    height: 12px;
+    box-sizing: border-box;
+}
+
+.kilometerCopyIcon::before {
+    top: -2px;
+    left: 2px;
+    background-color: transparent;
+    opacity: 0.6;
+}
+
+.kilometerCopyIcon::after {
+    top: 0;
+    left: 0;
+    background-color: #d7e2ec;
+}
+
+.kilometerCopyStatus {
+    position: absolute;
+    left: 0;
+    top: 100%;
+    margin-top: 4px;
+    font-size: 12px;
+    color: #627d98;
+    opacity: 0;
+    transform: translateY(2px);
+    transition: opacity 0.15s ease, transform 0.15s ease;
+    pointer-events: none;
+    white-space: nowrap;
+}
+
+.kilometerCopyStatus.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.kilometerCopyStatus.is-error {
+    color: #ff823a;
+}
+
+/* Referenz graphic output (reused from devOnly) */
+.referenzGraphic {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    --ts-control-border: 2px;
+    --referenz-width: 246px;
+    --referenz-upper-height: 150px;
+    --referenz-lower-height: 76px;
+    --referenz-row-height: 24px;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.referenzGraphic.is-empty {
+    display: none;
+}
+
+.referenzGraphic.has-external-tiles .infGrdRefRow {
+    display: none;
+}
+
+.referenzGraphic .infGrd {
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    grid-template-columns: auto;
+    grid-template-rows: auto auto auto auto;
+    width: var(--referenz-width, 246px);
+    height: auto;
+    padding: 0;
+    border-radius: 0;
+    background-color: transparent;
+    row-gap: 3px;
+    align-content: start;
+    transform: none;
+}
+
+.block--referenz .referenzGraphic,
+.block--karte .referenzGraphic {
+    --referenz-right-inset: 9px;
+    padding: 0;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+    pointer-events: auto;
+}
+
+.block--karte .referenzGraphic {
+    padding: 0;
+    border-radius: 12px;
+    background-color: transparent;
+    --referenz-row-height: var(--referenz-lower-height, 76px);
+    transform: none;
+}
+
+.referenzGraphic .bkmTafel,
+.referenzGraphic .blkTafel,
+.referenzGraphic .bkmContent,
+.referenzGraphic .blkContent {
+    overflow: visible;
+}
+
+.block--referenz .bkmR3,
+.block--referenz .r3c3,
+.block--referenz .r5c3,
+.block--referenz .blkR3 {
+    font-size: var(--referenz-output-lg);
+    line-height: 1;
+}
+
+.block--referenz .bkmTafel--aoa .bkmR3 {
+    font-size: var(--referenz-output-md);
+    line-height: 1;
+}
+
+.block--referenz .babInf {
+    font-size: 30px;
+}
+
+.block--referenz .bkmLastTwo,
+.block--referenz .r5c3LastTwo {
+    font-size: 0.58em;
+    transform: translateY(-0.05em);
+}
+
+@supports (-moz-appearance: none) {
+    .referenzGraphic .r2c1,
+    .referenzGraphic .r2c3,
+    .referenzGraphic .r6c3,
+    .referenzGraphic .bkmR2,
+    .referenzGraphic .blkR2 {
+        font-weight: normal;
+        font-synthesis: none;
+    }
+
+    .referenzGraphic .r3c3,
+    .referenzGraphic .r5c3,
+    .referenzGraphic .bkmR3,
+    .referenzGraphic .blkR3 {
+        font-weight: normal;
+        font-synthesis: none;
+    }
+}
+
+.infGrdUprLft {
+    display: grid;
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+    grid-template-columns: 34fr var(--referenz-divider-size, 2px) 1fr 32fr 2fr;
+    grid-template-rows: 2fr 8fr 15fr var(--referenz-divider-size, 2px) 15fr 8fr 2fr;
+    height: var(--referenz-upper-height, 144px);
+    width: var(--referenz-width, 246px);
+    border-radius: var(--ts-input-border-radius);
+    padding: 0;
+    background-color: transparent;
+}
+
+.infGrdLwrLft {
+    display: grid;
+    grid-column: 1 / 2;
+    grid-row: 3 / 4;
+    grid-template-columns: 5fr 3fr;
+    grid-template-rows: minmax(0, 1fr);
+    column-gap: 3px;
+    row-gap: 0;
+    height: var(--referenz-lower-height, 72px);
+    width: var(--referenz-width, 246px);
+    border-radius: 12px;
+    padding: 0;
+    background-color: transparent;
+}
+
+.infGrdLwrLft .bkmContent,
+.infGrdLwrLft .blkContent {
+    grid-template-rows: minmax(12px, 0.28fr) 1fr;
+}
+
+.infGrdLwrLft .bkmR3,
+.infGrdLwrLft .blkR3 {
+    align-self: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.infGrdLwrLft .bkmR2,
+.infGrdLwrLft .blkR2 {
+    transform: translateY(2px);
+}
+
+.infGrdRefRow {
+    display: grid;
+    grid-column: 1 / 2;
+    grid-row: 4 / 5;
+    width: var(--referenz-width, 246px);
+    height: var(--referenz-row-height, 24px);
+    border-radius: 12px;
+    padding: 0;
+    background-color: transparent;
+}
+
+.infGrdRefRow .bkmTafel {
+    position: relative;
+    overflow: visible;
+}
+
+.infGrdRefRow .bkmContent {
+    width: 100%;
+}
+
+.infGrdRefRow .bkmR3 {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    justify-content: flex-end;
+}
+
+
+.staTafel,
+.staContent {
+    display: grid;
+    grid-template-columns: 34fr var(--referenz-divider-size, 2px) 1fr 32fr 2fr;
+    grid-template-rows: 2fr 8fr 15fr var(--referenz-divider-size, 2px) 15fr 8fr 2fr;
+    grid-column: 1 / 6;
+    grid-row: 1 / 8;
+    border-radius: 9px;
+}
+
+@supports (grid-template-columns: subgrid) {
+    .staTafel,
+    .staContent {
+        grid-template-columns: subgrid;
+        grid-template-rows: subgrid;
+    }
+}
+
+.staTafel {
+    border: var(--ts-control-border) solid var(--referenz-divider-color, var(--ts-input-border-focus));
+    background-color: var(--ts-input-bg);
+}
+
+.r2c1 {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+    align-self: baseline;
+    justify-self: center;
+    font-family: 'roboto-bold', sans-serif;
+    color: #627d98;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 0;
+    margin: 0;
+}
+
+.r2c2 {
+    grid-column: 2 / 3;
+    grid-row: 2 / 7;
+    background-color: var(--referenz-divider-color, #102a43);
+}
+
+.r2c3 {
+    grid-column: 3 / 5;
+    grid-row: 2 / 3;
+    align-self: baseline;
+    justify-self: center;
+    font-family: 'roboto-bold', sans-serif;
+    color: #627d98;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 0;
+    margin: 0;
+}
+
+.babFrm {
+    grid-column: 1 / 2;
+    grid-row: 3 / 6;
+    align-self: center;
+    justify-self: center;
+    padding: 3px 5px;
+    border-radius: 7px;
+    border: var(--ts-control-border) solid var(--referenz-divider-color, #627d98);
+    background-color: var(--ts-input-bg);
+}
+
+.babInf {
+    grid-column: 1 / 2;
+    grid-row: 3 / 6;
+    height: 36px;
+    width: 66px;
+    text-align: center;
+    align-self: center;
+    justify-self: center;
+    font-family: 'roboto-bold', sans-serif;
+    color: var(--ts-input-bg);
+    font-size: 30px;
+    font-weight: 600;
+    padding: 4px;
+    background-color: #005a8c;
+    clip-path: polygon(50% 0%,50% 0%,47.122% 0.33%,42.648% 1.255%,37.023% 2.626%,30.696% 4.296%,24.115% 6.116%,17.726% 7.938%,11.978% 9.613%,7.319% 10.993%,4.194% 11.93%,3.054% 12.275%,3.054% 12.275%,2.547% 12.465%,2.072% 12.769%,1.633% 13.178%,1.236% 13.683%,0.885% 14.273%,0.586% 14.94%,0.343% 15.673%,0.161% 16.463%,0.046% 17.301%,0.002% 18.175%,0% 18.175%,0% 81.825%,0.002% 81.825%,0.002% 81.825%,0.046% 82.7%,0.161% 83.538%,0.343% 84.328%,0.586% 85.062%,0.885% 85.728%,1.236% 86.319%,1.633% 86.824%,2.072% 87.233%,2.547% 87.538%,3.054% 87.728%,3.054% 87.728%,4.194% 88.073%,7.319% 89.01%,11.978% 90.389%,17.726% 92.064%,24.115% 93.885%,30.696% 95.705%,37.023% 97.375%,42.648% 98.746%,47.122% 99.67%,50% 100%,50% 100%,52.823% 99.652%,57.266% 98.717%,62.878% 97.341%,69.207% 95.672%,75.801% 93.857%,82.209% 92.042%,87.979% 90.375%,92.66% 89.002%,95.8% 88.071%,96.946% 87.728%,96.946% 87.728%,97.453% 87.538%,97.928% 87.233%,98.367% 86.824%,98.764% 86.319%,99.115% 85.728%,99.415% 85.062%,99.658% 84.328%,99.84% 83.538%,99.956% 82.7%,100% 81.825%,100% 81.825%,100% 18.179%,100% 18.179%,100% 18.179%,99.956% 17.303%,99.84% 16.465%,99.659% 15.674%,99.416% 14.941%,99.116% 14.274%,98.766% 13.683%,98.368% 13.178%,97.93% 12.769%,97.455% 12.465%,96.948% 12.275%,96.948% 12.275%,95.801% 11.932%,92.661% 11%,87.98% 9.627%,82.209% 7.96%,75.801% 6.144%,69.207% 4.329%,62.878% 2.659%,57.266% 1.284%,52.823% 0.348%,50% 0%,50% 0%);
+}
+
+.outputCopyWrap:hover .babInf {
+    background-color: #ff823a;
+}
+
+.r3c3 {
+    grid-column: 3 / 5;
+    grid-row: 3 / 4;
+    align-self: flex-start;
+    justify-self: center;
+    font-family: 'roboto-bold', sans-serif;
+    color: #627d98;
+    font-size: 36px;
+    font-weight: 600;
+    line-height: 1;
+    padding: 0;
+    margin: 0;
+}
+
+.r4c3 {
+    grid-column: 4 / 5;
+    grid-row: 4 / 5;
+    background-color: var(--referenz-divider-color, #102a43);
+}
+
+.r5c3 {
+    grid-column: 3 / 5;
+    grid-row: 5 / 6;
+    align-self: flex-end;
+    justify-self: center;
+    font-family: 'roboto-bold', sans-serif;
+    color: #627d98;
+    font-size: 36px;
+    font-weight: 600;
+    line-height: 1;
+    padding: 0;
+    margin: 0;
+    transform: translateY(2px);
+}
+
+.r5c3LastTwo {
+    position: static;
+    display: inline-block;
+    vertical-align: baseline;
+    line-height: 1;
+    font-size: 21px;
+}
+
+.r6c3 {
+    grid-column: 3 / 5;
+    grid-row: 6 / 7;
+    align-self: last baseline;
+    justify-self: center;
+    font-family: 'roboto-bold', sans-serif;
+    color: #627d98;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 0;
+    margin: 0;
+}
+
+.bkmTafel,
+.blkTafel {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    align-items: stretch;
+    justify-items: stretch;
+    height: 100%;
+    box-sizing: border-box;
+    border-radius: var(--ts-input-border-radius);
+    padding: 0;
+    border: none;
+    background-color: transparent;
+    overflow: hidden;
+}
+
+.refTafel .outputValue {
+    white-space: nowrap;
+    justify-content: flex-end;
+}
+
+
+.refTafel .bkmR3 {
+    margin-left: 0;
+    margin-right: 0;
+    text-align: right;
+}
+
+.bkmTafel--aoa {
+    grid-column: 1 / -1;
+    grid-row: 1 / 2;
+    grid-template-rows: 1fr;
+    align-items: stretch;
+    justify-items: stretch;
+    width: var(--referenz-width, 246px);
+    height: var(--referenz-row-height, 24px);
+    overflow: hidden;
+    background-color: transparent;
+    margin-bottom: 0;
+}
+
+#aoaOutput {
+    font-size: inherit;
+    line-height: inherit;
+    white-space: nowrap;
+}
+
+
+.bkmTafel--aoa .bkmContent {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: flex-end;
+    gap: 2px;
+    padding-right: var(--referenz-right-inset, 0px);
+    position: relative;
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+}
+
+.bkmTafel--aoa.refTafel .bkmContent {
+    gap: 2px;
+}
+
+.bkmTafel--aoa .bkmR2 {
+    padding-top: 0;
+    font-size: 12px;
+    margin: 0;
+    line-height: 1;
+    color: var(--ts-input-text);
+}
+
+.bkmTafel--aoa .bkmR3 {
+    font-size: clamp(16px, 2.2vw, 22px);
+    line-height: 1;
+    margin-bottom: 0;
+    color: var(--ts-input-text);
+}
+
+.bkmTafel--tile .bkmContent {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: flex-end;
+    gap: 2px;
+    padding: 0;
+    padding-right: var(--referenz-right-inset, 0px);
+    border: var(--ts-control-border) solid var(--referenz-divider-color, var(--ts-input-border-focus));
+    background-color: var(--ts-input-bg);
+    border-radius: var(--ts-input-border-radius);
+}
+
+.bkmTafel--tile .bkmR2 {
+    padding-top: 0;
+    font-size: 12px;
+    line-height: 1;
+    margin: 0;
+    color: var(--ts-input-text);
+    font-family: 'roboto-regular', sans-serif;
+    font-weight: 400;
+}
+
+.bkmTafel--tile .bkmR3 {
+    font-size: clamp(12px, 1.8vw, 18px);
+    line-height: 1;
+    margin-bottom: 0;
+    color: var(--ts-input-text);
+    font-family: 'roboto-regular', sans-serif;
+    font-weight: 400;
+}
+
+.karteOutputTiles .bkmTafel--aoa .bkmContent,
+.karteOutputTiles .bkmTafel--tile .bkmContent {
+    gap: 6px;
+}
+
+.karteOutputTiles .bkmTafel {
+    position: relative;
+    overflow: visible;
+}
+
+.karteOutputTiles .bkmContent {
+    overflow: visible;
+}
+
+
+.infGrdRefRow .bkmTafel--tile .bkmContent {
+    width: 100%;
+}
+
+.infGrdRefRow .bkmTafel--tile .bkmR3 {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    justify-content: flex-end;
+}
+
+
+.bkmContent,
+.blkContent {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+    border-radius: var(--ts-input-border-radius);
+    border: var(--ts-control-border) solid var(--referenz-divider-color, var(--ts-input-border-focus));
+    background-color: var(--ts-input-bg);
+    background-clip: padding-box;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.referenzGraphic .bkmTafel--aoa,
+.referenzGraphic .bkmContent,
+.referenzGraphic .blkContent {
+    overflow: visible;
+}
+
+.bkmR2 {
+    justify-self: center;
+    font-family: 'roboto-bold', sans-serif;
+    color: #627d98;
+    font-size: 12px;
+    font-weight: 600;
+    padding-top: 1px;
+}
+
+.bkmR3 {
+    justify-self: center;
+    font-family: 'roboto-bold', sans-serif;
+    color: #627d98;
+    font-size: 36px;
+    font-weight: 600;
+    padding: 0;
+    margin-bottom: 0;
+    transform: none;
+}
+
+.bkmLastTwo {
+    position: static;
+    display: inline-block;
+    vertical-align: baseline;
+    line-height: 1;
+    font-size: 21px;
+}
+
+.blkR2 {
+    align-self: baseline;
+    justify-self: center;
+    font-family: 'roboto-bold', sans-serif;
+    color: #627d98;
+    font-size: 12px;
+    font-weight: 600;
+    padding-top: 1px;
+}
+
+.blkR3 {
+    align-self: center;
+    justify-self: center;
+    font-family: 'roboto-bold', sans-serif;
+    color: #627d98;
+    font-size: 36px;
+    font-weight: 600;
+    padding: 0;
+    margin-bottom: 0;
+    transform: none;
+}
+
+.outputCopyWrap {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+    z-index: 4;
+}
+
+.outputValue {
+    display: inline-flex;
+    align-items: baseline;
+    line-height: 1;
+    vertical-align: baseline;
+    transition: transform 0.15s ease, color 0.15s ease;
+    transform-origin: center;
+}
+
+.outputLink {
+    color: inherit;
+    text-decoration: none;
+}
+
+.outputLink:hover,
+.outputLink:focus-visible {
+    text-decoration: underline;
+}
+
+.outputCopyWrap:hover:not(.is-copied):not(.is-copy-locked) .outputValue {
+    color: #ff823a;
+    transform: none;
+}
+
+.outputCopyWrap.is-copied .outputValue,
+.outputCopyWrap.is-copy-locked .outputValue {
+    color: inherit;
+    transform: none;
+}
+
+.outputCopyBtn {
+    position: absolute;
+    inset: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: auto;
+    z-index: 2;
+    transition: opacity 0.15s ease;
+}
+
+.outputCopyBtn:active:not(:disabled) {
+    opacity: 0.7;
+}
+
+.outputCopyBtn:focus-visible {
+    outline: 2px solid #ff823a;
+    outline-offset: 2px;
+}
+
+.outputCopyBtn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.outputCopyLabel {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+.outputCopyStatus {
+    --copy-status-x: -50%;
+    --copy-status-y: -50%;
+    --copy-status-offset-x: 0px;
+    --copy-status-offset-y: 0px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'roboto-bold', sans-serif;
+    font-size: 16px;
+    padding: 6px 12px;
+    letter-spacing: 0.1px;
+    color: #fff;
+    opacity: 0;
+    transform: translate(var(--copy-status-x), var(--copy-status-y))
+        translate(var(--copy-status-offset-x), var(--copy-status-offset-y));
+    transition: opacity 0.15s ease, transform 0.15s ease;
+    pointer-events: none;
+    z-index: 5;
+    white-space: nowrap;
+    padding: 4px 8px;
+    border-radius: 6px;
+    background-color: #005a8c;
+    line-height: 1;
+    box-sizing: border-box;
+}
+
+.outputCopyStatus.is-visible {
+    opacity: 1;
+}
+
+.outputCopyStatus.is-error {
+    color: #fff;
+    background-color: #ff823a;
+}
+
+.outputCopyStatus.is-success {
+    padding: 0 6px;
+    border: none;
+    border-radius: var(--ts-input-border-radius);
+    background-color: rgba(255, 130, 58, 0.85);
+    color: var(--ts-input-bg);
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.15s ease;
+}
+
+.outputCopyStatus.is-success.is-success-tick {
+    color: transparent;
+    font-size: 0;
+    letter-spacing: 0;
+}
+
+.outputCopyStatus.is-success.is-success-tick::before {
+    content: '';
+    width: 10px;
+    height: 16px;
+    border-right: 3px solid var(--ts-input-bg);
+    border-bottom: 3px solid var(--ts-input-bg);
+    transform: rotate(45deg);
+}
+
+.infGrdRefRow .outputCopyWrap {
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+}
+
+@media (max-width: 720px) {
+    .referenzGraphic .infGrd {
+        transform: scale(0.9);
+        transform-origin: top center;
+    }
+}
+
+@media (max-width: 960px) {
+    .blockRow {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+@media (max-width: 540px) {
+    .referenzGraphic .infGrd {
+        transform: scale(0.8);
+    }
+}
+
+/* Tint native WebKit spinner to match the control */
+.ts-number-input::-webkit-inner-spin-button,
+.ts-number-input::-webkit-outer-spin-button {
+    background: var(--ts-spinner-bg);
+    border-left: 1px solid var(--ts-spinner-divider);
+    color: var(--ts-spinner-color);
+    opacity: 1;
+}
+.ts-number-input::-webkit-inner-spin-button:hover,
+.ts-number-input::-webkit-outer-spin-button:hover {
+    background: var(--ts-spinner-bg-hover);
+}
+.ts-number-input::-webkit-inner-spin-button:active,
+.ts-number-input::-webkit-outer-spin-button:active {
+    background: var(--ts-spinner-bg-active);
+}
+
+.kilometerFilterField {
+    display: inline-flex;
+    align-items: center;
+    height: var(--ts-input-height);
+    width: var(--kilometer-filter-width);
+    min-width: 0;
+    padding: 0 6px 0 10px;
+    background-color: var(--ts-input-bg);
+    color: var(--ts-input-text);
+    font-family: 'roboto-bold', sans-serif;
+    font-size: 18px;
+    border-radius: var(--ts-input-border-radius);
+    border: var(--ts-control-border) solid var(--ts-input-border-base);
+    box-shadow: var(--ts-input-focus-glow);
+    box-sizing: border-box;
+    gap: 6px;
+}
+
+.kilometerFilterField.is-disabled {
+    opacity: 0.6;
+}
+
+.kilometerFilterInput:disabled {
+    cursor: not-allowed;
+}
+
+.kilometerFilterBtn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.kilometerFilterField:focus-within {
+    border-color: var(--ts-input-border-base);
+    box-shadow: var(--ts-input-focus-glow);
+    outline: var(--ts-input-focus-ring);
+    outline-offset: -2px;
+}
+
+.kilometerFilterInput {
+    flex: 1;
+    border: none;
+    background: transparent;
+    outline: none;
+    padding: 0 2px 0 0;
+    font-family: 'roboto-bold', sans-serif;
+    font-size: 18px;
+    color: var(--ts-input-text);
+    min-width: 0;
+    height: 100%;
+    line-height: 1.2;
+}
+
+.kilometerFilterField.is-out-of-range .kilometerFilterInput {
+    color: #ff823a;
+}
+
+.kilometerFilterInput::placeholder {
+    color: #627d98;
+    opacity: 1;
+}
+
+.kilometerFilterInput:-webkit-autofill,
+.kilometerFilterInput:-webkit-autofill:hover,
+.kilometerFilterInput:-webkit-autofill:focus,
+.kilometerFilterInput:autofill {
+    box-shadow: 0 0 0 1000px var(--ts-input-bg) inset;
+    -webkit-text-fill-color: #627d98;
+    caret-color: #627d98;
+}
+
+.kilometerFilterBtn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: calc(var(--ts-input-height) - (var(--ts-control-border) * 2));
+    width: calc(var(--ts-input-height) - (var(--ts-control-border) * 2));
+    min-width: calc(var(--ts-input-height) - (var(--ts-control-border) * 2));
+    padding: 0;
+    border-radius: 4px;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    color: var(--ts-input-text);
+    transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+}
+
+.kilometerFilterBtn--clear {
+    min-width: calc(var(--ts-input-height) - (var(--ts-control-border) * 2));
+}
+
+.kilometerFilterBtn:hover {
+    background-color: #e2ebf3;
+}
+
+.kilometerFilterBtn:active {
+    background-color: #d7e2ec;
+    transform: translateY(1px);
+}
+
+.kilometerFilterBtn:focus-visible {
+    outline: 2px solid var(--ts-input-border-focus);
+    outline-offset: 1px;
+}
+
+.kilometerFilterIcon {
+    position: relative;
+    display: block;
+    width: 12px;
+    height: 12px;
+    color: #627d98;
+}
+
+.kilometerFilterIcon--ok::before {
+    content: '';
+    position: absolute;
+    width: 6px;
+    height: 10px;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    left: 3px;
+    top: -3px;
+    transform: rotate(45deg);
+}
+
+.kilometerFilterIcon--clear::before,
+.kilometerFilterIcon--clear::after {
+    content: '';
+    position: absolute;
+    width: 2px;
+    height: 12px;
+    background-color: currentColor;
+    left: 5px;
+    top: 0;
+}
+
+.kilometerFilterIcon--clear::before {
+    transform: rotate(45deg);
+}
+
+.kilometerFilterIcon--clear::after {
+    transform: rotate(-45deg);
+}
+
+/* Slider */
+
+/* Big, easy-to-grab handle box */
+.stationSlider.noUi-target .noUi-handle {
+    width: var(--slider-handle-size);            /* 🔹 bigger hitbox */
+    height: var(--slider-handle-size);           /* 🔹 bigger hitbox */
+    background: none;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    cursor: pointer;
+    pointer-events: auto;
+
+    /* center the hitbox vertically on the pointer */
+    top: calc(-1 * var(--slider-handle-half));
+    right: calc(var(--slider-handle-half) * -1);
+    position: absolute;
+}
+
+.stationSlider--mirror.noUi-target .noUi-handle {
+    top: calc(var(--slider-bar-height) - var(--slider-handle-half));
+}
+
+/* Rail = the only “background” */
+.stationSlider.noUi-target {
+    background: var(--slider-rail-color);
+    border: none;
+    box-shadow: none;
+    height: var(--slider-bar-height);          /* bar thickness */
+    width: 100%;
+    margin: 0;
+    border-radius: var(--slider-rail-radius);     /* align with selects */
+    pointer-events: auto; /* allow click-to-set on the rail */
+}
+
+/* Fill between min → station, in font color */
+.stationSlider.noUi-target .noUi-connect {
+    background: transparent; /* keep the track invisible */
+    border-radius: 0 !important; /* keep active fill square for crisp readout */
+    pointer-events: none;
+}
+
+/* Bars must remain square */
+.stationSlider.noUi-target .noUi-base {
+    border-radius: 0;
+}
+
+/* Force all slider pieces to have square ends */
+.stationSlider.noUi-target,
+.stationSlider.noUi-target .noUi-base,
+.stationSlider.noUi-target .noUi-connects,
+.stationSlider.noUi-target .noUi-origin {
+    border-radius: var(--slider-rail-radius) !important;
+}
+
+/* Remove noUiSlider's built-in grips */
+.stationSlider.noUi-target .noUi-handle.noUi-handle-lower:before,
+.stationSlider.noUi-target .noUi-handle.noUi-handle-upper:before {
+    display: none;
+    content: none;
+}
+
+/* Draw the visible orange triangle inside the larger handle box */
+.stationSlider.noUi-target .noUi-handle::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: calc(var(--slider-handle-half) - var(--slider-tip-height)); /* keep the tip on the rail after recentering the hitbox */
+    display: block;
+    width: 14px;
+    height: var(--slider-tip-height);
+    transform: translateX(-50%);
+    background: #ff823a;
+    clip-path: polygon(50% 100%, 0 0, 100% 0); /* filled triangle pointing down */
+
+    z-index: 30;
+    pointer-events: none;
+}
+
+.stationSlider--mirror.noUi-target .noUi-handle::after {
+    width: 14px;
+    height: var(--slider-tip-height);
+    border: none;
+    background: #ff823a;
+    clip-path: polygon(50% 0, 0 100%, 100% 100%);
+    top: var(--slider-handle-half);
+}
+
+/* Keep handles parked at the start when the slider has no usable range */
+.stationSlider--zeroRange .noUi-origin,
+.stationSlider--zeroRange .noUi-connect {
+    transform: translate(-100%, 0) !important;
+}
+
+.stationSlider--zeroRange .noUi-handle {
+    cursor: default;
+}
+
+/* Focus glow */
+.stationSlider .noUi-handle:focus-visible {
+    outline: none;
+}
+
+.stationRow--hasPips {
+    margin-bottom: 0;
+}
+
+.stationRow--hasPips .ts-number {
+    height: var(--ts-input-height);
+    min-height: var(--ts-input-height);
+}
+
+.stationSlider--hasPips .noUi-pips {
+    top: 0; /* align pip tips to the handle tip (no gap) */
+    height: var(--slider-pips-height);
+    padding: 0;
+    color: #627d98;
+    pointer-events: auto;
+    cursor: crosshair;
+}
+
+.stationSlider--mirror.stationSlider--hasPips .noUi-pips {
+    top: auto;
+    bottom: 0; /* align the pip tips to the mirror slider handle tips */
+}
+
+.stationSlider--hasPips .noUi-marker {
+    width: 2px;
+    height: 12px;
+    background: #627d98;
+    color: #627d98;
+    border: none;
+    border-radius: 0; /* rectangular ticks */
+    top: 0;
+    margin-left: -1px;
+    position: absolute; /* keep pip positioning aligned to the slider rail */
+    clip-path: polygon(50% 0, 0 100%, 100% 100%); /* point toward the rail */
+}
+
+.stationSlider--mirror.stationSlider--hasPips .noUi-marker,
+.stationSlider--mirror.stationSlider--hasPips .noUi-marker-large,
+.stationSlider--mirror.stationSlider--hasPips .noUi-marker.pipFull,
+.stationSlider--mirror.stationSlider--hasPips .noUi-marker.pipHalf,
+.stationSlider--mirror.stationSlider--hasPips .noUi-marker.pipExtra {
+    top: auto;
+    bottom: 0;
+}
+
+.stationSlider--hasPips .noUi-marker-large {
+    width: 3px;
+    height: 16px;
+    margin-left: -1.5px;
+}
+
+.stationSlider--hasPips .noUi-marker.noUi-marker--active {
+    background: #ff823a;
+    color: #ff823a;
+}
+
+.stationSlider--hasPips .noUi-marker.pipFull {
+    width: 6px;            /* thicker full-km tick */
+    height: 16px;
+    margin-left: -3px;     /* keep centered after width increase */
+}
+
+.stationSlider--hasPips .noUi-marker.pipHalf {
+    width: 4px;            /* thicker half-km tick */
+    height: 12px;
+    margin-left: -2px;     /* keep centered after width increase */
+}
+
+.stationSlider--hasPips .noUi-marker.pipExtra {
+    width: 1px;
+    height: 8px;
+    margin-left: -0.5px;
+    opacity: 0.8;
+    clip-path: none; /* keep extra pips simple */
+}
+.stationSlider--mirror.stationSlider--hasPips .noUi-marker:not(.pipExtra) {
+    clip-path: polygon(0 0, 50% 100%, 100% 0); /* flip point toward rail */
+}
+
+.stationSlider--hasPips .noUi-value.pipHalfLabel {
+    color: #627d98;
+}
+
+.stationSlider--hasPips .noUi-value.noUi-value--active {
+    color: #ff823a;
+}
+
+.stationSlider--hasPips .noUi-value {
+    font-family: 'roboto-bold', sans-serif;
+    font-size: 12px;
+    line-height: 1.2;
+    transform: translate(-50%, 0);
+}
+.stationSlider--hasPips .noUi-value:empty {
+    display: none;
+}
+
+.stationSlider--hasPips .noUi-value.pipHalfLabel {
+    font-family: 'roboto-regular', sans-serif;
+    transform: translate(-50%, -4px); /* lift half-km labels closer to ticks */
+}
+
+.stationSlider--mirror.stationSlider--hasPips .noUi-value.pipHalfLabel {
+    transform: translate(-50%, 4px);
+}
+
+.stationSlider--hasPips .noUi-value.noUi-value--row1 {
+    top: 16px;
+}
+
+.stationSlider--hasPips .noUi-value.noUi-value--row2 {
+    top: 30px;
+}
+
+.stationSlider--mirror.stationSlider--hasPips .noUi-value.noUi-value--row1 {
+    top: auto;
+    bottom: 16px;
+}
+
+.stationSlider--mirror.stationSlider--hasPips .noUi-value.noUi-value--row2 {
+    top: auto;
+    bottom: 30px;
+}
+
+.stationSliderBounds {
+    --arrow-color: #c3d5e5;
+    --slider-arrow-inset-left: 12px;
+    --slider-arrow-inset-right: 12px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 12px;
+    padding: 0;
+    font-family: 'roboto-regular', sans-serif;
+    font-size: 12px;
+    line-height: 1.2;
+    color: #9fb3c8;
+    pointer-events: auto;
+    cursor: crosshair;
+    position: absolute;
+}
+
+.stationSliderBounds::before,
+.stationSliderBounds::after {
+    display: none;
+    content: none;
+}
+
+.stationSliderBounds--local {
+    bottom: calc(100% + var(--slider-bounds-gap-tight));
+}
+
+.stationSliderBounds--global {
+    top: calc(100% + var(--slider-bounds-gap-tight));
+}
+
+.stationSlider--hasPips .stationSliderBounds--local {
+    bottom: calc(var(--slider-pips-height) + var(--slider-bounds-gap));
+}
+
+.stationSlider--hasPips .stationSliderBounds--global {
+    top: calc(var(--slider-pips-height) + var(--slider-bounds-gap));
+}
+
+.stationSliderBound {
+    white-space: nowrap;
+}
+
+.stationSliderBoundPipe {
+    display: inline-block;
+    width: 3px;
+    height: 1.2em;
+    background-color: var(--arrow-color);
+    vertical-align: top; /* align top with local label text */
+}
+
+.stationSliderBoundPipe--left {
+    transform: translate(-1px, 2px);
+}
+
+.stationSliderBoundPipe--right {
+    transform: translate(1px, 2px);
+}
+
+.stationSliderBounds--global .stationSliderBoundPipe {
+    vertical-align: bottom; /* align bottom with global label text */
+}
+
+.stationSliderBounds--global .stationSliderBoundPipe--left {
+    transform: translate(-1px, -2px);
+}
+
+.stationSliderBounds--global .stationSliderBoundPipe--right {
+    transform: translate(1px, -2px);
+}
+
+.stationSliderBoundText {
+    display: inline-block;
+}
+
+.stationSliderBoundText--min {
+    padding-left: 6px;
+}
+
+.stationSliderBoundText--max {
+    padding-right: 6px;
+}
+
+.stationSliderBound--min {
+    position: absolute;
+    top: 50%;
+    bottom: auto;
+    left: 0;
+    z-index: 1;
+    justify-self: start;
+    transform: translateY(-50%);
+}
+
+.stationSliderBound--max {
+    position: absolute;
+    top: 50%;
+    bottom: auto;
+    right: 0;
+    z-index: 1;
+    justify-self: end;
+    text-align: right;
+    transform: translateY(-50%);
+}
+
+.stationSliderBound--arrow {
+    grid-column: 1 / -1; /* span entire slider width */
+    position: relative;
+    justify-self: stretch;
+    align-self: center;
+    width: 100%;
+    height: 14px;
+    font-size: 0; /* hide fallback text */
+    line-height: 0;
+    z-index: 0;
+    padding: 0 var(--slider-arrow-inset-right) 0 var(--slider-arrow-inset-left); /* leave room for edge labels */
+    box-sizing: border-box;
+}
+
+.stationSliderBounds--global .stationSliderBound--min,
+.stationSliderBounds--global .stationSliderBound--max {
+    top: 50%;
+    bottom: auto;
+}
+
+.stationSliderBound--arrow::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: var(--slider-arrow-inset-left);
+    right: var(--slider-arrow-inset-right);
+    height: 5px;
+    background-color: var(--arrow-color);
+    transform: translateY(-50%);
+    border-radius: 0;
+}
+
+.stationSliderBound--arrow[data-direction="right"]::before {
+    right: calc(var(--slider-arrow-inset-right) + 6px); /* minimal gap before head */
+}
+
+.stationSliderBound--arrow[data-direction="left"]::before {
+    left: calc(var(--slider-arrow-inset-left) + 6px); /* minimal gap before head */
+}
+
+.stationSliderBound--arrow[data-direction="right"]::after,
+.stationSliderBound--arrow[data-direction="left"]::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+}
+
+.stationSliderBound--arrow[data-direction="right"]::after {
+    right: calc(var(--slider-arrow-inset-right) + 2px);
+    border-left: 8px solid var(--arrow-color);
+}
+
+.stationSliderBound--arrow[data-direction="left"]::after {
+    left: calc(var(--slider-arrow-inset-left) + 2px);
+    border-right: 8px solid var(--arrow-color);
+}
+
+.stationSliderBound--label {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: inline-block;
+    white-space: nowrap;
+    text-align: center;
+    font-family: 'roboto-regular', sans-serif;
+    font-size: 12px;
+    line-height: 1.2;
+    color: #9fb3c8;
+    pointer-events: none;
+    background: var(--ts-input-bg);
+    padding: 0 6px;
+    border-radius: 6px;
+    z-index: 1;
+}
+
+.stationSliderExtremes {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: space-between;
+    pointer-events: none;
+}
+
+.stationSliderExtreme {
+    color: #627d98;
+    font-family: 'roboto-regular', sans-serif;
+    font-size: 12px;
+    line-height: 1.2;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    display: none;
+}
+
+.stationSliderExtreme--start {
+    transform: rotate(180deg);
+    transform-origin: center;
+}

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>NLSBY A4 Netzreferenz</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="./css/tom-select.css">
+    <link rel="stylesheet" type="text/css" href="./css/nouislider.min.css">
+    <link rel="stylesheet" type="text/css" href="./css/ol.css">
+    <link rel="stylesheet" type="text/css" href="./css/ol-geocoder.css">
+    <link rel="stylesheet" type="text/css" href="./css/main.css">
+
+</head>   
+<body>
+<div class="blockLabel"><span>Suche</span></div>
+<div class="block block--suche">
+    <div class="babRow">
+        <select id="babSelect" placeholder="Autobahn"></select>
+        <div class="kilometerFilterBlock">
+            <span class="kilometerFilterLabel">
+                <span class="kilometerFilterLabelPrefix"></span>
+                <span class="kilometerFilterLabelStrong">Kilometer</span>
+            </span>
+            <div class="kilometerFilterFieldGroup">
+                <div class="kilometerFilterField">
+                <input
+                    id="kilometerFilter"
+                    type="text"
+                    class="kilometerFilterInput"
+                    inputmode="decimal"
+                    autocomplete="off"
+                    placeholder=""
+                    aria-label="Kilometer filtern"
+                    disabled
+                >
+                <button
+                    id="kilometerFilterApply"
+                    class="kilometerFilterBtn"
+                    type="button"
+                    aria-label="Kilometerfilter anwenden"
+                    title="Kilometerfilter anwenden"
+                    disabled
+                >
+                    <span class="kilometerFilterIcon kilometerFilterIcon--ok" aria-hidden="true"></span>
+                </button>
+                </div>
+                <div class="kilometerFilterMessage" id="kilometerFilterMessage" aria-live="polite">
+                    <span class="kilometerFilterMessageText" id="kilometerFilterMessageText"></span>
+                    <button class="kilometerFilterMessageBtn" type="button" id="kilometerFilterMessageBtn" aria-label="Kilometerfilter zurücksetzen">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="stationRow">
+        <div class="absStationRow">
+            <select id="absSelect" placeholder="Abschnitt"></select>
+            <!-- Station numeric input (km, 3 decimals) -->
+            <div class="stationInputRow">
+                <label class="stationInputLabel" for="stationInput">Station</label>
+                <div class="ts-number ts-number--customStepper" data-step="0.001" data-min="0">
+                    <input
+                        id="stationInput"
+                        type="number"
+                        class="ts-number-input"
+                        value="0.000"
+                        min="0"
+                        step="0.001"
+                        placeholder="Station"
+                    >
+                    <div class="ts-number-stepper" role="group" aria-label="Station schrittweise ändern">
+                        <button class="ts-number-stepper-btn ts-number-stepper-btn--up" type="button" aria-label="Station erhöhen"></button>
+                        <button class="ts-number-stepper-btn ts-number-stepper-btn--down" type="button" aria-label="Station verringern"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Station slider (local 0…lng km) -->
+        <div class="stationSliderStack">
+            <div class="stationSliderGuide" aria-hidden="true"></div>
+            <div class="stationSliderHandleBar" aria-hidden="true"></div>
+            <div id="stationSliderTop" class="stationSlider stationSlider--mirror"></div>
+            <div id="stationSlider" class="stationSlider"></div>
+        </div>
+    </div>
+</div>
+
+<div class="blockRow blockRow--twoThirds">
+    <div class="blockGroup">
+        <div class="blockLabel"><span>Referenz</span></div>
+        <div class="block block--karte">
+            <div class="karteMap" id="karteMap"></div>
+            <div class="karteLens" id="karteLens" aria-hidden="true"></div>
+            <div class="referenzOverlay">
+                <div class="referenzGraphic">
+                    <div class="infGrd" id="infGrd">
+                        <div class="bkmTafel bkmTafel--aoa bkmTafel--tile">
+                            <div class="bkmContent">
+                                <div class="bkmR2">AoA</div>
+                                <div class="bkmR3 outputCopyWrap">
+                                    <span class="outputValue" id="aoaOutput"></span>
+                                    <button class="outputCopyBtn" type="button" data-copy-target="aoaOutput" data-copy-status="aoaOutputCopyStatus" aria-label="AoA kopieren">
+                                        <span class="outputCopyLabel" aria-hidden="true">Kopiere</span>
+                                    </button>
+                                    <span class="outputCopyStatus" id="aoaOutputCopyStatus" aria-live="polite"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="infGrdUprLft">
+                            <div class="staTafel">
+                                <div class="staContent">
+                                    <div class="r1"></div>
+                                    <div class="r2c1"></div>
+                                    <div class="r2c2"></div>
+                                    <div class="r2c3">ABSCHNITT</div>
+                                    <div class="r3c3 outputCopyWrap">
+                                        <span class="outputValue" id="absOutput"></span>
+                                        <button class="outputCopyBtn" type="button" data-copy-target="absOutput" data-copy-status="absOutputCopyStatus" aria-label="Abschnitt kopieren">
+                                            <span class="outputCopyLabel" aria-hidden="true">Kopiere</span>
+                                        </button>
+                                        <span class="outputCopyStatus" id="absOutputCopyStatus" aria-live="polite"></span>
+                                    </div>
+                                    <div class="babFrm outputCopyWrap">
+                                        <div class="babInf" id="babOutput"></div>
+                                        <button class="outputCopyBtn" type="button" data-copy-target="babOutput" data-copy-status="babOutputCopyStatus" aria-label="BAB kopieren">
+                                            <span class="outputCopyLabel" aria-hidden="true">Kopiere</span>
+                                        </button>
+                                        <span class="outputCopyStatus" id="babOutputCopyStatus" aria-live="polite"></span>
+                                    </div>
+                                    <div class="r4c3"></div>
+                                    <div class="r5c3 outputCopyWrap">
+                                        <span class="outputValue" id="stationOutput"></span>
+                                        <button class="outputCopyBtn" type="button" data-copy-target="stationOutput" data-copy-status="stationOutputCopyStatus" aria-label="Station kopieren">
+                                            <span class="outputCopyLabel" aria-hidden="true">Kopiere</span>
+                                        </button>
+                                        <span class="outputCopyStatus" id="stationOutputCopyStatus" aria-live="polite"></span>
+                                    </div>
+                                    <div class="r6c3">STATION</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="infGrdLwrLft">
+                            <div class="bkmTafel">
+                                <div class="bkmContent">
+                                    <div class="bkmR2">KILOMETER</div>
+                                    <div class="bkmR3 outputCopyWrap">
+                                        <span class="outputValue" id="kilometerOutput"></span>
+                                        <button class="outputCopyBtn" type="button" data-copy-target="kilometerOutput" data-copy-status="kilometerOutputCopyStatus" aria-label="Kilometer kopieren">
+                                            <span class="outputCopyLabel" aria-hidden="true">Kopiere</span>
+                                        </button>
+                                        <span class="outputCopyStatus" id="kilometerOutputCopyStatus" aria-live="polite"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="blkTafel">
+                                <div class="blkContent">
+                                    <div class="blkR2">BLOCK</div>
+                                    <div class="blkR3 outputCopyWrap">
+                                        <span class="outputValue" id="blockOutput"></span>
+                                        <button class="outputCopyBtn" type="button" data-copy-target="blockOutput" data-copy-status="blockOutputCopyStatus" aria-label="Block kopieren">
+                                            <span class="outputCopyLabel" aria-hidden="true">Kopiere</span>
+                                        </button>
+                                        <span class="outputCopyStatus" id="blockOutputCopyStatus" aria-live="polite"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="infGrdRefRow">
+                            <div class="bkmTafel bkmTafel--aoa refTafel bkmTafel--tile">
+                                <div class="bkmContent">
+                                <div class="bkmR2">REF</div>
+                                <div class="bkmR3 outputCopyWrap">
+                                    <span class="outputValue" id="refOutput"></span>
+                                    <button class="outputCopyBtn" type="button" data-copy-target="refOutput" data-copy-status="refOutputCopyStatus" aria-label="Referenz kopieren">
+                                        <span class="outputCopyLabel" aria-hidden="true">Kopiere</span>
+                                    </button>
+                                    <span class="outputCopyStatus" id="refOutputCopyStatus" aria-live="polite"></span>
+                                </div>
+                                </div>
+                            </div>
+                            <div class="bkmTafel bkmTafel--aoa panTafel bkmTafel--tile">
+                                <div class="bkmContent">
+                                    <div class="bkmR2">PAN</div>
+                                    <div class="bkmR3 outputCopyWrap">
+                                        <a class="outputValue outputLink" id="panOutput" href="#" target="_blank" rel="noopener noreferrer" aria-label="Streetview öffnen">Streetview</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bkmTafel bkmTafel--aoa utmTafel bkmTafel--tile">
+                                <div class="bkmContent">
+                                    <div class="bkmR2">UTM</div>
+                                    <div class="bkmR3 outputCopyWrap">
+                                        <span class="outputValue" id="utmOutput"></span>
+                                        <button class="outputCopyBtn" type="button" data-copy-target="utmOutput" data-copy-status="utmOutputCopyStatus" aria-label="UTM kopieren">
+                                            <span class="outputCopyLabel" aria-hidden="true">Kopiere</span>
+                                        </button>
+                                        <span class="outputCopyStatus" id="utmOutputCopyStatus" aria-live="polite"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bkmTafel bkmTafel--aoa latLonTafel bkmTafel--tile">
+                                <div class="bkmContent">
+                                    <div class="bkmR2">LatLon</div>
+                                    <div class="bkmR3 outputCopyWrap">
+                                        <span class="outputValue" id="latLonOutput"></span>
+                                        <button class="outputCopyBtn" type="button" data-copy-target="latLonOutput" data-copy-status="latLonOutputCopyStatus" aria-label="Lat/Lon kopieren">
+                                            <span class="outputCopyLabel" aria-hidden="true">Kopiere</span>
+                                        </button>
+                                        <span class="outputCopyStatus" id="latLonOutputCopyStatus" aria-live="polite"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="karteMstOutput bkmTafel bkmTafel--aoa scaleTafel bkmTafel--tile">
+                <div class="bkmContent">
+                    <div class="bkmR2">Maßstab</div>
+                    <div class="bkmR3">
+                        <span class="outputValue" id="scaleOutput"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="blockGroup">
+        <div class="blockLabel"><span>Kollektion</span></div>
+        <div class="block block--referenz block--kollektion">
+            <div class="blockPlaceholder">In Entwicklung</div>
+        </div>
+    </div>
+</div>
+<div class="blockFooterRow">
+    <div class="blockFooterText blockFooterTitle">Netzreferenz Südbayern - SIB-Autobahn Stand Q1 2023</div>
+    <div class="blockFooterText blockCopyright">© <span id="copyrightYear"></span> Die Autobahn GmbH des Bundes, Niederlassung Südbayern</div>
+</div>
+
+<script src="./js/tom-select.complete.min.js"></script>
+<script src="./js/nouislider.min.js"></script>
+<script src="./js/proj4.js"></script>
+<script src="./js/ol.js"></script>
+<script src="./js/ol-geocoder.js"></script>
+<script src="./js/main.js"></script>
+</body>
+</html>
