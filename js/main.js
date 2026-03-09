@@ -2196,22 +2196,6 @@ function formatSignText(value) {
   return `${replacement}${text.slice(match[0].length)}`.trim();
 }
 
-function renderAirportText(text, escapeFn = (v) => v) {
-  if (!text) return '';
-
-  return String(text)
-    .split(/(Flughafen)/i)
-    .map(part => (/^Flughafen$/i.test(part) ? '<div class="airportIcon"></div>' : escapeFn(part)))
-    .join('');
-}
-
-function stripAirportSuffix(text) {
-  if (!text) return '';
-  return String(text)
-    .replace(/-\s*Franz\s+Josef\s+Strau(?:\u00df|ss)/gi, '-FJS')
-    .trim();
-}
-
 function renderBabEntry(data, escape, {
   outerClass = 'tblOption tblOption--bab',
   showArrow = true
@@ -2290,15 +2274,8 @@ function renderAbsEntry(data, escape, {
     ? `<div class="${pillClass}">${escape(nktText)}</div>`
     : '';
 
-  const vasTextBase = stripAirportSuffix(formatSignText(data.vas));
-  const nasTextBase = stripAirportSuffix(formatSignText(data.nas));
-
-  const vasText = useBlueSign
-    ? renderAirportText(vasTextBase, escape)
-    : escape(vasTextBase);
-  const nasText = useBlueSign
-    ? renderAirportText(nasTextBase, escape)
-    : escape(nasTextBase);
+  const vasText = escape(formatSignText(data.vas));
+  const nasText = escape(formatSignText(data.nas));
 
   const hasVasIcon = !!vasIconClass;
   const hasNasIcon = !!nasIconClass;
@@ -2385,9 +2362,6 @@ function renderAbsEntry(data, escape, {
 }
 
 function renderAbsSelectedRow(data, escape) {
-  const vasText = escape(stripAirportSuffix(formatSignText(data.vas)));
-  const nasText = escape(stripAirportSuffix(formatSignText(data.nas)));
-
   return `
     <div class="absSelectedRow">
       <div class="absSelectedCell absSelectedCell--abs">ABS ${escape(data.abs)} ${escape(data.vas)} → ${escape(data.nas)} ● ${escape(data.vnk)}${escape(data.nnk)} ● KM ${metersToKm(data.vkm)} bis ${metersToKm(data.nkm)} ● ${metersToKm(data.lng)} km</div>
