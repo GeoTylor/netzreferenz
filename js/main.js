@@ -164,7 +164,7 @@ function getNowMs() {
   return Date.now();
 }
 
-// Firefox/Edge can flicker if we re-center immediately after the snap animation.
+// Firefox/Edge may flicker when re-centering immediately after snap animation!
 // Suppress center updates briefly during map-search selection sync.
 function suppressMapSearchCenterFor(ms) {
   const duration = Number.isFinite(ms) ? ms : 0;
@@ -4130,7 +4130,7 @@ function decoratePips(pipMeta, { target = 'both' } = {}) {
     });
 
     if (isMirror) {
-      // On the mirror slider we want:
+      // On the mirror slider:
       // - only pips that have metadata (metaMap)
       // - at most ONE pip per data-value
       // - no stray bare markers without a value
@@ -4139,7 +4139,7 @@ function decoratePips(pipMeta, { target = 'both' } = {}) {
       Array.from(sliderEl.querySelectorAll('.noUi-marker')).forEach((markerEl) => {
         const valueEl = markerEl.nextElementSibling;
 
-        // No label / data-value → not one of our logical pips → remove
+        // No label / data-value → not a logical pip → remove
         if (
           !valueEl ||
           !valueEl.classList.contains('noUi-value') ||
@@ -4158,7 +4158,7 @@ function decoratePips(pipMeta, { target = 'both' } = {}) {
           return;
         }
 
-        // If we've already seen this value, this is a duplicate pip (e.g. auto-added)
+        // If already seen this value, this is a duplicate pip (e.g. auto-added)
         if (seenKeys.has(key)) {
           valueEl.remove();
           markerEl.remove();
