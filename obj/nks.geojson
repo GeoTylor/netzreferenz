@@ -12,13 +12,546 @@
 			"type" : "Feature",
 			"geometry" : {
 				"type" : "Point",
+				"coordinates" : [ 501927.8042000001, 5537392.0599000007 ]
+			},
+			"properties" : {
+				"nk" : "6020277",
+				"bab" : "A3",
+				"kt" : "-",
+				"as" : "NLG West / Nordbayern"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 503698.2777000004, 5537352.0879999995 ]
+			},
+			"properties" : {
+				"nk" : "6020202",
+				"bab" : "A3",
+				"kt" : "57",
+				"as" : "AS Stockstadt "
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 505293.7319999998, 5537690.0755000003 ]
+			},
+			"properties" : {
+				"nk" : "6020201",
+				"bab" : "A3",
+				"kt" : "58",
+				"as" : "AS Aschaffenburg"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 512239.1004999997, 5537660.6451999992 ]
+			},
+			"properties" : {
+				"nk" : "6021001",
+				"bab" : "A3",
+				"kt" : "59",
+				"as" : "AS Aschaffenburg-Ost"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 513995.7456999999, 5538364.4919000007 ]
+			},
+			"properties" : {
+				"nk" : "6021028",
+				"bab" : "A3",
+				"kt" : "60",
+				"as" : "AS Goldbach"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 516129.5806, 5538958.5109999999 ]
+			},
+			"properties" : {
+				"nk" : "5921022",
+				"bab" : "A3",
+				"kt" : "61",
+				"as" : "AS Hösbach"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 518365.4083000002, 5537300.5985000003 ]
+			},
+			"properties" : {
+				"nk" : "6021021",
+				"bab" : "A3",
+				"kt" : "62",
+				"as" : "AS Bessenbach/Waldaschaff"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 524784.9650999997, 5531855.6868999992 ]
+			},
+			"properties" : {
+				"nk" : "6022017",
+				"bab" : "A3",
+				"kt" : "63",
+				"as" : "AS Weibersbrunn"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 527473.3715000004, 5527841.2251999993 ]
+			},
+			"properties" : {
+				"nk" : "6022018",
+				"bab" : "A3",
+				"kt" : "64",
+				"as" : "AS Rohrbrunn"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 540186.7861000001, 5518537.4329000004 ]
+			},
+			"properties" : {
+				"nk" : "6123024",
+				"bab" : "A3",
+				"kt" : "65",
+				"as" : "AS Marktheidenfeld"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 541162.852, 5514708.7736000009 ]
+			},
+			"properties" : {
+				"nk" : "6223030",
+				"bab" : "A3",
+				"kt" : "-",
+				"as" : "LGR Baden-Württemberg"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 541903.1239, 5513255.5436000004 ]
+			},
+			"properties" : {
+				"nk" : "6223025",
+				"bab" : "A3",
+				"kt" : "66",
+				"as" : "AS Wertheim/Lengfurt"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 546688.2435999997, 5512573.5263999999 ]
+			},
+			"properties" : {
+				"nk" : "6223021",
+				"bab" : "A3",
+				"kt" : "-",
+				"as" : "LGR Baden-Württemberg"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 555792.1560000004, 5513056.3959999997 ]
+			},
+			"properties" : {
+				"nk" : "6224211",
+				"bab" : "A3",
+				"kt" : "67",
+				"as" : "AS Helmstadt"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 558980.5094999997, 5510907.0513000004 ]
+			},
+			"properties" : {
+				"nk" : "6224215",
+				"bab" : "A3",
+				"kt" : "68",
+				"as" : "AD Würzburg-West"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 560879.2483999999, 5511050.7883000001 ]
+			},
+			"properties" : {
+				"nk" : "6225031",
+				"bab" : "A3",
+				"kt" : "69",
+				"as" : "AS Würzburg/Kist"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 566874.7123999996, 5511546.0815999992 ]
+			},
+			"properties" : {
+				"nk" : "6225028",
+				"bab" : "A3",
+				"kt" : "70",
+				"as" : "AS Würzburg-Heidingsfeld"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 571342.0204999996, 5510058.0566000007 ]
+			},
+			"properties" : {
+				"nk" : "6225034",
+				"bab" : "A3",
+				"kt" : "71",
+				"as" : "AS Würzburg/Randersacker"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 576977.5548999999, 5513517.9082999993 ]
+			},
+			"properties" : {
+				"nk" : "6226007",
+				"bab" : "A3",
+				"kt" : "72",
+				"as" : "AS Rottendorf"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 578602.7604, 5514624.5241 ]
+			},
+			"properties" : {
+				"nk" : "6226023",
+				"bab" : "A3",
+				"kt" : "73",
+				"as" : "AK Biebelried"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 587057.9386, 5515094.1052999999 ]
+			},
+			"properties" : {
+				"nk" : "6227004",
+				"bab" : "A3",
+				"kt" : "74",
+				"as" : "AS Kitzingen/Schwarzach "
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 596927.2046999997, 5514505.9049999993 ]
+			},
+			"properties" : {
+				"nk" : "6228012",
+				"bab" : "A3",
+				"kt" : "75",
+				"as" : "AS Wiesentheid"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 606251.9415999996, 5514091.3435999993 ]
+			},
+			"properties" : {
+				"nk" : "6228018",
+				"bab" : "A3",
+				"kt" : "76",
+				"as" : "AS Geiselwind"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 617626.3893999998, 5511443.0657000002 ]
+			},
+			"properties" : {
+				"nk" : "6229016",
+				"bab" : "A3",
+				"kt" : "77",
+				"as" : "AS Schlüsselfeld"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 628949.3666000003, 5511058.4789000005 ]
+			},
+			"properties" : {
+				"nk" : "6230012",
+				"bab" : "A3",
+				"kt" : "78",
+				"as" : "AS Höchstadt-Nord"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 631303.9391999999, 5509853.1487000007 ]
+			},
+			"properties" : {
+				"nk" : "6230018",
+				"bab" : "A3",
+				"kt" : "79",
+				"as" : "AS Pommersfelden"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 633807.1046000002, 5506823.7182999998 ]
+			},
+			"properties" : {
+				"nk" : "6231023",
+				"bab" : "A3",
+				"kt" : "80",
+				"as" : "AS Höchstadt-Ost"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 638537.4499000004, 5499095.1699000001 ]
+			},
+			"properties" : {
+				"nk" : "6331011",
+				"bab" : "A3",
+				"kt" : "81",
+				"as" : "AS Erlangen-West"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 640541.4554000003, 5492252.8960999995 ]
+			},
+			"properties" : {
+				"nk" : "6431019",
+				"bab" : "A3",
+				"kt" : "82",
+				"as" : "AS Erlangen-Frauenaurach"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 644055.1368000004, 5491594.9968999997 ]
+			},
+			"properties" : {
+				"nk" : "6431028",
+				"bab" : "A3",
+				"kt" : "83",
+				"as" : "AK Fürth/Erlangen"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 646916.1649000002, 5489290.7217999995 ]
+			},
+			"properties" : {
+				"nk" : "6432014",
+				"bab" : "A3",
+				"kt" : "84",
+				"as" : "AS Erlangen-Tennenlohe"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 654510.2807999998, 5485207.3276000004 ]
+			},
+			"properties" : {
+				"nk" : "6432021",
+				"bab" : "A3",
+				"kt" : "85",
+				"as" : "AS Nürnberg-Nord"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 657682.1516000004, 5482775.4772999994 ]
+			},
+			"properties" : {
+				"nk" : "6533007",
+				"bab" : "A3",
+				"kt" : "86",
+				"as" : "AS Nürnberg/Behringersdorf"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 658377.6135, 5481953.6627999991 ]
+			},
+			"properties" : {
+				"nk" : "6533008",
+				"bab" : "A3",
+				"kt" : "87",
+				"as" : "AS Nürnberg-Mögeldorf"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 662603.8570999997, 5480867.0285999998 ]
+			},
+			"properties" : {
+				"nk" : "6533014",
+				"bab" : "A3",
+				"kt" : "88",
+				"as" : "AK Nürnberg"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 666781.0143999998, 5474929.7408000007 ]
+			},
+			"properties" : {
+				"nk" : "6533019",
+				"bab" : "A3",
+				"kt" : "89",
+				"as" : "AK Altdorf "
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 669842.3836000003, 5472521.8003000002 ]
+			},
+			"properties" : {
+				"nk" : "6634008",
+				"bab" : "A3",
+				"kt" : "90",
+				"as" : "AS Altdorf/Burgthann"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 676057.8910999997, 5470506.5424000006 ]
+			},
+			"properties" : {
+				"nk" : "6634015",
+				"bab" : "A3",
+				"kt" : "91",
+				"as" : "AS Oberölsbach"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 679926.7893000003, 5465566.1614999995 ]
+			},
+			"properties" : {
+				"nk" : "6634017",
+				"bab" : "A3",
+				"kt" : "92a",
+				"as" : "AS Neumarkt i.d.OPf."
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 687169.3596999999, 5462101.4340000004 ]
+			},
+			"properties" : {
+				"nk" : "6735022",
+				"bab" : "A3",
+				"kt" : "92b",
+				"as" : "AS Neumarkt-Ost"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 691980.0511999996, 5457052.7291999999 ]
+			},
+			"properties" : {
+				"nk" : "6735010",
+				"bab" : "A3",
+				"kt" : "93",
+				"as" : "AS Velburg"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
 				"coordinates" : [ 698893.1319000004, 5450974.0123999994 ]
 			},
 			"properties" : {
-				"BAB" : "A3",
-				"NK" : "6836001O",
-				"KT" : "-",
-				"AS" : "A3 NLG Nordbayern / Südbayern"
+				"nk" : "6836001",
+				"bab" : "A3",
+				"kt" : "-",
+				"as" : "A3 NLG Nordbayern / Südbayern"
 			}
 		},
 		{
@@ -28,10 +561,10 @@
 				"coordinates" : [ 699105.9349999996, 5450947.1765999999 ]
 			},
 			"properties" : {
-				"BAB" : "A3",
-				"NK" : "6836002O",
-				"KT" : "94",
-				"AS" : "AS Parsberg"
+				"nk" : "6836002",
+				"bab" : "A3",
+				"kt" : "94",
+				"as" : "AS Parsberg"
 			}
 		},
 		{
@@ -41,10 +574,10 @@
 				"coordinates" : [ 708484.3826000001, 5447358.0346000008 ]
 			},
 			"properties" : {
-				"BAB" : "A3",
-				"NK" : "6837015O",
-				"KT" : "95",
-				"AS" : "AS Beratzhausen"
+				"nk" : "6837015",
+				"bab" : "A3",
+				"kt" : "95",
+				"as" : "AS Beratzhausen"
 			}
 		},
 		{
@@ -54,10 +587,10 @@
 				"coordinates" : [ 710817.7187000001, 5441500.9784999993 ]
 			},
 			"properties" : {
-				"BAB" : "A3",
-				"NK" : "6937001O",
-				"KT" : "96",
-				"AS" : "AS Laaber"
+				"nk" : "6937001",
+				"bab" : "A3",
+				"kt" : "96",
+				"as" : "AS Laaber"
 			}
 		},
 		{
@@ -67,10 +600,10 @@
 				"coordinates" : [ 715866.2561999997, 5434745.8245999999 ]
 			},
 			"properties" : {
-				"BAB" : "A3",
-				"NK" : "6937014O",
-				"KT" : "97",
-				"AS" : "AS Nittendorf"
+				"nk" : "6937014",
+				"bab" : "A3",
+				"kt" : "97",
+				"as" : "AS Nittendorf"
 			}
 		},
 		{
@@ -80,10 +613,10 @@
 				"coordinates" : [ 721783.1703000003, 5431471.7907999996 ]
 			},
 			"properties" : {
-				"BAB" : "A3",
-				"NK" : "7038001O",
-				"KT" : "98",
-				"AS" : "AS Sinzing"
+				"nk" : "7038001",
+				"bab" : "A3",
+				"kt" : "98",
+				"as" : "AS Sinzing"
 			}
 		},
 		{
@@ -93,10 +626,10 @@
 				"coordinates" : [ 723976.2247000001, 5431273.1165999994 ]
 			},
 			"properties" : {
-				"BAB" : "A3",
-				"NK" : "7038002O",
-				"KT" : "99",
-				"AS" : "AK Regensburg"
+				"nk" : "7038002",
+				"bab" : "A3",
+				"kt" : "99",
+				"as" : "AK Regensburg"
 			}
 		},
 		{
@@ -106,10 +639,10 @@
 				"coordinates" : [ 727035.1470999997, 5431187.8957000002 ]
 			},
 			"properties" : {
-				"BAB" : "A3",
-				"NK" : "7038036O",
-				"KT" : "100a",
-				"AS" : "AS Regensburg-Universität"
+				"nk" : "7038036",
+				"bab" : "A3",
+				"kt" : "100a",
+				"as" : "AS Regensburg-Universität"
 			}
 		},
 		{
@@ -119,10 +652,10 @@
 				"coordinates" : [ 729235.1838999996, 5431701.5638999995 ]
 			},
 			"properties" : {
-				"BAB" : "A3",
-				"NK" : "7038005O",
-				"KT" : "100b",
-				"AS" : "AS Regensburg-Burgweinting"
+				"nk" : "7038005",
+				"bab" : "A3",
+				"kt" : "100b",
+				"as" : "AS Regensburg-Burgweinting"
 			}
 		},
 		{
@@ -132,10 +665,10 @@
 				"coordinates" : [ 730432.3121999996, 5432023.6272999998 ]
 			},
 			"properties" : {
-				"BAB" : "A3",
-				"NK" : "7038030O",
-				"KT" : "101",
-				"AS" : "AS Regensburg-Ost"
+				"nk" : "7038030",
+				"bab" : "A3",
+				"kt" : "101",
+				"as" : "AS Regensburg-Ost"
 			}
 		},
 		{
@@ -145,10 +678,10 @@
 				"coordinates" : [ 733789.4263000004, 5432150.7214000002 ]
 			},
 			"properties" : {
-				"BAB" : "A3",
-				"NK" : "7039001O",
-				"KT" : "102",
-				"AS" : "AS Neutraubling"
+				"nk" : "7039001",
+				"bab" : "A3",
+				"kt" : "102",
+				"as" : "AS Neutraubling"
 			}
 		},
 		{
@@ -158,10 +691,10 @@
 				"coordinates" : [ 737028.2949999999, 5431622.7888999991 ]
 			},
 			"properties" : {
-				"BAB" : "A3",
-				"NK" : "7039002O",
-				"KT" : "103",
-				"AS" : "AS Rosenhof"
+				"nk" : "7039002",
+				"bab" : "A3",
+				"kt" : "103",
+				"as" : "AS Rosenhof"
 			}
 		},
 		{
@@ -171,10 +704,10 @@
 				"coordinates" : [ 745960.1606000001, 5432899.1491 ]
 			},
 			"properties" : {
-				"BAB" : "A3",
-				"NK" : "6940022O",
-				"KT" : "104a",
-				"AS" : "AS Wörth a.d.Donau/Wiesent"
+				"nk" : "6940022",
+				"bab" : "A3",
+				"kt" : "104a",
+				"as" : "AS Wörth a.d.Donau/Wiesent"
 			}
 		},
 		{
@@ -184,10 +717,10 @@
 				"coordinates" : [ 749368.3915999997, 5432483.9515000004 ]
 			},
 			"properties" : {
-				"BAB" : "A3",
-				"NK" : "7040017O",
-				"KT" : "104b",
-				"AS" : "AS Wörth a.d. Donau-Ost"
+				"nk" : "7040017",
+				"bab" : "A3",
+				"kt" : "104b",
+				"as" : "AS Wörth a.d. Donau-Ost"
 			}
 		},
 		{
@@ -197,10 +730,10 @@
 				"coordinates" : [ 759287.3883999996, 5429033.3976000007 ]
 			},
 			"properties" : {
-				"BAB" : "A3",
-				"NK" : "7041025O",
-				"KT" : "105",
-				"AS" : "AS Kirchroth"
+				"nk" : "7041025",
+				"bab" : "A3",
+				"kt" : "105",
+				"as" : "AS Kirchroth"
 			}
 		},
 		{
@@ -210,10 +743,10 @@
 				"coordinates" : [ 765095.6370999999, 5427290.7805000003 ]
 			},
 			"properties" : {
-				"BAB" : "A3",
-				"NK" : "7041026O",
-				"KT" : "106",
-				"AS" : "AS Straubing"
+				"nk" : "7041026",
+				"bab" : "A3",
+				"kt" : "106",
+				"as" : "AS Straubing"
 			}
 		},
 		{
@@ -223,10 +756,10 @@
 				"coordinates" : [ 773420.8036000002, 5425438.1159000006 ]
 			},
 			"properties" : {
-				"BAB" : "A3",
-				"NK" : "7042027O",
-				"KT" : "107",
-				"AS" : "AS Bogen"
+				"nk" : "7042027",
+				"bab" : "A3",
+				"kt" : "107",
+				"as" : "AS Bogen"
 			}
 		},
 		{
@@ -236,10 +769,10 @@
 				"coordinates" : [ 778644.4703000002, 5423290.4846999999 ]
 			},
 			"properties" : {
-				"BAB" : "A3",
-				"NK" : "7042028O",
-				"KT" : "108",
-				"AS" : "AS Schwarzach"
+				"nk" : "7042028",
+				"bab" : "A3",
+				"kt" : "108",
+				"as" : "AS Schwarzach"
 			}
 		},
 		{
@@ -249,10 +782,10 @@
 				"coordinates" : [ 785506.2333000004, 5417526.4708999991 ]
 			},
 			"properties" : {
-				"BAB" : "A3",
-				"NK" : "7143022O",
-				"KT" : "109",
-				"AS" : "AS Metten"
+				"nk" : "7143022",
+				"bab" : "A3",
+				"kt" : "109",
+				"as" : "AS Metten"
 			}
 		},
 		{
@@ -262,10 +795,10 @@
 				"coordinates" : [ 789183.6884000003, 5414763.5547000002 ]
 			},
 			"properties" : {
-				"BAB" : "A3",
-				"NK" : "7143018O",
-				"KT" : "110",
-				"AS" : "AK Deggendorf"
+				"nk" : "7143018",
+				"bab" : "A3",
+				"kt" : "110",
+				"as" : "AK Deggendorf"
 			}
 		},
 		{
@@ -275,10 +808,10 @@
 				"coordinates" : [ 796899.3376000002, 5409854.2607000005 ]
 			},
 			"properties" : {
-				"BAB" : "A3",
-				"NK" : "7244008O",
-				"KT" : "111",
-				"AS" : "AS Hengersberg"
+				"nk" : "7244008",
+				"bab" : "A3",
+				"kt" : "111",
+				"as" : "AS Hengersberg"
 			}
 		},
 		{
@@ -288,10 +821,10 @@
 				"coordinates" : [ 804138.0493999999, 5405461.0461999997 ]
 			},
 			"properties" : {
-				"BAB" : "A3",
-				"NK" : "7244018O",
-				"KT" : "112",
-				"AS" : "AS Iggensbach"
+				"nk" : "7244018",
+				"bab" : "A3",
+				"kt" : "112",
+				"as" : "AS Iggensbach"
 			}
 		},
 		{
@@ -301,10 +834,10 @@
 				"coordinates" : [ 809410.6578000002, 5401341.4407000002 ]
 			},
 			"properties" : {
-				"BAB" : "A3",
-				"NK" : "7345001O",
-				"KT" : "113",
-				"AS" : "AS Garham/Vilshofen"
+				"nk" : "7345001",
+				"bab" : "A3",
+				"kt" : "113",
+				"as" : "AS Garham/Vilshofen"
 			}
 		},
 		{
@@ -314,10 +847,10 @@
 				"coordinates" : [ 813834.0316000003, 5399215.4539000001 ]
 			},
 			"properties" : {
-				"BAB" : "A3",
-				"NK" : "7345009O",
-				"KT" : "114",
-				"AS" : "AS Aicha vorm Wald"
+				"nk" : "7345009",
+				"bab" : "A3",
+				"kt" : "114",
+				"as" : "AS Aicha vorm Wald"
 			}
 		},
 		{
@@ -327,10 +860,10 @@
 				"coordinates" : [ 822077.8321000002, 5392825.4087000005 ]
 			},
 			"properties" : {
-				"BAB" : "A3",
-				"NK" : "7346023O",
-				"KT" : "115",
-				"AS" : "AS Passau-Nord"
+				"nk" : "7346023",
+				"bab" : "A3",
+				"kt" : "115",
+				"as" : "AS Passau-Nord"
 			}
 		},
 		{
@@ -340,10 +873,10 @@
 				"coordinates" : [ 823433.1116000004, 5388274.0043000001 ]
 			},
 			"properties" : {
-				"BAB" : "A3",
-				"NK" : "7446039O",
-				"KT" : "116",
-				"AS" : "AS Passau-Mitte"
+				"nk" : "7446039",
+				"bab" : "A3",
+				"kt" : "116",
+				"as" : "AS Passau-Mitte"
 			}
 		},
 		{
@@ -353,10 +886,10 @@
 				"coordinates" : [ 824761.9029000001, 5385233.0962000005 ]
 			},
 			"properties" : {
-				"BAB" : "A3",
-				"NK" : "7446040O",
-				"KT" : "117",
-				"AS" : "AS Passau-Süd"
+				"nk" : "7446040",
+				"bab" : "A3",
+				"kt" : "117",
+				"as" : "AS Passau-Süd"
 			}
 		},
 		{
@@ -366,10 +899,10 @@
 				"coordinates" : [ 823716.7412999999, 5373962.3079000004 ]
 			},
 			"properties" : {
-				"BAB" : "A3",
-				"NK" : "7546029O",
-				"KT" : "118",
-				"AS" : "AS Pocking"
+				"nk" : "7546029",
+				"bab" : "A3",
+				"kt" : "118",
+				"as" : "AS Pocking"
 			}
 		},
 		{
@@ -379,10 +912,673 @@
 				"coordinates" : [ 827471.1595000001, 5371449.2332000006 ]
 			},
 			"properties" : {
-				"BAB" : "A3",
-				"NK" : "7546030O",
-				"KT" : "-",
-				"AS" : "BGR Österreich"
+				"nk" : "7546030",
+				"bab" : "A3",
+				"kt" : "-",
+				"as" : "BGR Österreich"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 582115.8026000001, 5450180.6067999993 ]
+			},
+			"properties" : {
+				"nk" : "6826041",
+				"bab" : "A6",
+				"kt" : "-",
+				"as" : "LG A6 Landesgrenze Ba-Wü/Bayern"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 585333.4072000002, 5451581.4693999998 ]
+			},
+			"properties" : {
+				"nk" : "6727022",
+				"bab" : "A6",
+				"kt" : "47",
+				"as" : "AS Schnelldorf"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 589878.0899999999, 5450750.6923999991 ]
+			},
+			"properties" : {
+				"nk" : "6727023",
+				"bab" : "A6",
+				"kt" : "48",
+				"as" : "AK Feuchtwangen/Crailsheim"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 593336.9458999997, 5453504.6404999997 ]
+			},
+			"properties" : {
+				"nk" : "6727021",
+				"bab" : "A6",
+				"kt" : "49",
+				"as" : "AS Feuchtwangen-Nord"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 604708.5932999998, 5456730.6268000007 ]
+			},
+			"properties" : {
+				"nk" : "6728012",
+				"bab" : "A6",
+				"kt" : "50",
+				"as" : "AS Aurach"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 609383.2448000005, 5457515.9854000006 ]
+			},
+			"properties" : {
+				"nk" : "6729004",
+				"bab" : "A6",
+				"kt" : "51",
+				"as" : "AS Herrieden"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 615635.8210000005, 5457251.1620000005 ]
+			},
+			"properties" : {
+				"nk" : "6729006",
+				"bab" : "A6",
+				"kt" : "52",
+				"as" : "AS Ansbach"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 625100.0489999996, 5459965.9359000009 ]
+			},
+			"properties" : {
+				"nk" : "6730005",
+				"bab" : "A6",
+				"kt" : "53",
+				"as" : "AS Lichtenau"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 630320.8361999998, 5462895.8622999992 ]
+			},
+			"properties" : {
+				"nk" : "6630028",
+				"bab" : "A6",
+				"kt" : "54",
+				"as" : "AS Neuendettelsau"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 645339.6683999998, 5463870.8048999999 ]
+			},
+			"properties" : {
+				"nk" : "6632031",
+				"bab" : "A6",
+				"kt" : "55",
+				"as" : "AS Schwabach-West"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 648574.0678000003, 5465132.8080000002 ]
+			},
+			"properties" : {
+				"nk" : "6632029",
+				"bab" : "A6",
+				"kt" : "56",
+				"as" : "AS Schwabach-Süd"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 649789.3223000001, 5466639.2493999992 ]
+			},
+			"properties" : {
+				"nk" : "6632052",
+				"bab" : "A6",
+				"kt" : "57",
+				"as" : "AS Roth"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 655079.8211000003, 5471641.8354000002 ]
+			},
+			"properties" : {
+				"nk" : "6632032",
+				"bab" : "A6",
+				"kt" : "58",
+				"as" : "AK Nürnberg-Süd"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 657465.0384999998, 5473222.3796999995 ]
+			},
+			"properties" : {
+				"nk" : "6633002",
+				"bab" : "A6",
+				"kt" : "59",
+				"as" : "AS Nürnberg-Langwasser"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 659619.7992000002, 5473772.3765999991 ]
+			},
+			"properties" : {
+				"nk" : "6633001",
+				"bab" : "A6",
+				"kt" : "60",
+				"as" : "AK Nürnberg-Ost"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 666781.0143999998, 5474929.7408000007 ]
+			},
+			"properties" : {
+				"nk" : "6533019",
+				"bab" : "A6",
+				"kt" : "61",
+				"as" : "AK Altdorf "
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 670008.0514000002, 5475462.6905000005 ]
+			},
+			"properties" : {
+				"nk" : "6534012",
+				"bab" : "A6",
+				"kt" : "62",
+				"as" : "AS Altdorf/Leinburg"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 684492.4018999999, 5476025.7150999997 ]
+			},
+			"properties" : {
+				"nk" : "6535014",
+				"bab" : "A6",
+				"kt" : "63",
+				"as" : "AS Alfeld"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 692429.5214, 5478517.4393000007 ]
+			},
+			"properties" : {
+				"nk" : "6535013",
+				"bab" : "A6",
+				"kt" : "64",
+				"as" : "AS Sulzbach-Rosenberg"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 700641.4907, 5476515.2815000005 ]
+			},
+			"properties" : {
+				"nk" : "6536019",
+				"bab" : "A6",
+				"kt" : "65",
+				"as" : "AS Amberg-West"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 711351.6660000002, 5475543.4739999995 ]
+			},
+			"properties" : {
+				"nk" : "6637009",
+				"bab" : "A6",
+				"kt" : "66",
+				"as" : "AS Amberg-Süd"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 716165.5016000001, 5476288.2918999996 ]
+			},
+			"properties" : {
+				"nk" : "6537036",
+				"bab" : "A6",
+				"kt" : "67",
+				"as" : "AS Amberg-Ost"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 721141.8223000001, 5480834.2237999998 ]
+			},
+			"properties" : {
+				"nk" : "6538024",
+				"bab" : "A6",
+				"kt" : "68",
+				"as" : "AS Schmidgaden"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 727148.0790999997, 5484261.2433000002 ]
+			},
+			"properties" : {
+				"nk" : "6538025",
+				"bab" : "A6",
+				"kt" : "69",
+				"as" : "AS Nabburg-West"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 728977.6339999996, 5489927.1063000001 ]
+			},
+			"properties" : {
+				"nk" : "6438033",
+				"bab" : "A6",
+				"kt" : "70",
+				"as" : "AK Oberpfälzer Wald"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 730972.3228000002, 5492357.9257999994 ]
+			},
+			"properties" : {
+				"nk" : "6439028",
+				"bab" : "A6",
+				"kt" : "71",
+				"as" : "AS Wernberg-Ost"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 736602.9139999999, 5496707.2864999995 ]
+			},
+			"properties" : {
+				"nk" : "6439029",
+				"bab" : "A6",
+				"kt" : "72",
+				"as" : "AS Leuchtenberg"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 740689.9244999997, 5500731.5609000009 ]
+			},
+			"properties" : {
+				"nk" : "6340020",
+				"bab" : "A6",
+				"kt" : "73",
+				"as" : "AS Vohenstrauß-West"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 742110.4101999998, 5501363.9287999999 ]
+			},
+			"properties" : {
+				"nk" : "6340021",
+				"bab" : "A6",
+				"kt" : "74",
+				"as" : "AS Vohenstrauß-Ost"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 746697.8743000003, 5501831.9197000004 ]
+			},
+			"properties" : {
+				"nk" : "6340017",
+				"bab" : "A6",
+				"kt" : "75",
+				"as" : "AS Pleystein"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 751980.4994000001, 5503782.2752 ]
+			},
+			"properties" : {
+				"nk" : "6340015",
+				"bab" : "A6",
+				"kt" : "76",
+				"as" : "AS Waidhaus"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 754254.6793, 5504840.6254999992 ]
+			},
+			"properties" : {
+				"nk" : "6341002",
+				"bab" : "A6",
+				"kt" : "-",
+				"as" : "BGR Tschechien"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 552340.8346999995, 5578671.2276000008 ]
+			},
+			"properties" : {
+				"nk" : "5624009",
+				"bab" : "A7",
+				"kt" : "-",
+				"as" : "LGR Hessen"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 554992.9209000003, 5576283.8036000002 ]
+			},
+			"properties" : {
+				"nk" : "5624205",
+				"bab" : "A7",
+				"kt" : "94",
+				"as" : "AS Bad Brückenau-Volkers"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 560501.9364999998, 5571890.0778999999 ]
+			},
+			"properties" : {
+				"nk" : "5725002",
+				"bab" : "A7",
+				"kt" : "95",
+				"as" : "AS Bad Brückenau/Wildflecken"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 567029.4704999998, 5561072.3897999991 ]
+			},
+			"properties" : {
+				"nk" : "5825003",
+				"bab" : "A7",
+				"kt" : "96",
+				"as" : "AS Bad Kissingen/Oberthulba"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 568529.0292999996, 5552878.6849000007 ]
+			},
+			"properties" : {
+				"nk" : "5825015",
+				"bab" : "A7",
+				"kt" : "97",
+				"as" : "AS Hammelburg"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 574862.4785000002, 5546415.1085999999 ]
+			},
+			"properties" : {
+				"nk" : "5926012",
+				"bab" : "A7",
+				"kt" : "98",
+				"as" : "AS Wasserlosen"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 577289.591, 5539354.5174000002 ]
+			},
+			"properties" : {
+				"nk" : "5926029",
+				"bab" : "A7",
+				"kt" : "99",
+				"as" : "AK Schweinfurt/Werneck"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 571683.2807, 5529106.4109000005 ]
+			},
+			"properties" : {
+				"nk" : "6025012",
+				"bab" : "A7",
+				"kt" : "100",
+				"as" : "AS Gramschatzer Wald"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 572641.5417999998, 5522094.8603000008 ]
+			},
+			"properties" : {
+				"nk" : "6126018",
+				"bab" : "A7",
+				"kt" : "101",
+				"as" : "AS Würzburg/Estenfeld"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 578602.7604, 5514624.5241 ]
+			},
+			"properties" : {
+				"nk" : "6226023",
+				"bab" : "A7",
+				"kt" : "102",
+				"as" : "AK Biebelried"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 579605.1847000001, 5512544.6184999999 ]
+			},
+			"properties" : {
+				"nk" : "6226024",
+				"bab" : "A7",
+				"kt" : "103",
+				"as" : "AS Kitzingen"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 582659.4957999997, 5500374.9175000004 ]
+			},
+			"properties" : {
+				"nk" : "6326030",
+				"bab" : "A7",
+				"kt" : "104",
+				"as" : "AS Marktbreit"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 584745.9885999998, 5493396.5549999997 ]
+			},
+			"properties" : {
+				"nk" : "6427024",
+				"bab" : "A7",
+				"kt" : "105",
+				"as" : "AS Gollhofen"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 586667.5588999996, 5484974.1894000005 ]
+			},
+			"properties" : {
+				"nk" : "6427025",
+				"bab" : "A7",
+				"kt" : "106",
+				"as" : "AS Uffenheim-Langensteinach"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 590629.7576000001, 5477962.1087999996 ]
+			},
+			"properties" : {
+				"nk" : "6527019",
+				"bab" : "A7",
+				"kt" : "107",
+				"as" : "AS Bad Windsheim"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 588182.1677999999, 5469987.1890999991 ]
+			},
+			"properties" : {
+				"nk" : "6627020",
+				"bab" : "A7",
+				"kt" : "108",
+				"as" : "AS Rothenburg o.d.T."
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 589695.5730999997, 5457184.3774999995 ]
+			},
+			"properties" : {
+				"nk" : "6727024",
+				"bab" : "A7",
+				"kt" : "109",
+				"as" : "AS Wörnitz"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 589878.0899999999, 5450750.6923999991 ]
+			},
+			"properties" : {
+				"nk" : "6727023",
+				"bab" : "A7",
+				"kt" : "110",
+				"as" : "AK Feuchtwangen/Crailsheim"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 590868.7851, 5447505.9357999992 ]
+			},
+			"properties" : {
+				"nk" : "6827217",
+				"bab" : "A7",
+				"kt" : "111",
+				"as" : "AS Feuchtwangen-West"
 			}
 		},
 		{
@@ -392,10 +1588,10 @@
 				"coordinates" : [ 591956.4599000001, 5443303.4713000003 ]
 			},
 			"properties" : {
-				"BAB" : "A7",
-				"NK" : "6827225O",
-				"KT" : "-",
-				"AS" : "A7 NLG Nordbayern / Südbayern"
+				"nk" : "6827225",
+				"bab" : "A7",
+				"kt" : "-",
+				"as" : "A7 NLG Nordbayern / Südbayern"
 			}
 		},
 		{
@@ -405,10 +1601,10 @@
 				"coordinates" : [ 588363.2921000002, 5438668.6846999992 ]
 			},
 			"properties" : {
-				"BAB" : "A7",
-				"NK" : "6927028O",
-				"KT" : "-",
-				"AS" : "LGR Baden-Württemberg"
+				"nk" : "6927028",
+				"bab" : "A7",
+				"kt" : "-",
+				"as" : "LGR Baden-Württemberg"
 			}
 		},
 		{
@@ -418,10 +1614,10 @@
 				"coordinates" : [ 588349.3731000004, 5438594.7197999991 ]
 			},
 			"properties" : {
-				"BAB" : "A7",
-				"NK" : "6927026O",
-				"KT" : "112",
-				"AS" : "AS Dinkelsbühl/Fichtenau"
+				"nk" : "6927026",
+				"bab" : "A7",
+				"kt" : "112",
+				"as" : "AS Dinkelsbühl/Fichtenau"
 			}
 		},
 		{
@@ -431,10 +1627,10 @@
 				"coordinates" : [ 586967.4437999995, 5431845.5834999997 ]
 			},
 			"properties" : {
-				"BAB" : "A7",
-				"NK" : "6927029O",
-				"KT" : "-",
-				"AS" : "Virngrundtunnel Ausfahrt"
+				"nk" : "6927029",
+				"bab" : "A7",
+				"kt" : "-",
+				"as" : "Virngrundtunnel Ausfahrt"
 			}
 		},
 		{
@@ -444,10 +1640,10 @@
 				"coordinates" : [ 587503.7287999997, 5430596.5277999993 ]
 			},
 			"properties" : {
-				"BAB" : "A7",
-				"NK" : "6927030O",
-				"KT" : "-",
-				"AS" : "Virngrundtunnel fik. NK"
+				"nk" : "6927030",
+				"bab" : "A7",
+				"kt" : "-",
+				"as" : "Virngrundtunnel fik. NK"
 			}
 		},
 		{
@@ -457,10 +1653,10 @@
 				"coordinates" : [ 587384.2216999996, 5428976.5675000008 ]
 			},
 			"properties" : {
-				"BAB" : "A7",
-				"NK" : "6927031O",
-				"KT" : "-",
-				"AS" : "Virngrundtunnel Einfahrt"
+				"nk" : "6927031",
+				"bab" : "A7",
+				"kt" : "-",
+				"as" : "Virngrundtunnel Einfahrt"
 			}
 		},
 		{
@@ -470,10 +1666,10 @@
 				"coordinates" : [ 586855.8940000003, 5423091.4054000005 ]
 			},
 			"properties" : {
-				"BAB" : "A7",
-				"NK" : "7027028O",
-				"KT" : "113",
-				"AS" : "AS Ellwangen"
+				"nk" : "7027028",
+				"bab" : "A7",
+				"kt" : "113",
+				"as" : "AS Ellwangen"
 			}
 		},
 		{
@@ -483,10 +1679,10 @@
 				"coordinates" : [ 585417.4972000001, 5415319.3673999999 ]
 			},
 			"properties" : {
-				"BAB" : "A7",
-				"NK" : "7126057O",
-				"KT" : "114",
-				"AS" : "AS Aalen/Westhausen"
+				"nk" : "7126057",
+				"bab" : "A7",
+				"kt" : "114",
+				"as" : "AS Aalen/Westhausen"
 			}
 		},
 		{
@@ -496,10 +1692,10 @@
 				"coordinates" : [ 585420.9027000004, 5414709.6815000009 ]
 			},
 			"properties" : {
-				"BAB" : "A7",
-				"NK" : "7126080O",
-				"KT" : "-",
-				"AS" : "Agnesburgtunnel fik. NK"
+				"nk" : "7126080",
+				"bab" : "A7",
+				"kt" : "-",
+				"as" : "Agnesburgtunnel fik. NK"
 			}
 		},
 		{
@@ -509,10 +1705,10 @@
 				"coordinates" : [ 585614.8696999997, 5414172.3608999997 ]
 			},
 			"properties" : {
-				"BAB" : "A7",
-				"NK" : "7127025O",
-				"KT" : "-",
-				"AS" : "Ausfahrt Agnesburgtunnel"
+				"nk" : "7127025",
+				"bab" : "A7",
+				"kt" : "-",
+				"as" : "Ausfahrt Agnesburgtunnel"
 			}
 		},
 		{
@@ -522,10 +1718,10 @@
 				"coordinates" : [ 586471.1841000002, 5413313.1158000007 ]
 			},
 			"properties" : {
-				"BAB" : "A7",
-				"NK" : "7127026O",
-				"KT" : "-",
-				"AS" : "Einfahrt Agnesburgtunnel"
+				"nk" : "7127026",
+				"bab" : "A7",
+				"kt" : "-",
+				"as" : "Einfahrt Agnesburgtunnel"
 			}
 		},
 		{
@@ -535,10 +1731,10 @@
 				"coordinates" : [ 588905.7779000001, 5406632.8155000005 ]
 			},
 			"properties" : {
-				"BAB" : "A7",
-				"NK" : "7127018O",
-				"KT" : "115",
-				"AS" : "AS Aalen/Oberkochen"
+				"nk" : "7127018",
+				"bab" : "A7",
+				"kt" : "115",
+				"as" : "AS Aalen/Oberkochen"
 			}
 		},
 		{
@@ -548,10 +1744,10 @@
 				"coordinates" : [ 589372.9380000001, 5393695.8787999991 ]
 			},
 			"properties" : {
-				"BAB" : "A7",
-				"NK" : "7327023O",
-				"KT" : "116",
-				"AS" : "AS Heidenheim"
+				"nk" : "7327023",
+				"bab" : "A7",
+				"kt" : "116",
+				"as" : "AS Heidenheim"
 			}
 		},
 		{
@@ -561,10 +1757,10 @@
 				"coordinates" : [ 589000.7287999997, 5385172.6736999992 ]
 			},
 			"properties" : {
-				"BAB" : "A7",
-				"NK" : "7327024O",
-				"KT" : "117",
-				"AS" : "AS Giengen/Herbrechtingen"
+				"nk" : "7327024",
+				"bab" : "A7",
+				"kt" : "117",
+				"as" : "AS Giengen/Herbrechtingen"
 			}
 		},
 		{
@@ -574,10 +1770,10 @@
 				"coordinates" : [ 585312.1730000004, 5380571.4502000008 ]
 			},
 			"properties" : {
-				"BAB" : "A7",
-				"NK" : "7426037O",
-				"KT" : "118",
-				"AS" : "AS Niederstotzingen"
+				"nk" : "7426037",
+				"bab" : "A7",
+				"kt" : "118",
+				"as" : "AS Niederstotzingen"
 			}
 		},
 		{
@@ -587,10 +1783,10 @@
 				"coordinates" : [ 580400.4616, 5371710.0738999993 ]
 			},
 			"properties" : {
-				"BAB" : "A7",
-				"NK" : "7526021O",
-				"KT" : "119",
-				"AS" : "AS Langenau A7/L1170 (119)"
+				"nk" : "7526021",
+				"bab" : "A7",
+				"kt" : "119",
+				"as" : "AS Langenau A7/L1170 (119)"
 			}
 		},
 		{
@@ -600,10 +1796,10 @@
 				"coordinates" : [ 581853.9896, 5369918.4386 ]
 			},
 			"properties" : {
-				"BAB" : "A7",
-				"NK" : "7526022O",
-				"KT" : "-",
-				"AS" : "LGR Baden-Württemberg"
+				"nk" : "7526022",
+				"bab" : "A7",
+				"kt" : "-",
+				"as" : "LGR Baden-Württemberg"
 			}
 		},
 		{
@@ -613,10 +1809,10 @@
 				"coordinates" : [ 582475.0088999998, 5368586.2797999997 ]
 			},
 			"properties" : {
-				"BAB" : "A7",
-				"NK" : "7526452O",
-				"KT" : "120",
-				"AS" : "AK Ulm/Elchingen"
+				"nk" : "7526452",
+				"bab" : "A7",
+				"kt" : "120",
+				"as" : "AK Ulm/Elchingen"
 			}
 		},
 		{
@@ -626,10 +1822,10 @@
 				"coordinates" : [ 580957.1138000004, 5362849.7074999996 ]
 			},
 			"properties" : {
-				"BAB" : "A7",
-				"NK" : "7526210O",
-				"KT" : "121",
-				"AS" : "AS Nersingen"
+				"nk" : "7526210",
+				"bab" : "A7",
+				"kt" : "121",
+				"as" : "AS Nersingen"
 			}
 		},
 		{
@@ -639,10 +1835,10 @@
 				"coordinates" : [ 580719.1545000002, 5353015.1658999994 ]
 			},
 			"properties" : {
-				"BAB" : "A7",
-				"NK" : "7626222O",
-				"KT" : "122",
-				"AS" : "AD Hittistetten"
+				"nk" : "7626222",
+				"bab" : "A7",
+				"kt" : "122",
+				"as" : "AD Hittistetten"
 			}
 		},
 		{
@@ -652,10 +1848,10 @@
 				"coordinates" : [ 582701.3376000002, 5348636.0709000006 ]
 			},
 			"properties" : {
-				"BAB" : "A7",
-				"NK" : "7726207O",
-				"KT" : "123",
-				"AS" : "AS Vöhringen"
+				"nk" : "7726207",
+				"bab" : "A7",
+				"kt" : "123",
+				"as" : "AS Vöhringen"
 			}
 		},
 		{
@@ -665,10 +1861,10 @@
 				"coordinates" : [ 583598.4100000001, 5341353.8961999994 ]
 			},
 			"properties" : {
-				"BAB" : "A7",
-				"NK" : "7726208O",
-				"KT" : "124",
-				"AS" : "AS Illertissen"
+				"nk" : "7726208",
+				"bab" : "A7",
+				"kt" : "124",
+				"as" : "AS Illertissen"
 			}
 		},
 		{
@@ -678,10 +1874,10 @@
 				"coordinates" : [ 583286.4691000003, 5333376.9918000009 ]
 			},
 			"properties" : {
-				"BAB" : "A7",
-				"NK" : "7826201O",
-				"KT" : "125",
-				"AS" : "AS Altenstadt"
+				"nk" : "7826201",
+				"bab" : "A7",
+				"kt" : "125",
+				"as" : "AS Altenstadt"
 			}
 		},
 		{
@@ -691,10 +1887,10 @@
 				"coordinates" : [ 582595.5230999999, 5331325.9750999995 ]
 			},
 			"properties" : {
-				"BAB" : "A7",
-				"NK" : "7826014O",
-				"KT" : "-",
-				"AS" : "LGR Baden-Württemberg"
+				"nk" : "7826014",
+				"bab" : "A7",
+				"kt" : "-",
+				"as" : "LGR Baden-Württemberg"
 			}
 		},
 		{
@@ -704,10 +1900,10 @@
 				"coordinates" : [ 583839.1359000001, 5328853.2418000009 ]
 			},
 			"properties" : {
-				"BAB" : "A7",
-				"NK" : "7826015O",
-				"KT" : "126",
-				"AS" : "AS Dettingen a.d.Iller"
+				"nk" : "7826015",
+				"bab" : "A7",
+				"kt" : "126",
+				"as" : "AS Dettingen a.d.Iller"
 			}
 		},
 		{
@@ -717,10 +1913,10 @@
 				"coordinates" : [ 584649.9232000001, 5326366.6044999994 ]
 			},
 			"properties" : {
-				"BAB" : "A7",
-				"NK" : "7926026O",
-				"KT" : "-",
-				"AS" : "LGR Baden-Württemberg"
+				"nk" : "7926026",
+				"bab" : "A7",
+				"kt" : "-",
+				"as" : "LGR Baden-Württemberg"
 			}
 		},
 		{
@@ -730,10 +1926,10 @@
 				"coordinates" : [ 584790.8975999998, 5325313.4206000008 ]
 			},
 			"properties" : {
-				"BAB" : "A7",
-				"NK" : "7926027O",
-				"KT" : "-",
-				"AS" : "LGR Baden-Württemberg"
+				"nk" : "7926027",
+				"bab" : "A7",
+				"kt" : "-",
+				"as" : "LGR Baden-Württemberg"
 			}
 		},
 		{
@@ -743,10 +1939,10 @@
 				"coordinates" : [ 584383.4817000004, 5321029.9649999999 ]
 			},
 			"properties" : {
-				"BAB" : "A7",
-				"NK" : "7926028O",
-				"KT" : "-",
-				"AS" : "LGR Baden-Württemberg"
+				"nk" : "7926028",
+				"bab" : "A7",
+				"kt" : "-",
+				"as" : "LGR Baden-Württemberg"
 			}
 		},
 		{
@@ -756,10 +1952,10 @@
 				"coordinates" : [ 584360.6333999997, 5320779.7929999996 ]
 			},
 			"properties" : {
-				"BAB" : "A7",
-				"NK" : "7926029O",
-				"KT" : "127",
-				"AS" : "AS Berkheim"
+				"nk" : "7926029",
+				"bab" : "A7",
+				"kt" : "127",
+				"as" : "AS Berkheim"
 			}
 		},
 		{
@@ -769,10 +1965,10 @@
 				"coordinates" : [ 584361.9601999996, 5319913.9151000008 ]
 			},
 			"properties" : {
-				"BAB" : "A7",
-				"NK" : "7926030O",
-				"KT" : "-",
-				"AS" : "LGR Baden-Württemberg"
+				"nk" : "7926030",
+				"bab" : "A7",
+				"kt" : "-",
+				"as" : "LGR Baden-Württemberg"
 			}
 		},
 		{
@@ -782,10 +1978,10 @@
 				"coordinates" : [ 584623.4265999999, 5318899.7027000003 ]
 			},
 			"properties" : {
-				"BAB" : "A7",
-				"NK" : "7926031O",
-				"KT" : "-",
-				"AS" : "LGR Baden-Württemberg"
+				"nk" : "7926031",
+				"bab" : "A7",
+				"kt" : "-",
+				"as" : "LGR Baden-Württemberg"
 			}
 		},
 		{
@@ -795,10 +1991,10 @@
 				"coordinates" : [ 585843.7681, 5316500.0247000009 ]
 			},
 			"properties" : {
-				"BAB" : "A7",
-				"NK" : "8026202O",
-				"KT" : "128",
-				"AS" : "AK Memmingen"
+				"nk" : "8026202",
+				"bab" : "A7",
+				"kt" : "128",
+				"as" : "AK Memmingen"
 			}
 		},
 		{
@@ -808,10 +2004,10 @@
 				"coordinates" : [ 588297.9210000001, 5312931.0885000005 ]
 			},
 			"properties" : {
-				"BAB" : "A7",
-				"NK" : "8027008O",
-				"KT" : "129",
-				"AS" : "AS Memmingen-Süd"
+				"nk" : "8027008",
+				"bab" : "A7",
+				"kt" : "129",
+				"as" : "AS Memmingen-Süd"
 			}
 		},
 		{
@@ -821,10 +2017,10 @@
 				"coordinates" : [ 590678.4444000004, 5308703.2243000008 ]
 			},
 			"properties" : {
-				"BAB" : "A7",
-				"NK" : "8027024O",
-				"KT" : "130",
-				"AS" : "AS Woringen"
+				"nk" : "8027024",
+				"bab" : "A7",
+				"kt" : "130",
+				"as" : "AS Woringen"
 			}
 		},
 		{
@@ -834,10 +2030,10 @@
 				"coordinates" : [ 593169.0343000004, 5304112.2960000001 ]
 			},
 			"properties" : {
-				"BAB" : "A7",
-				"NK" : "8127005O",
-				"KT" : "131",
-				"AS" : "AS Bad Grönenbach"
+				"nk" : "8127005",
+				"bab" : "A7",
+				"kt" : "131",
+				"as" : "AS Bad Grönenbach"
 			}
 		},
 		{
@@ -847,10 +2043,10 @@
 				"coordinates" : [ 597482.6339999996, 5296066.7296999991 ]
 			},
 			"properties" : {
-				"BAB" : "A7",
-				"NK" : "8127011O",
-				"KT" : "132",
-				"AS" : "AS Dietmannsried"
+				"nk" : "8127011",
+				"bab" : "A7",
+				"kt" : "132",
+				"as" : "AS Dietmannsried"
 			}
 		},
 		{
@@ -860,10 +2056,10 @@
 				"coordinates" : [ 599666.3044999996, 5289882.9464999996 ]
 			},
 			"properties" : {
-				"BAB" : "A7",
-				"NK" : "8227006O",
-				"KT" : "133",
-				"AS" : "AS Kempten-Leubas"
+				"nk" : "8227006",
+				"bab" : "A7",
+				"kt" : "133",
+				"as" : "AS Kempten-Leubas"
 			}
 		},
 		{
@@ -873,10 +2069,10 @@
 				"coordinates" : [ 600578.1700999998, 5288266.3099000007 ]
 			},
 			"properties" : {
-				"BAB" : "A7",
-				"NK" : "8228007O",
-				"KT" : "134",
-				"AS" : "AS Kempten"
+				"nk" : "8228007",
+				"bab" : "A7",
+				"kt" : "134",
+				"as" : "AS Kempten"
 			}
 		},
 		{
@@ -886,10 +2082,10 @@
 				"coordinates" : [ 602104.6070999997, 5285696.0784000009 ]
 			},
 			"properties" : {
-				"BAB" : "A7",
-				"NK" : "8228011O",
-				"KT" : "135",
-				"AS" : "AS Betzigau"
+				"nk" : "8228011",
+				"bab" : "A7",
+				"kt" : "135",
+				"as" : "AS Betzigau"
 			}
 		},
 		{
@@ -899,10 +2095,10 @@
 				"coordinates" : [ 602651.7051999997, 5282463.1892000008 ]
 			},
 			"properties" : {
-				"BAB" : "A7",
-				"NK" : "8328013O",
-				"KT" : "136",
-				"AS" : "AD Allgäu"
+				"nk" : "8328013",
+				"bab" : "A7",
+				"kt" : "136",
+				"as" : "AD Allgäu"
 			}
 		},
 		{
@@ -912,10 +2108,10 @@
 				"coordinates" : [ 610026.0027000001, 5278830.7061999999 ]
 			},
 			"properties" : {
-				"BAB" : "A7",
-				"NK" : "8328018O",
-				"KT" : "137",
-				"AS" : "AS Oy-Mittelberg"
+				"nk" : "8328018",
+				"bab" : "A7",
+				"kt" : "137",
+				"as" : "AS Oy-Mittelberg"
 			}
 		},
 		{
@@ -925,10 +2121,10 @@
 				"coordinates" : [ 614812.5305000003, 5277547.9848999996 ]
 			},
 			"properties" : {
-				"BAB" : "A7",
-				"NK" : "8329008O",
-				"KT" : "138",
-				"AS" : "AS Nesselwang"
+				"nk" : "8329008",
+				"bab" : "A7",
+				"kt" : "138",
+				"as" : "AS Nesselwang"
 			}
 		},
 		{
@@ -938,10 +2134,10 @@
 				"coordinates" : [ 624929.0268000001, 5270265.2727000006 ]
 			},
 			"properties" : {
-				"BAB" : "A7",
-				"NK" : "8429007O",
-				"KT" : "139",
-				"AS" : "AS Füssen"
+				"nk" : "8429007",
+				"bab" : "A7",
+				"kt" : "139",
+				"as" : "AS Füssen"
 			}
 		},
 		{
@@ -951,10 +2147,10 @@
 				"coordinates" : [ 624627.7154000001, 5268647.5419999994 ]
 			},
 			"properties" : {
-				"BAB" : "A7",
-				"NK" : "8429009O",
-				"KT" : "-",
-				"AS" : "BGR Österreich"
+				"nk" : "8429009",
+				"bab" : "A7",
+				"kt" : "-",
+				"as" : "BGR Österreich"
 			}
 		},
 		{
@@ -964,10 +2160,10 @@
 				"coordinates" : [ 694620.5846999995, 5332034.3110000007 ]
 			},
 			"properties" : {
-				"BAB" : "A8O",
-				"NK" : "7835047O",
-				"KT" : "91",
-				"AS" : "AS München-Ramersdorf"
+				"nk" : "7835047",
+				"bab" : "A8O",
+				"kt" : "91",
+				"as" : "AS München-Ramersdorf"
 			}
 		},
 		{
@@ -977,10 +2173,10 @@
 				"coordinates" : [ 694593.7960000001, 5331368.0906000007 ]
 			},
 			"properties" : {
-				"BAB" : "A8O",
-				"NK" : "7835056O",
-				"KT" : "92a",
-				"AS" : "AS München-Perlach"
+				"nk" : "7835056",
+				"bab" : "A8O",
+				"kt" : "92a",
+				"as" : "AS München-Perlach"
 			}
 		},
 		{
@@ -990,10 +2186,10 @@
 				"coordinates" : [ 694578.5242999997, 5331242.5833000001 ]
 			},
 			"properties" : {
-				"BAB" : "A8O",
-				"NK" : "7835078O",
-				"KT" : "-",
-				"AS" : "A8 KMS"
+				"nk" : "7835078",
+				"bab" : "A8O",
+				"kt" : "-",
+				"as" : "A8 KMS"
 			}
 		},
 		{
@@ -1003,10 +2199,10 @@
 				"coordinates" : [ 694940.1365999999, 5328960.6980000008 ]
 			},
 			"properties" : {
-				"BAB" : "A8O",
-				"NK" : "7935044O",
-				"KT" : "92b",
-				"AS" : "AS Neubiberg"
+				"nk" : "7935044",
+				"bab" : "A8O",
+				"kt" : "92b",
+				"as" : "AS Neubiberg"
 			}
 		},
 		{
@@ -1016,10 +2212,10 @@
 				"coordinates" : [ 696528.1752000004, 5326426.4222999997 ]
 			},
 			"properties" : {
-				"BAB" : "A8O",
-				"NK" : "7935041O",
-				"KT" : "93",
-				"AS" : "AS Unterhaching-Ost"
+				"nk" : "7935041",
+				"bab" : "A8O",
+				"kt" : "93",
+				"as" : "AS Unterhaching-Ost"
 			}
 		},
 		{
@@ -1029,10 +2225,10 @@
 				"coordinates" : [ 697545.8868000004, 5324301.7177000009 ]
 			},
 			"properties" : {
-				"BAB" : "A8O",
-				"NK" : "7935016O",
-				"KT" : "94",
-				"AS" : "AS Taufkirchen-Ost"
+				"nk" : "7935016",
+				"bab" : "A8O",
+				"kt" : "94",
+				"as" : "AS Taufkirchen-Ost"
 			}
 		},
 		{
@@ -1042,10 +2238,10 @@
 				"coordinates" : [ 698117.0906999996, 5322771.7073999997 ]
 			},
 			"properties" : {
-				"BAB" : "A8O",
-				"NK" : "7935020O",
-				"KT" : "95",
-				"AS" : "AK München-Süd"
+				"nk" : "7935020",
+				"bab" : "A8O",
+				"kt" : "95",
+				"as" : "AK München-Süd"
 			}
 		},
 		{
@@ -1055,10 +2251,10 @@
 				"coordinates" : [ 700332.9252000004, 5317309.7117999997 ]
 			},
 			"properties" : {
-				"BAB" : "A8O",
-				"NK" : "8036007O",
-				"KT" : "96",
-				"AS" : "AS Hofoldinger Forst"
+				"nk" : "8036007",
+				"bab" : "A8O",
+				"kt" : "96",
+				"as" : "AS Hofoldinger Forst"
 			}
 		},
 		{
@@ -1068,10 +2264,10 @@
 				"coordinates" : [ 703788.4271999998, 5308117.8728 ]
 			},
 			"properties" : {
-				"BAB" : "A8O",
-				"NK" : "8136002O",
-				"KT" : "97",
-				"AS" : "AS Holzkirchen"
+				"nk" : "8136002",
+				"bab" : "A8O",
+				"kt" : "97",
+				"as" : "AS Holzkirchen"
 			}
 		},
 		{
@@ -1081,10 +2277,10 @@
 				"coordinates" : [ 709075.0224000001, 5305147.4757000003 ]
 			},
 			"properties" : {
-				"BAB" : "A8O",
-				"NK" : "8136012O",
-				"KT" : "98",
-				"AS" : "AS Weyarn"
+				"nk" : "8136012",
+				"bab" : "A8O",
+				"kt" : "98",
+				"as" : "AS Weyarn"
 			}
 		},
 		{
@@ -1094,10 +2290,10 @@
 				"coordinates" : [ 717389.5620999997, 5301529.6079999991 ]
 			},
 			"properties" : {
-				"BAB" : "A8O",
-				"NK" : "8137012O",
-				"KT" : "99",
-				"AS" : "AS Irschenberg"
+				"nk" : "8137012",
+				"bab" : "A8O",
+				"kt" : "99",
+				"as" : "AS Irschenberg"
 			}
 		},
 		{
@@ -1107,10 +2303,10 @@
 				"coordinates" : [ 725625.5247999998, 5300740.3255000003 ]
 			},
 			"properties" : {
-				"BAB" : "A8O",
-				"NK" : "8138020O",
-				"KT" : "100a",
-				"AS" : "AS Bad Aibling"
+				"nk" : "8138020",
+				"bab" : "A8O",
+				"kt" : "100a",
+				"as" : "AS Bad Aibling"
 			}
 		},
 		{
@@ -1120,10 +2316,10 @@
 				"coordinates" : [ 729473.4587000003, 5300236.8115999997 ]
 			},
 			"properties" : {
-				"BAB" : "A8O",
-				"NK" : "8138051O",
-				"KT" : "100b",
-				"AS" : "AS Rosenheim-West"
+				"nk" : "8138051",
+				"bab" : "A8O",
+				"kt" : "100b",
+				"as" : "AS Rosenheim-West"
 			}
 		},
 		{
@@ -1133,10 +2329,10 @@
 				"coordinates" : [ 731845.8481999999, 5299817.4289999995 ]
 			},
 			"properties" : {
-				"BAB" : "A8O",
-				"NK" : "8138022O",
-				"KT" : "101",
-				"AS" : "AD Inntal"
+				"nk" : "8138022",
+				"bab" : "A8O",
+				"kt" : "101",
+				"as" : "AD Inntal"
 			}
 		},
 		{
@@ -1146,10 +2342,10 @@
 				"coordinates" : [ 733590.8825000003, 5299631.2723999992 ]
 			},
 			"properties" : {
-				"BAB" : "A8O",
-				"NK" : "8138024O",
-				"KT" : "102",
-				"AS" : "AS Rosenheim"
+				"nk" : "8138024",
+				"bab" : "A8O",
+				"kt" : "102",
+				"as" : "AS Rosenheim"
 			}
 		},
 		{
@@ -1159,10 +2355,10 @@
 				"coordinates" : [ 736850.0091000004, 5299319.1580999997 ]
 			},
 			"properties" : {
-				"BAB" : "A8O",
-				"NK" : "8138025O",
-				"KT" : "103",
-				"AS" : "AS Rohrdorf"
+				"nk" : "8138025",
+				"bab" : "A8O",
+				"kt" : "103",
+				"as" : "AS Rohrdorf"
 			}
 		},
 		{
@@ -1172,10 +2368,10 @@
 				"coordinates" : [ 740089.6654000003, 5298620.7414999995 ]
 			},
 			"properties" : {
-				"BAB" : "A8O",
-				"NK" : "8239002O",
-				"KT" : "104",
-				"AS" : "AS Achenmühle"
+				"nk" : "8239002",
+				"bab" : "A8O",
+				"kt" : "104",
+				"as" : "AS Achenmühle"
 			}
 		},
 		{
@@ -1185,10 +2381,10 @@
 				"coordinates" : [ 746448.7263000002, 5299780.3008999992 ]
 			},
 			"properties" : {
-				"BAB" : "A8O",
-				"NK" : "8139012O",
-				"KT" : "105",
-				"AS" : "AS Frasdorf"
+				"nk" : "8139012",
+				"bab" : "A8O",
+				"kt" : "105",
+				"as" : "AS Frasdorf"
 			}
 		},
 		{
@@ -1198,10 +2394,10 @@
 				"coordinates" : [ 751767.1108999997, 5301252.6388000008 ]
 			},
 			"properties" : {
-				"BAB" : "A8O",
-				"NK" : "8140014O",
-				"KT" : "106",
-				"AS" : "AS Bernau"
+				"nk" : "8140014",
+				"bab" : "A8O",
+				"kt" : "106",
+				"as" : "AS Bernau"
 			}
 		},
 		{
@@ -1211,10 +2407,10 @@
 				"coordinates" : [ 753265.2237999998, 5302596.0576000009 ]
 			},
 			"properties" : {
-				"BAB" : "A8O",
-				"NK" : "8140013O",
-				"KT" : "107",
-				"AS" : "AS Felden"
+				"nk" : "8140013",
+				"bab" : "A8O",
+				"kt" : "107",
+				"as" : "AS Felden"
 			}
 		},
 		{
@@ -1224,10 +2420,10 @@
 				"coordinates" : [ 761124.3732000003, 5304176.0781999994 ]
 			},
 			"properties" : {
-				"BAB" : "A8O",
-				"NK" : "8140012O",
-				"KT" : "108",
-				"AS" : "AS Übersee"
+				"nk" : "8140012",
+				"bab" : "A8O",
+				"kt" : "108",
+				"as" : "AS Übersee"
 			}
 		},
 		{
@@ -1237,10 +2433,10 @@
 				"coordinates" : [ 763670.9221000001, 5303429.2423 ]
 			},
 			"properties" : {
-				"BAB" : "A8O",
-				"NK" : "8141017O",
-				"KT" : "109",
-				"AS" : "AS Grabenstätt"
+				"nk" : "8141017",
+				"bab" : "A8O",
+				"kt" : "109",
+				"as" : "AS Grabenstätt"
 			}
 		},
 		{
@@ -1250,10 +2446,10 @@
 				"coordinates" : [ 769146.9429000001, 5303443.8619999997 ]
 			},
 			"properties" : {
-				"BAB" : "A8O",
-				"NK" : "8141018O",
-				"KT" : "110",
-				"AS" : "AS Bergen"
+				"nk" : "8141018",
+				"bab" : "A8O",
+				"kt" : "110",
+				"as" : "AS Bergen"
 			}
 		},
 		{
@@ -1263,10 +2459,10 @@
 				"coordinates" : [ 771993.2619000003, 5303721.1190000009 ]
 			},
 			"properties" : {
-				"BAB" : "A8O",
-				"NK" : "8141021O",
-				"KT" : "111",
-				"AS" : "AS Siegsdorf-West"
+				"nk" : "8141021",
+				"bab" : "A8O",
+				"kt" : "111",
+				"as" : "AS Siegsdorf-West"
 			}
 		},
 		{
@@ -1276,10 +2472,10 @@
 				"coordinates" : [ 773061.7341999998, 5303493.6317999996 ]
 			},
 			"properties" : {
-				"BAB" : "A8O",
-				"NK" : "8141023O",
-				"KT" : "112",
-				"AS" : "AS Traunstein/Siegsdorf"
+				"nk" : "8141023",
+				"bab" : "A8O",
+				"kt" : "112",
+				"as" : "AS Traunstein/Siegsdorf"
 			}
 		},
 		{
@@ -1289,10 +2485,10 @@
 				"coordinates" : [ 780043.1646999996, 5304282.6798999999 ]
 			},
 			"properties" : {
-				"BAB" : "A8O",
-				"NK" : "8142006O",
-				"KT" : "113",
-				"AS" : "AS Neukirchen"
+				"nk" : "8142006",
+				"bab" : "A8O",
+				"kt" : "113",
+				"as" : "AS Neukirchen"
 			}
 		},
 		{
@@ -1302,10 +2498,10 @@
 				"coordinates" : [ 788698.6391000003, 5301206.3037 ]
 			},
 			"properties" : {
-				"BAB" : "A8O",
-				"NK" : "8143015O",
-				"KT" : "114",
-				"AS" : "AS Behelfs-AS Anger"
+				"nk" : "8143015",
+				"bab" : "A8O",
+				"kt" : "114",
+				"as" : "AS Behelfs-AS Anger"
 			}
 		},
 		{
@@ -1315,10 +2511,10 @@
 				"coordinates" : [ 792587.4594999999, 5297742.6182000004 ]
 			},
 			"properties" : {
-				"BAB" : "A8O",
-				"NK" : "8243004O",
-				"KT" : "115",
-				"AS" : "AS Bad Reichenhall"
+				"nk" : "8243004",
+				"bab" : "A8O",
+				"kt" : "115",
+				"as" : "AS Bad Reichenhall"
 			}
 		},
 		{
@@ -1328,10 +2524,10 @@
 				"coordinates" : [ 794711.3454999998, 5298024.4359000009 ]
 			},
 			"properties" : {
-				"BAB" : "A8O",
-				"NK" : "8243012O",
-				"KT" : "116a",
-				"AS" : "AS Behelfs-AS Schwarzbach"
+				"nk" : "8243012",
+				"bab" : "A8O",
+				"kt" : "116a",
+				"as" : "AS Behelfs-AS Schwarzbach"
 			}
 		},
 		{
@@ -1341,10 +2537,10 @@
 				"coordinates" : [ 795441.2112999996, 5298094.4039999992 ]
 			},
 			"properties" : {
-				"BAB" : "A8O",
-				"NK" : "8243003O",
-				"KT" : "-",
-				"AS" : "BGR Österreich"
+				"nk" : "8243003",
+				"bab" : "A8O",
+				"kt" : "-",
+				"as" : "BGR Österreich"
 			}
 		},
 		{
@@ -1354,10 +2550,10 @@
 				"coordinates" : [ 580550.1402000003, 5368230.7021999992 ]
 			},
 			"properties" : {
-				"BAB" : "A8W",
-				"NK" : "7526453O",
-				"KT" : "-",
-				"AS" : "Grenze NL Südwest - NL Südbayern"
+				"nk" : "7526453",
+				"bab" : "A8W",
+				"kt" : "-",
+				"as" : "Grenze NL Südwest - NL Südbayern"
 			}
 		},
 		{
@@ -1367,10 +2563,10 @@
 				"coordinates" : [ 582475.0088999998, 5368586.2797999997 ]
 			},
 			"properties" : {
-				"BAB" : "A8W",
-				"NK" : "7526452O",
-				"KT" : "65",
-				"AS" : "AK Ulm/Elchingen"
+				"nk" : "7526452",
+				"bab" : "A8W",
+				"kt" : "65",
+				"as" : "AK Ulm/Elchingen"
 			}
 		},
 		{
@@ -1380,10 +2576,10 @@
 				"coordinates" : [ 582886.3775000004, 5368536.4199000001 ]
 			},
 			"properties" : {
-				"BAB" : "A8W",
-				"NK" : "7526011O",
-				"KT" : "-",
-				"AS" : "LGR Baden-Württemberg"
+				"nk" : "7526011",
+				"bab" : "A8W",
+				"kt" : "-",
+				"as" : "LGR Baden-Württemberg"
 			}
 		},
 		{
@@ -1393,10 +2589,10 @@
 				"coordinates" : [ 586670.1069, 5368017.1556000002 ]
 			},
 			"properties" : {
-				"BAB" : "A8W",
-				"NK" : "7527001O",
-				"KT" : "-",
-				"AS" : "LGR Baden-Württemberg"
+				"nk" : "7527001",
+				"bab" : "A8W",
+				"kt" : "-",
+				"as" : "LGR Baden-Württemberg"
 			}
 		},
 		{
@@ -1406,10 +2602,10 @@
 				"coordinates" : [ 589390.4521000003, 5366402.9342 ]
 			},
 			"properties" : {
-				"BAB" : "A8W",
-				"NK" : "7527213O",
-				"KT" : "66",
-				"AS" : "AS Leipheim"
+				"nk" : "7527213",
+				"bab" : "A8W",
+				"kt" : "66",
+				"as" : "AS Leipheim"
 			}
 		},
 		{
@@ -1419,10 +2615,10 @@
 				"coordinates" : [ 595540.8706999999, 5365073.2548999991 ]
 			},
 			"properties" : {
-				"BAB" : "A8W",
-				"NK" : "7527235O",
-				"KT" : "67",
-				"AS" : "AS Günzburg"
+				"nk" : "7527235",
+				"bab" : "A8W",
+				"kt" : "67",
+				"as" : "AS Günzburg"
 			}
 		},
 		{
@@ -1435,10 +2631,10 @@
 				]
 			},
 			"properties" : {
-				"BAB" : "A8W",
-				"NK" : "7528037O",
-				"KT" : "69",
-				"AS" : "AS Burgau"
+				"nk" : "7528037",
+				"bab" : "A8W",
+				"kt" : "69",
+				"as" : "AS Burgau"
 			}
 		},
 		{
@@ -1448,10 +2644,10 @@
 				"coordinates" : [ 606307.5590000004, 5363174.0164000001 ]
 			},
 			"properties" : {
-				"BAB" : "A8W",
-				"NK" : "7528037O",
-				"KT" : "69",
-				"AS" : "AS Burgau"
+				"nk" : "7528037",
+				"bab" : "A8W",
+				"kt" : "69",
+				"as" : "AS Burgau"
 			}
 		},
 		{
@@ -1461,10 +2657,10 @@
 				"coordinates" : [ 618356.3068000004, 5363100.7811999992 ]
 			},
 			"properties" : {
-				"BAB" : "A8W",
-				"NK" : "7529015O",
-				"KT" : "70",
-				"AS" : "AS Zusmarshausen"
+				"nk" : "7529015",
+				"bab" : "A8W",
+				"kt" : "70",
+				"as" : "AS Zusmarshausen"
 			}
 		},
 		{
@@ -1474,10 +2670,10 @@
 				"coordinates" : [ 627222.9428000003, 5364093.4519999996 ]
 			},
 			"properties" : {
-				"BAB" : "A8W",
-				"NK" : "7530013O",
-				"KT" : "71a",
-				"AS" : "AS Adelsried"
+				"nk" : "7530013",
+				"bab" : "A8W",
+				"kt" : "71a",
+				"as" : "AS Adelsried"
 			}
 		},
 		{
@@ -1487,10 +2683,10 @@
 				"coordinates" : [ 636031.75, 5364294.3242000006 ]
 			},
 			"properties" : {
-				"BAB" : "A8W",
-				"NK" : "7531042O",
-				"KT" : "71b",
-				"AS" : "AS Neusäß"
+				"nk" : "7531042",
+				"bab" : "A8W",
+				"kt" : "71b",
+				"as" : "AS Neusäß"
 			}
 		},
 		{
@@ -1500,10 +2696,10 @@
 				"coordinates" : [ 638490.8332000002, 5364077.0844000001 ]
 			},
 			"properties" : {
-				"BAB" : "A8W",
-				"NK" : "7531027O",
-				"KT" : "72",
-				"AS" : "AK Augsburg-West"
+				"nk" : "7531027",
+				"bab" : "A8W",
+				"kt" : "72",
+				"as" : "AK Augsburg-West"
 			}
 		},
 		{
@@ -1513,10 +2709,10 @@
 				"coordinates" : [ 642095.1310000001, 5363635.3169999998 ]
 			},
 			"properties" : {
-				"BAB" : "A8W",
-				"NK" : "7531022O",
-				"KT" : "73",
-				"AS" : "AS Augsburg-Ost"
+				"nk" : "7531022",
+				"bab" : "A8W",
+				"kt" : "73",
+				"as" : "AS Augsburg-Ost"
 			}
 		},
 		{
@@ -1526,10 +2722,10 @@
 				"coordinates" : [ 644665.6328999996, 5363063.5566000007 ]
 			},
 			"properties" : {
-				"BAB" : "A8W",
-				"NK" : "7531048O",
-				"KT" : "74a",
-				"AS" : "AS Friedberg (Bayern)"
+				"nk" : "7531048",
+				"bab" : "A8W",
+				"kt" : "74a",
+				"as" : "AS Friedberg (Bayern)"
 			}
 		},
 		{
@@ -1539,10 +2735,10 @@
 				"coordinates" : [ 652978.4565000003, 5362080.6010999996 ]
 			},
 			"properties" : {
-				"BAB" : "A8W",
-				"NK" : "7632001O",
-				"KT" : "74b",
-				"AS" : "AS Dasing"
+				"nk" : "7632001",
+				"bab" : "A8W",
+				"kt" : "74b",
+				"as" : "AS Dasing"
 			}
 		},
 		{
@@ -1552,10 +2748,10 @@
 				"coordinates" : [ 658117.0972999996, 5357634.1826000009 ]
 			},
 			"properties" : {
-				"BAB" : "A8W",
-				"NK" : "7632008O",
-				"KT" : "75",
-				"AS" : "AS Adelzhausen"
+				"nk" : "7632008",
+				"bab" : "A8W",
+				"kt" : "75",
+				"as" : "AS Adelzhausen"
 			}
 		},
 		{
@@ -1565,10 +2761,10 @@
 				"coordinates" : [ 663673.9439000003, 5352864.8200000003 ]
 			},
 			"properties" : {
-				"BAB" : "A8W",
-				"NK" : "7633019O",
-				"KT" : "76",
-				"AS" : "AS Odelzhausen"
+				"nk" : "7633019",
+				"bab" : "A8W",
+				"kt" : "76",
+				"as" : "AS Odelzhausen"
 			}
 		},
 		{
@@ -1578,10 +2774,10 @@
 				"coordinates" : [ 668407.2273000004, 5349997.1131999996 ]
 			},
 			"properties" : {
-				"BAB" : "A8W",
-				"NK" : "7733005O",
-				"KT" : "77",
-				"AS" : "AS Sulzemoos"
+				"nk" : "7733005",
+				"bab" : "A8W",
+				"kt" : "77",
+				"as" : "AS Sulzemoos"
 			}
 		},
 		{
@@ -1591,10 +2787,10 @@
 				"coordinates" : [ 674389.1353000002, 5344905.5421999991 ]
 			},
 			"properties" : {
-				"BAB" : "A8W",
-				"NK" : "7734015O",
-				"KT" : "78",
-				"AS" : "AS Dachau/Fürstenfeldbruck"
+				"nk" : "7734015",
+				"bab" : "A8W",
+				"kt" : "78",
+				"as" : "AS Dachau/Fürstenfeldbruck"
 			}
 		},
 		{
@@ -1604,10 +2800,10 @@
 				"coordinates" : [ 677856.6644000001, 5342031.0366999991 ]
 			},
 			"properties" : {
-				"BAB" : "A8W",
-				"NK" : "7734037O",
-				"KT" : "79",
-				"AS" : "AD München-Eschenried"
+				"nk" : "7734037",
+				"bab" : "A8W",
+				"kt" : "79",
+				"as" : "AD München-Eschenried"
 			}
 		},
 		{
@@ -1617,10 +2813,10 @@
 				"coordinates" : [ 679039.6676000003, 5340952.9223999996 ]
 			},
 			"properties" : {
-				"BAB" : "A8W",
-				"NK" : "7834001O",
-				"KT" : "80",
-				"AS" : "AS München-Langwied"
+				"nk" : "7834001",
+				"bab" : "A8W",
+				"kt" : "80",
+				"as" : "AS München-Langwied"
 			}
 		},
 		{
@@ -1630,10 +2826,10 @@
 				"coordinates" : [ 680817.8913000003, 5339302.7185999993 ]
 			},
 			"properties" : {
-				"BAB" : "A8W",
-				"NK" : "7834038O",
-				"KT" : "81",
-				"AS" : "AK München-West"
+				"nk" : "7834038",
+				"bab" : "A8W",
+				"kt" : "81",
+				"as" : "AK München-West"
 			}
 		},
 		{
@@ -1643,10 +2839,517 @@
 				"coordinates" : [ 682455.6770000001, 5337782.8111000005 ]
 			},
 			"properties" : {
-				"BAB" : "A8W",
-				"NK" : "7834006O",
-				"KT" : "82",
-				"AS" : "AS München-Obermenzing"
+				"nk" : "7834006",
+				"bab" : "A8W",
+				"kt" : "82",
+				"as" : "AS München-Obermenzing"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 697911.8073000005, 5588827.5802999996 ]
+			},
+			"properties" : {
+				"nk" : "5536407",
+				"bab" : "A9",
+				"kt" : "-",
+				"as" : "A9 NLG Ost / Nordbayern"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 697722.7301000003, 5588647.0969999991 ]
+			},
+			"properties" : {
+				"nk" : "5536001",
+				"bab" : "A9",
+				"kt" : "-",
+				"as" : "A9 LGR Thüringen / Bayern"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 697202.8295999998, 5587728.5739999991 ]
+			},
+			"properties" : {
+				"nk" : "5536405",
+				"bab" : "A9",
+				"kt" : "30",
+				"as" : "AS Rudolphstein"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 698544.0821000002, 5583792.0452999994 ]
+			},
+			"properties" : {
+				"nk" : "5636008",
+				"bab" : "A9",
+				"kt" : "31",
+				"as" : "AS Berg/Bad Steben"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 698317.2637, 5579892.6190000009 ]
+			},
+			"properties" : {
+				"nk" : "5636034",
+				"bab" : "A9",
+				"kt" : "32",
+				"as" : "AS Naila/Selbitz"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 698843.9009999996, 5578172.2192000002 ]
+			},
+			"properties" : {
+				"nk" : "5636021",
+				"bab" : "A9",
+				"kt" : "33",
+				"as" : "AD Bayerisches Vogtland"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 700241.8025000002, 5574851.5550999995 ]
+			},
+			"properties" : {
+				"nk" : "5736005",
+				"bab" : "A9",
+				"kt" : "34",
+				"as" : "AS Hof-West"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 698161.6513999999, 5565200.0637999997 ]
+			},
+			"properties" : {
+				"nk" : "5736018",
+				"bab" : "A9",
+				"kt" : "35",
+				"as" : "AS Münchberg-Nord"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 696108.6583000002, 5561192.0430999994 ]
+			},
+			"properties" : {
+				"nk" : "5836007",
+				"bab" : "A9",
+				"kt" : "36",
+				"as" : "AS Münchberg-Süd"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 692668.9019999998, 5552701.1456000004 ]
+			},
+			"properties" : {
+				"nk" : "5936003",
+				"bab" : "A9",
+				"kt" : "37",
+				"as" : "AS Gefrees"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 690706.7034, 5551111.3708999995 ]
+			},
+			"properties" : {
+				"nk" : "5936008",
+				"bab" : "A9",
+				"kt" : "38",
+				"as" : "AS Marktschorgast"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 687404.7054000003, 5548040.5822999999 ]
+			},
+			"properties" : {
+				"nk" : "5935020",
+				"bab" : "A9",
+				"kt" : "39",
+				"as" : "AS Bad Berneck/Himmelkron"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 686595.9247000003, 5544664.9370000008 ]
+			},
+			"properties" : {
+				"nk" : "5935011",
+				"bab" : "A9",
+				"kt" : "40a",
+				"as" : "AD Bayreuth/Kulmbach"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 686671.5428999998, 5543530.5800000001 ]
+			},
+			"properties" : {
+				"nk" : "5935021",
+				"bab" : "A9",
+				"kt" : "40b",
+				"as" : "AS Bindlacher Berg"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 686908.1628999999, 5537380.4042000007 ]
+			},
+			"properties" : {
+				"nk" : "6035006",
+				"bab" : "A9",
+				"kt" : "41",
+				"as" : "AS Bayreuth-Nord"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 686768.7078, 5533896.8709999993 ]
+			},
+			"properties" : {
+				"nk" : "6035036",
+				"bab" : "A9",
+				"kt" : "42",
+				"as" : "AS Bayreuth-Süd"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 679764.2128999997, 5522267.3920000009 ]
+			},
+			"properties" : {
+				"nk" : "6135007",
+				"bab" : "A9",
+				"kt" : "43",
+				"as" : "AS Trockau"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 680885.1036999999, 5511495.5276999995 ]
+			},
+			"properties" : {
+				"nk" : "6235018",
+				"bab" : "A9",
+				"kt" : "44",
+				"as" : "AS Pegnitz"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 677905.8936999999, 5508861.1049000006 ]
+			},
+			"properties" : {
+				"nk" : "6234022",
+				"bab" : "A9",
+				"kt" : "45",
+				"as" : "AS Weidensees"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 678081.5980000002, 5504321.7462000009 ]
+			},
+			"properties" : {
+				"nk" : "6334014",
+				"bab" : "A9",
+				"kt" : "46",
+				"as" : "AS Plech"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 673907.4950999999, 5499253.6574000008 ]
+			},
+			"properties" : {
+				"nk" : "6334029",
+				"bab" : "A9",
+				"kt" : "47",
+				"as" : "AS Hormersdorf"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 670978.1594000002, 5497348.2796 ]
+			},
+			"properties" : {
+				"nk" : "6334032",
+				"bab" : "A9",
+				"kt" : "-",
+				"as" : "nördliche Trennung Hienberg"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 669656.3333999999, 5495802.1550999992 ]
+			},
+			"properties" : {
+				"nk" : "6434002",
+				"bab" : "A9",
+				"kt" : "-",
+				"as" : "Unterscheidungs-NK in Talfahrt Hienberg"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 669280.8176999995, 5494221.3693000004 ]
+			},
+			"properties" : {
+				"nk" : "6434003",
+				"bab" : "A9",
+				"kt" : "-",
+				"as" : "südliche Trennung Hienberg"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 668507.0378999999, 5493040.5804999992 ]
+			},
+			"properties" : {
+				"nk" : "6433046",
+				"bab" : "A9",
+				"kt" : "48",
+				"as" : "AS Schnaittach"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 666860.4210000001, 5487483.8365000002 ]
+			},
+			"properties" : {
+				"nk" : "6433028",
+				"bab" : "A9",
+				"kt" : "49",
+				"as" : "AS Lauf/Hersbruck"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 665447.3041000003, 5485473.3957000002 ]
+			},
+			"properties" : {
+				"nk" : "6433039",
+				"bab" : "A9",
+				"kt" : "50",
+				"as" : "AS Lauf "
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 662603.8570999997, 5480867.0285999998 ]
+			},
+			"properties" : {
+				"nk" : "6533014",
+				"bab" : "A9",
+				"kt" : "51",
+				"as" : "AK Nürnberg"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 659266.3388, 5474905.8121000007 ]
+			},
+			"properties" : {
+				"nk" : "6533018",
+				"bab" : "A9",
+				"kt" : "52",
+				"as" : "AS Nürnberg-Fischbach"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 659619.7992000002, 5473772.3765999991 ]
+			},
+			"properties" : {
+				"nk" : "6633001",
+				"bab" : "A9",
+				"kt" : "53",
+				"as" : "AK Nürnberg-Ost"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 660049.5552000003, 5468636.2607000005 ]
+			},
+			"properties" : {
+				"nk" : "6633020",
+				"bab" : "A9",
+				"kt" : "54",
+				"as" : "AD Nürnberg/Feucht"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 661310.3775000004, 5457441.8753999993 ]
+			},
+			"properties" : {
+				"nk" : "6733011",
+				"bab" : "A9",
+				"kt" : "55",
+				"as" : "AS Allersberg"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 665039.8143999996, 5447945.0480000004 ]
+			},
+			"properties" : {
+				"nk" : "6833028",
+				"bab" : "A9",
+				"kt" : "56",
+				"as" : "AS Hilpoltstein"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 671658.0698999995, 5434796.2435999997 ]
+			},
+			"properties" : {
+				"nk" : "6934014",
+				"bab" : "A9",
+				"kt" : "57",
+				"as" : "AS Greding"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 673303.7907999996, 5430016.1469000001 ]
+			},
+			"properties" : {
+				"nk" : "7034017",
+				"bab" : "A9",
+				"kt" : "58",
+				"as" : "AS Altmühltal"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 673817.1425999999, 5429763.1262999997 ]
+			},
+			"properties" : {
+				"nk" : "7034024",
+				"bab" : "A9",
+				"kt" : "-",
+				"as" : "nördliche Trennung Kindinger Berg"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 675469.5036000004, 5427371.5841000006 ]
+			},
+			"properties" : {
+				"nk" : "7034025",
+				"bab" : "A9",
+				"kt" : "-",
+				"as" : "Unterscheidungs-NK in Bergfahrt Kindinger Berg"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 677488.8472999996, 5425719.0236000009 ]
+			},
+			"properties" : {
+				"nk" : "7034026",
+				"bab" : "A9",
+				"kt" : "-",
+				"as" : "südlicheTrennung Kindinger Berg"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 680319.7423, 5422678.3129999992 ]
+			},
+			"properties" : {
+				"nk" : "7034009",
+				"bab" : "A9",
+				"kt" : "59",
+				"as" : "AS Denkendorf"
 			}
 		},
 		{
@@ -1656,10 +3359,10 @@
 				"coordinates" : [ 680837.7550999997, 5414704.0220999997 ]
 			},
 			"properties" : {
-				"BAB" : "A9",
-				"NK" : "7134023O",
-				"KT" : "-",
-				"AS" : "A9 NLG Nordbayern / Südbayern"
+				"nk" : "7134023",
+				"bab" : "A9",
+				"kt" : "-",
+				"as" : "A9 NLG Nordbayern / Südbayern"
 			}
 		},
 		{
@@ -1669,10 +3372,10 @@
 				"coordinates" : [ 681118.3441000003, 5409906.6482999995 ]
 			},
 			"properties" : {
-				"BAB" : "A9",
-				"NK" : "7134029O",
-				"KT" : "60",
-				"AS" : "AS Lenting"
+				"nk" : "7134029",
+				"bab" : "A9",
+				"kt" : "60",
+				"as" : "AS Lenting"
 			}
 		},
 		{
@@ -1682,10 +3385,10 @@
 				"coordinates" : [ 680810.4941999996, 5405070.6753000002 ]
 			},
 			"properties" : {
-				"BAB" : "A9",
-				"NK" : "7234024O",
-				"KT" : "61",
-				"AS" : "AS Ingolstadt-Nord"
+				"nk" : "7234024",
+				"bab" : "A9",
+				"kt" : "61",
+				"as" : "AS Ingolstadt-Nord"
 			}
 		},
 		{
@@ -1695,10 +3398,10 @@
 				"coordinates" : [ 680669.591, 5402649.7625999991 ]
 			},
 			"properties" : {
-				"BAB" : "A9",
-				"NK" : "7234033O",
-				"KT" : "62",
-				"AS" : "AS Ingolstadt-Süd"
+				"nk" : "7234033",
+				"bab" : "A9",
+				"kt" : "62",
+				"as" : "AS Ingolstadt-Süd"
 			}
 		},
 		{
@@ -1708,10 +3411,10 @@
 				"coordinates" : [ 682808.9204000002, 5398209.7335999999 ]
 			},
 			"properties" : {
-				"BAB" : "A9",
-				"NK" : "7234053O",
-				"KT" : "63",
-				"AS" : "AS Manching"
+				"nk" : "7234053",
+				"bab" : "A9",
+				"kt" : "63",
+				"as" : "AS Manching"
 			}
 		},
 		{
@@ -1721,10 +3424,10 @@
 				"coordinates" : [ 685365.0581999999, 5391088.9625000004 ]
 			},
 			"properties" : {
-				"BAB" : "A9",
-				"NK" : "7335010O",
-				"KT" : "64",
-				"AS" : "AS Langenbruck"
+				"nk" : "7335010",
+				"bab" : "A9",
+				"kt" : "64",
+				"as" : "AS Langenbruck"
 			}
 		},
 		{
@@ -1734,10 +3437,10 @@
 				"coordinates" : [ 691079.2920000004, 5383961.7067000009 ]
 			},
 			"properties" : {
-				"BAB" : "A9",
-				"NK" : "7435003O",
-				"KT" : "65",
-				"AS" : "AD Holledau"
+				"nk" : "7435003",
+				"bab" : "A9",
+				"kt" : "65",
+				"as" : "AD Holledau"
 			}
 		},
 		{
@@ -1747,10 +3450,10 @@
 				"coordinates" : [ 691264.3700999999, 5375634.7281999998 ]
 			},
 			"properties" : {
-				"BAB" : "A9",
-				"NK" : "7435026O",
-				"KT" : "66",
-				"AS" : "AS Pfaffenhofen"
+				"nk" : "7435026",
+				"bab" : "A9",
+				"kt" : "66",
+				"as" : "AS Pfaffenhofen"
 			}
 		},
 		{
@@ -1760,10 +3463,10 @@
 				"coordinates" : [ 691542.8251, 5367229.2923000008 ]
 			},
 			"properties" : {
-				"BAB" : "A9",
-				"NK" : "7535015O",
-				"KT" : "67",
-				"AS" : "AS Allershausen"
+				"nk" : "7535015",
+				"bab" : "A9",
+				"kt" : "67",
+				"as" : "AS Allershausen"
 			}
 		},
 		{
@@ -1773,10 +3476,10 @@
 				"coordinates" : [ 694300.3523000004, 5354783.5788000003 ]
 			},
 			"properties" : {
-				"BAB" : "A9",
-				"NK" : "7635023O",
-				"KT" : "68",
-				"AS" : "AK Neufahrn"
+				"nk" : "7635023",
+				"bab" : "A9",
+				"kt" : "68",
+				"as" : "AK Neufahrn"
 			}
 		},
 		{
@@ -1786,10 +3489,10 @@
 				"coordinates" : [ 695089.6117000002, 5353008.4616999999 ]
 			},
 			"properties" : {
-				"BAB" : "A9",
-				"NK" : "7635022O",
-				"KT" : "69",
-				"AS" : "AS Eching"
+				"nk" : "7635022",
+				"bab" : "A9",
+				"kt" : "69",
+				"as" : "AS Eching"
 			}
 		},
 		{
@@ -1799,10 +3502,10 @@
 				"coordinates" : [ 696394.9989, 5349053.8239999991 ]
 			},
 			"properties" : {
-				"BAB" : "A9",
-				"NK" : "7735021O",
-				"KT" : "70",
-				"AS" : "AS Garching-Nord"
+				"nk" : "7735021",
+				"bab" : "A9",
+				"kt" : "70",
+				"as" : "AS Garching-Nord"
 			}
 		},
 		{
@@ -1812,10 +3515,10 @@
 				"coordinates" : [ 696028.1168, 5346717.1751000006 ]
 			},
 			"properties" : {
-				"BAB" : "A9",
-				"NK" : "7735029O",
-				"KT" : "71",
-				"AS" : "AS Garching-Süd"
+				"nk" : "7735029",
+				"bab" : "A9",
+				"kt" : "71",
+				"as" : "AS Garching-Süd"
 			}
 		},
 		{
@@ -1825,10 +3528,10 @@
 				"coordinates" : [ 695284.6895000003, 5344215.2303999998 ]
 			},
 			"properties" : {
-				"BAB" : "A9",
-				"NK" : "7735012O",
-				"KT" : "72",
-				"AS" : "AK München-Nord"
+				"nk" : "7735012",
+				"bab" : "A9",
+				"kt" : "72",
+				"as" : "AK München-Nord"
 			}
 		},
 		{
@@ -1838,10 +3541,10 @@
 				"coordinates" : [ 694771.4929, 5342489.3517000005 ]
 			},
 			"properties" : {
-				"BAB" : "A9",
-				"NK" : "7735026O",
-				"KT" : "73",
-				"AS" : "AS München-Fröttmaning-Süd"
+				"nk" : "7735026",
+				"bab" : "A9",
+				"kt" : "73",
+				"as" : "AS München-Fröttmaning-Süd"
 			}
 		},
 		{
@@ -1851,10 +3554,10 @@
 				"coordinates" : [ 694527.5630000001, 5341662.7563000005 ]
 			},
 			"properties" : {
-				"BAB" : "A9",
-				"NK" : "7835001O",
-				"KT" : "74",
-				"AS" : "AS München-Freimann"
+				"nk" : "7835001",
+				"bab" : "A9",
+				"kt" : "74",
+				"as" : "AS München-Freimann"
 			}
 		},
 		{
@@ -1864,10 +3567,10 @@
 				"coordinates" : [ 694121.2527999999, 5340450.9261000007 ]
 			},
 			"properties" : {
-				"BAB" : "A9",
-				"NK" : "7835006O",
-				"KT" : "75",
-				"AS" : "AS München-Frankfurter Ring"
+				"nk" : "7835006",
+				"bab" : "A9",
+				"kt" : "75",
+				"as" : "AS München-Frankfurter Ring"
 			}
 		},
 		{
@@ -1877,10 +3580,1115 @@
 				"coordinates" : [ 692750.6366999997, 5339062.3181999996 ]
 			},
 			"properties" : {
-				"BAB" : "A9",
-				"NK" : "7835015O",
-				"KT" : "76",
-				"AS" : "AS München-Schwabing"
+				"nk" : "7835015",
+				"bab" : "A9",
+				"kt" : "76",
+				"as" : "AS München-Schwabing"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 576890.8052000003, 5539640.9495000001 ]
+			},
+			"properties" : {
+				"nk" : "5926041",
+				"bab" : "A70",
+				"kt" : "-",
+				"as" : "AN Kreuz Schweinfurt/Werneck (A70/B26A)"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 577289.591, 5539354.5174000002 ]
+			},
+			"properties" : {
+				"nk" : "5926029",
+				"bab" : "A70",
+				"kt" : "2",
+				"as" : "AK Schweinfurt/Werneck"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 580178.3298000004, 5539443.1382999998 ]
+			},
+			"properties" : {
+				"nk" : "5926011",
+				"bab" : "A70",
+				"kt" : "3",
+				"as" : "AS Werneck"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 583370.2658000002, 5541395.6472999994 ]
+			},
+			"properties" : {
+				"nk" : "5926047",
+				"bab" : "A70",
+				"kt" : "4",
+				"as" : "AD Werntal"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 585425.7010000004, 5541651.6140999999 ]
+			},
+			"properties" : {
+				"nk" : "5927022",
+				"bab" : "A70",
+				"kt" : "5",
+				"as" : "AS Schweinfurt/Bergrheinfeld"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 587277.5990000004, 5541863.7996999994 ]
+			},
+			"properties" : {
+				"nk" : "5927040",
+				"bab" : "A70",
+				"kt" : "6",
+				"as" : "AS Schweinfurt-Hafen"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 588673.5796999997, 5542088.9772999994 ]
+			},
+			"properties" : {
+				"nk" : "5927023",
+				"bab" : "A70",
+				"kt" : "7",
+				"as" : "AS Schweinfurt-Zentrum"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 590520.6931999996, 5542705.9485999998 ]
+			},
+			"properties" : {
+				"nk" : "5927039",
+				"bab" : "A70",
+				"kt" : "8",
+				"as" : "AS Gochsheim"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 594939.9332999997, 5541813.9642999992 ]
+			},
+			"properties" : {
+				"nk" : "5927026",
+				"bab" : "A70",
+				"kt" : "9",
+				"as" : "AS Schonungen"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 602869.9368000003, 5539980.0280000009 ]
+			},
+			"properties" : {
+				"nk" : "5928025",
+				"bab" : "A70",
+				"kt" : "10",
+				"as" : "AS Haßfurt"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 611713.8946000002, 5537429.8289000001 ]
+			},
+			"properties" : {
+				"nk" : "6029025",
+				"bab" : "A70",
+				"kt" : "11",
+				"as" : "AS Knetzgau"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 619790.8114, 5537503.5595999993 ]
+			},
+			"properties" : {
+				"nk" : "6030034",
+				"bab" : "A70",
+				"kt" : "12",
+				"as" : "AS Eltmann"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 627703.9504000004, 5532586.5282000005 ]
+			},
+			"properties" : {
+				"nk" : "6030036",
+				"bab" : "A70",
+				"kt" : "13",
+				"as" : "AS Viereth-Trunstadt"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 633511.4192000004, 5531154.7877999991 ]
+			},
+			"properties" : {
+				"nk" : "6031049",
+				"bab" : "A70",
+				"kt" : "14",
+				"as" : "AS Bamberg-Hafen"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 634631.8794999998, 5531539.8736000005 ]
+			},
+			"properties" : {
+				"nk" : "6031015",
+				"bab" : "A70",
+				"kt" : "15",
+				"as" : "AS Hallstadt"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 636302.5301999999, 5531784.4650999997 ]
+			},
+			"properties" : {
+				"nk" : "6031038",
+				"bab" : "A70",
+				"kt" : "16",
+				"as" : "AS Bamberg"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 637567.8098999998, 5532496.2607000005 ]
+			},
+			"properties" : {
+				"nk" : "6031016",
+				"bab" : "A70",
+				"kt" : "17",
+				"as" : "AK Bamberg"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 646631.9164000005, 5538698.5300999992 ]
+			},
+			"properties" : {
+				"nk" : "6032003",
+				"bab" : "A70",
+				"kt" : "18",
+				"as" : "AS Scheßlitz"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 651936.7255999995, 5539529.3308000006 ]
+			},
+			"properties" : {
+				"nk" : "6032002",
+				"bab" : "A70",
+				"kt" : "19",
+				"as" : "AS Roßdorf a.Berg"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 658205.4068999998, 5541017.5618999992 ]
+			},
+			"properties" : {
+				"nk" : "5933015",
+				"bab" : "A70",
+				"kt" : "20",
+				"as" : "AS Stadelhofen"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 666481.0014000004, 5542508.3870999999 ]
+			},
+			"properties" : {
+				"nk" : "5933021",
+				"bab" : "A70",
+				"kt" : "21",
+				"as" : "AS Schirradorf"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 671210.6448999997, 5543154.8310000002 ]
+			},
+			"properties" : {
+				"nk" : "5934019",
+				"bab" : "A70",
+				"kt" : "22",
+				"as" : "AS Thurnau-West"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 672703.7779999999, 5543704.4041000009 ]
+			},
+			"properties" : {
+				"nk" : "5934026",
+				"bab" : "A70",
+				"kt" : "23",
+				"as" : "AS Thurnau-Ost"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 678323.9062999999, 5545954.3417000007 ]
+			},
+			"properties" : {
+				"nk" : "5934025",
+				"bab" : "A70",
+				"kt" : "24",
+				"as" : "AS Kulmbach/Neudrossenfeld"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 598885.0636, 5587234.7544999998 ]
+			},
+			"properties" : {
+				"nk" : "5528005",
+				"bab" : "A71",
+				"kt" : "-",
+				"as" : "LGR Thüringen"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 594661.9462000001, 5585371.7436999995 ]
+			},
+			"properties" : {
+				"nk" : "5528006",
+				"bab" : "A71",
+				"kt" : "24",
+				"as" : "AS Mellrichstadt"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 591961.5229000002, 5576176.0154999997 ]
+			},
+			"properties" : {
+				"nk" : "5627046",
+				"bab" : "A71",
+				"kt" : "25",
+				"as" : "AS Bad Neustadt a.d.Saale"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 586897.1891999999, 5568385.7912000008 ]
+			},
+			"properties" : {
+				"nk" : "5727018",
+				"bab" : "A71",
+				"kt" : "26",
+				"as" : "AS Münnerstadt"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 586862.3504999997, 5561681.8757000007 ]
+			},
+			"properties" : {
+				"nk" : "5727019",
+				"bab" : "A71",
+				"kt" : "27",
+				"as" : "AS Maßbach"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 582548.2401999999, 5555205.6539999992 ]
+			},
+			"properties" : {
+				"nk" : "5826035",
+				"bab" : "A71",
+				"kt" : "28",
+				"as" : "AS Bad Kissingen/Oerlenbach"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 582854.4780999999, 5549540.1590999998 ]
+			},
+			"properties" : {
+				"nk" : "5926045",
+				"bab" : "A71",
+				"kt" : "29",
+				"as" : "AS Poppenhausen"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 582338.2364999996, 5545943.8202999998 ]
+			},
+			"properties" : {
+				"nk" : "5926046",
+				"bab" : "A71",
+				"kt" : "30",
+				"as" : "AS Schweinfurt-West"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 583370.2658000002, 5541395.6472999994 ]
+			},
+			"properties" : {
+				"nk" : "5926047",
+				"bab" : "A71",
+				"kt" : "31",
+				"as" : "AD Werntal"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 698843.9009999996, 5578172.2192000002 ]
+			},
+			"properties" : {
+				"nk" : "5636021",
+				"bab" : "A72",
+				"kt" : "1",
+				"as" : "AD Bayerisches Vogtland"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 698955.3189000003, 5578503.9616999999 ]
+			},
+			"properties" : {
+				"nk" : "5636035",
+				"bab" : "A72",
+				"kt" : "-",
+				"as" : "A72 KMS"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 701417.1321999999, 5580591.0167999994 ]
+			},
+			"properties" : {
+				"nk" : "5636028",
+				"bab" : "A72",
+				"kt" : "2",
+				"as" : "AS Hof-Nord"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 705683.2763999999, 5583713.8212000001 ]
+			},
+			"properties" : {
+				"nk" : "5637048",
+				"bab" : "A72",
+				"kt" : "3",
+				"as" : "AS Hof/Töpen"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 710637.3301999997, 5585508.0759999994 ]
+			},
+			"properties" : {
+				"nk" : "5637053",
+				"bab" : "A72",
+				"kt" : "4",
+				"as" : "AD Hochfranken"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 711817.0548999999, 5586221.2408000007 ]
+			},
+			"properties" : {
+				"nk" : "5637004",
+				"bab" : "A72",
+				"kt" : "-",
+				"as" : "LGR Sachsen"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 636231.1108999997, 5583421.5606999993 ]
+			},
+			"properties" : {
+				"nk" : "5631012",
+				"bab" : "A73",
+				"kt" : "-",
+				"as" : "A73 NLG Ost / Nordbayern"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 641035.8901000004, 5572908.1007000003 ]
+			},
+			"properties" : {
+				"nk" : "5731049",
+				"bab" : "A73",
+				"kt" : "7",
+				"as" : "AS Coburg"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 642619.0476000002, 5573436.4748999998 ]
+			},
+			"properties" : {
+				"nk" : "5732032",
+				"bab" : "A73",
+				"kt" : "8",
+				"as" : "AS Neustadt b.Coburg"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 643292.9477000004, 5572471.3114 ]
+			},
+			"properties" : {
+				"nk" : "5732027",
+				"bab" : "A73",
+				"kt" : "9",
+				"as" : "AS Rödental"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 646211.9138000002, 5565342.8205999993 ]
+			},
+			"properties" : {
+				"nk" : "5732028",
+				"bab" : "A73",
+				"kt" : "10",
+				"as" : "AS Ebersdorf b.Coburg"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 643597.7007999998, 5558643.5042000003 ]
+			},
+			"properties" : {
+				"nk" : "5832030",
+				"bab" : "A73",
+				"kt" : "11",
+				"as" : "AS Untersiemau"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 645141.4444000004, 5556898.8855000008 ]
+			},
+			"properties" : {
+				"nk" : "5832031",
+				"bab" : "A73",
+				"kt" : "12",
+				"as" : "AS Lichtenfels-Nord"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 645249.7830999997, 5554738.6363999993 ]
+			},
+			"properties" : {
+				"nk" : "5832032",
+				"bab" : "A73",
+				"kt" : "13",
+				"as" : "AS Lichtenfels"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 644027.665, 5552760.8033000007 ]
+			},
+			"properties" : {
+				"nk" : "5832021",
+				"bab" : "A73",
+				"kt" : "14",
+				"as" : "AS Bad Staffelstein-Kurzentrum"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 643369.1215000004, 5550887.6294 ]
+			},
+			"properties" : {
+				"nk" : "5932009",
+				"bab" : "A73",
+				"kt" : "15",
+				"as" : "AS Bad Staffelstein"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 640760.0610999996, 5547045.8493000008 ]
+			},
+			"properties" : {
+				"nk" : "5931025",
+				"bab" : "A73",
+				"kt" : "16",
+				"as" : "AS Ebensfeld"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 639198.0086000003, 5541774.8663999997 ]
+			},
+			"properties" : {
+				"nk" : "5931026",
+				"bab" : "A73",
+				"kt" : "17",
+				"as" : "AS Zapfendorf"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 635266.9299999997, 5538008.4174000006 ]
+			},
+			"properties" : {
+				"nk" : "6031031",
+				"bab" : "A73",
+				"kt" : "18",
+				"as" : "AS Breitengüßbach-Nord"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 634605.9373000003, 5537289.7142999992 ]
+			},
+			"properties" : {
+				"nk" : "6031048",
+				"bab" : "A73",
+				"kt" : "19",
+				"as" : "AS Breitengüßbach-Mitte"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 635283.1130999997, 5535635.2528000008 ]
+			},
+			"properties" : {
+				"nk" : "6031032",
+				"bab" : "A73",
+				"kt" : "20",
+				"as" : "AS Breitengüßbach-Süd"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 637567.8098999998, 5532496.2607000005 ]
+			},
+			"properties" : {
+				"nk" : "6031016",
+				"bab" : "A73",
+				"kt" : "21",
+				"as" : "AK Bamberg"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 638466.6520999996, 5531614.8306000009 ]
+			},
+			"properties" : {
+				"nk" : "6031018",
+				"bab" : "A73",
+				"kt" : "22",
+				"as" : "AS Memmelsdorf"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 639704.5109000001, 5529788.9649 ]
+			},
+			"properties" : {
+				"nk" : "6031028",
+				"bab" : "A73",
+				"kt" : "23",
+				"as" : "AS Bamberg-Ost"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 640147.4331999999, 5526061.6175999995 ]
+			},
+			"properties" : {
+				"nk" : "6131041",
+				"bab" : "A73",
+				"kt" : "24",
+				"as" : "AS Bamberg-Süd"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 644505.0285999998, 5521016.1887999997 ]
+			},
+			"properties" : {
+				"nk" : "6132022",
+				"bab" : "A73",
+				"kt" : "25",
+				"as" : "AS Hirschaid"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 645765.2997000003, 5517817.3197000008 ]
+			},
+			"properties" : {
+				"nk" : "6232036",
+				"bab" : "A73",
+				"kt" : "26",
+				"as" : "AS Buttenheim"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 647997.0961999996, 5511398.3594000004 ]
+			},
+			"properties" : {
+				"nk" : "6232029",
+				"bab" : "A73",
+				"kt" : "27",
+				"as" : "AS Forchheim-Nord"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 648716.9195999997, 5506899.5546000004 ]
+			},
+			"properties" : {
+				"nk" : "6332054",
+				"bab" : "A73",
+				"kt" : "28",
+				"as" : "AS Forchheim-Süd"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 647847.2976000002, 5504571.7471999992 ]
+			},
+			"properties" : {
+				"nk" : "6332058",
+				"bab" : "A73",
+				"kt" : "29",
+				"as" : "AS Baiersdorf-Nord"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 645224.0535000004, 5500204.4229000006 ]
+			},
+			"properties" : {
+				"nk" : "6332046",
+				"bab" : "A73",
+				"kt" : "30",
+				"as" : "AS Möhrendorf"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 644387.1391000003, 5496522.0577000007 ]
+			},
+			"properties" : {
+				"nk" : "6331015",
+				"bab" : "A73",
+				"kt" : "31",
+				"as" : "AS Erlangen-Nord"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 644261.2183999997, 5495072.1757999994 ]
+			},
+			"properties" : {
+				"nk" : "6431055",
+				"bab" : "A73",
+				"kt" : "32",
+				"as" : "AS Erlangen-Zentrum"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 643725.4521000003, 5494063.2750000004 ]
+			},
+			"properties" : {
+				"nk" : "6431008",
+				"bab" : "A73",
+				"kt" : "33",
+				"as" : "AS Erlangen-Bruck"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 644055.1368000004, 5491594.9968999997 ]
+			},
+			"properties" : {
+				"nk" : "6431028",
+				"bab" : "A73",
+				"kt" : "34",
+				"as" : "AK Fürth/Erlangen"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 644176.2100999998, 5489498.2203000002 ]
+			},
+			"properties" : {
+				"nk" : "6431034",
+				"bab" : "A73",
+				"kt" : "35",
+				"as" : "AS Erlangen-Eltersdorf"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 644182.7167999996, 5486911.4129000008 ]
+			},
+			"properties" : {
+				"nk" : "6431073",
+				"bab" : "A73",
+				"kt" : "36",
+				"as" : "AS Fürth-Steinach"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 644794.1096999999, 5484443.0448000003 ]
+			},
+			"properties" : {
+				"nk" : "6532031",
+				"bab" : "A73",
+				"kt" : "37",
+				"as" : "AS Fürth-Ronhof"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 645245.0285999998, 5482928.7852999996 ]
+			},
+			"properties" : {
+				"nk" : "6532032",
+				"bab" : "A73",
+				"kt" : "38",
+				"as" : "AS Fürth-Poppenreuth"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 646058.6478000004, 5481320.8582000006 ]
+			},
+			"properties" : {
+				"nk" : "6532054",
+				"bab" : "A73",
+				"kt" : "39",
+				"as" : "A73 N4 (AS Nürnberg/Fürth N)"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 650340.8635999998, 5474528.2755999994 ]
+			},
+			"properties" : {
+				"nk" : "6532051",
+				"bab" : "A73",
+				"kt" : "43",
+				"as" : "A73 Südwesttangente (AS Nürnberg-Hafen-Ost S)"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 651236.7416000003, 5473441.3467999995 ]
+			},
+			"properties" : {
+				"nk" : "6632034",
+				"bab" : "A73",
+				"kt" : "44",
+				"as" : "AS Nürnberg-Hafen-Süd"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 653571.1484000003, 5473177.8605000004 ]
+			},
+			"properties" : {
+				"nk" : "6632033",
+				"bab" : "A73",
+				"kt" : "45",
+				"as" : "AS Nürnberg-Münchener Straße"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 655079.8245999999, 5471641.8331000004 ]
+			},
+			"properties" : {
+				"nk" : "6632032",
+				"bab" : "A73",
+				"kt" : "46",
+				"as" : "AK Nürnberg-Süd"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 656426.2335000001, 5471148.2577999998 ]
+			},
+			"properties" : {
+				"nk" : "6632006",
+				"bab" : "A73",
+				"kt" : "472",
+				"as" : "AS Wendelstein (FR 2)"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 657554.3971999995, 5470722.1004000008 ]
+			},
+			"properties" : {
+				"nk" : "6633007",
+				"bab" : "A73",
+				"kt" : "471",
+				"as" : "AS Wendelstein (FR 1)"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 659539.2478, 5470222.6752000004 ]
+			},
+			"properties" : {
+				"nk" : "6633019",
+				"bab" : "A73",
+				"kt" : "48",
+				"as" : "AS Feucht"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 659774.5368999997, 5469227.9793999996 ]
+			},
+			"properties" : {
+				"nk" : "6633024",
+				"bab" : "A73",
+				"kt" : "-",
+				"as" : "A73 KMS"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 660049.5552000003, 5468636.2607000005 ]
+			},
+			"properties" : {
+				"nk" : "6633020",
+				"bab" : "A73",
+				"kt" : "49",
+				"as" : "AD Nürnberg/Feucht"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 558980.5094999997, 5510907.0513000004 ]
+			},
+			"properties" : {
+				"nk" : "6224215",
+				"bab" : "A81",
+				"kt" : "1",
+				"as" : "AD Würzburg-West"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 559490.392, 5508468.7196999993 ]
+			},
+			"properties" : {
+				"nk" : "6224219",
+				"bab" : "A81",
+				"kt" : "2",
+				"as" : "AS Gerchsheim"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 558611.0219999999, 5507027.1756999996 ]
+			},
+			"properties" : {
+				"nk" : "6224008",
+				"bab" : "A81",
+				"kt" : "-",
+				"as" : "LG A81 Landesgrenze Ba-Wü / Bayern A81"
 			}
 		},
 		{
@@ -1890,10 +4698,10 @@
 				"coordinates" : [ 688778.2076000003, 5344565.4866000004 ]
 			},
 			"properties" : {
-				"BAB" : "A92",
-				"NK" : "7735017O",
-				"KT" : "1",
-				"AS" : "AD München-Feldmoching"
+				"nk" : "7735017",
+				"bab" : "A92",
+				"kt" : "1",
+				"as" : "AD München-Feldmoching"
 			}
 		},
 		{
@@ -1903,10 +4711,10 @@
 				"coordinates" : [ 687997.352, 5347452.1579999998 ]
 			},
 			"properties" : {
-				"BAB" : "A92",
-				"NK" : "7735016O",
-				"KT" : "2",
-				"AS" : "AS Oberschleißheim"
+				"nk" : "7735016",
+				"bab" : "A92",
+				"kt" : "2",
+				"as" : "AS Oberschleißheim"
 			}
 		},
 		{
@@ -1916,10 +4724,10 @@
 				"coordinates" : [ 691217.6919999998, 5352392.6476000007 ]
 			},
 			"properties" : {
-				"BAB" : "A92",
-				"NK" : "7735020O",
-				"KT" : "3",
-				"AS" : "AS Unterschleißheim"
+				"nk" : "7735020",
+				"bab" : "A92",
+				"kt" : "3",
+				"as" : "AS Unterschleißheim"
 			}
 		},
 		{
@@ -1929,10 +4737,10 @@
 				"coordinates" : [ 694300.3523000004, 5354783.5788000003 ]
 			},
 			"properties" : {
-				"BAB" : "A92",
-				"NK" : "7635023O",
-				"KT" : "4",
-				"AS" : "AK Neufahrn"
+				"nk" : "7635023",
+				"bab" : "A92",
+				"kt" : "4",
+				"as" : "AK Neufahrn"
 			}
 		},
 		{
@@ -1942,10 +4750,10 @@
 				"coordinates" : [ 695112.9686000003, 5355413.7919999994 ]
 			},
 			"properties" : {
-				"BAB" : "A92",
-				"NK" : "7635028O",
-				"KT" : "4",
-				"AS" : "AS Eching-Ost"
+				"nk" : "7635028",
+				"bab" : "A92",
+				"kt" : "4",
+				"as" : "AS Eching-Ost"
 			}
 		},
 		{
@@ -1955,10 +4763,10 @@
 				"coordinates" : [ 700072.4995999997, 5356965.3184999991 ]
 			},
 			"properties" : {
-				"BAB" : "A92",
-				"NK" : "7636013O",
-				"KT" : "5",
-				"AS" : "AS Freising-Süd"
+				"nk" : "7636013",
+				"bab" : "A92",
+				"kt" : "5",
+				"as" : "AS Freising-Süd"
 			}
 		},
 		{
@@ -1968,10 +4776,10 @@
 				"coordinates" : [ 702093.0552000003, 5358920.2215999998 ]
 			},
 			"properties" : {
-				"BAB" : "A92",
-				"NK" : "7636022O",
-				"KT" : "6",
-				"AS" : "AD Flughafen München-Franz Josef Strauß"
+				"nk" : "7636022",
+				"bab" : "A92",
+				"kt" : "6",
+				"as" : "AD Flughafen München-FJS"
 			}
 		},
 		{
@@ -1981,10 +4789,10 @@
 				"coordinates" : [ 703274.3640999999, 5361231.1517999992 ]
 			},
 			"properties" : {
-				"BAB" : "A92",
-				"NK" : "7636025O",
-				"KT" : "7",
-				"AS" : "AS Freising-Mitte"
+				"nk" : "7636025",
+				"bab" : "A92",
+				"kt" : "7",
+				"as" : "AS Freising-Mitte"
 			}
 		},
 		{
@@ -1994,10 +4802,10 @@
 				"coordinates" : [ 705728.1973000001, 5363100.3977000006 ]
 			},
 			"properties" : {
-				"BAB" : "A92",
-				"NK" : "7636012O",
-				"KT" : "8",
-				"AS" : "AS Freising-Ost"
+				"nk" : "7636012",
+				"bab" : "A92",
+				"kt" : "8",
+				"as" : "AS Freising-Ost"
 			}
 		},
 		{
@@ -2007,10 +4815,10 @@
 				"coordinates" : [ 711485.8744999999, 5364351.2321000006 ]
 			},
 			"properties" : {
-				"BAB" : "A92",
-				"NK" : "7637021O",
-				"KT" : "9",
-				"AS" : "AS Erding"
+				"nk" : "7637021",
+				"bab" : "A92",
+				"kt" : "9",
+				"as" : "AS Erding"
 			}
 		},
 		{
@@ -2020,10 +4828,10 @@
 				"coordinates" : [ 719166.5971999997, 5370330.1160000004 ]
 			},
 			"properties" : {
-				"BAB" : "A92",
-				"NK" : "7537028O",
-				"KT" : "10",
-				"AS" : "AS Moosburg-Süd"
+				"nk" : "7537028",
+				"bab" : "A92",
+				"kt" : "10",
+				"as" : "AS Moosburg-Süd"
 			}
 		},
 		{
@@ -2033,10 +4841,10 @@
 				"coordinates" : [ 721092.8515999997, 5374061.3844000008 ]
 			},
 			"properties" : {
-				"BAB" : "A92",
-				"NK" : "7537024O",
-				"KT" : "11",
-				"AS" : "AS Moosburg-Nord"
+				"nk" : "7537024",
+				"bab" : "A92",
+				"kt" : "11",
+				"as" : "AS Moosburg-Nord"
 			}
 		},
 		{
@@ -2046,10 +4854,10 @@
 				"coordinates" : [ 726755.8949999996, 5380122.3903999999 ]
 			},
 			"properties" : {
-				"BAB" : "A92",
-				"NK" : "7438028O",
-				"KT" : "12",
-				"AS" : "AS Landshut-West"
+				"nk" : "7438028",
+				"bab" : "A92",
+				"kt" : "12",
+				"as" : "AS Landshut-West"
 			}
 		},
 		{
@@ -2059,10 +4867,10 @@
 				"coordinates" : [ 728327.1328999996, 5383959.9467999991 ]
 			},
 			"properties" : {
-				"BAB" : "A92",
-				"NK" : "7438029O",
-				"KT" : "13",
-				"AS" : "AS Altdorf"
+				"nk" : "7438029",
+				"bab" : "A92",
+				"kt" : "13",
+				"as" : "AS Altdorf"
 			}
 		},
 		{
@@ -2072,10 +4880,10 @@
 				"coordinates" : [ 731289.6442999998, 5384872.1254999992 ]
 			},
 			"properties" : {
-				"BAB" : "A92",
-				"NK" : "7438030O",
-				"KT" : "14",
-				"AS" : "AS Landshut-Nord"
+				"nk" : "7438030",
+				"bab" : "A92",
+				"kt" : "14",
+				"as" : "AS Landshut-Nord"
 			}
 		},
 		{
@@ -2085,10 +4893,10 @@
 				"coordinates" : [ 735127.9456000002, 5386316.2314999998 ]
 			},
 			"properties" : {
-				"BAB" : "A92",
-				"NK" : "7439026O",
-				"KT" : "15",
-				"AS" : "AS Landshut/Essenbach"
+				"nk" : "7439026",
+				"bab" : "A92",
+				"kt" : "15",
+				"as" : "AS Landshut/Essenbach"
 			}
 		},
 		{
@@ -2098,10 +4906,10 @@
 				"coordinates" : [ 738210.5533999996, 5388181.1102000009 ]
 			},
 			"properties" : {
-				"BAB" : "A92",
-				"NK" : "7339029O",
-				"KT" : "16",
-				"AS" : "AK Landshut"
+				"nk" : "7339029",
+				"bab" : "A92",
+				"kt" : "16",
+				"as" : "AK Landshut"
 			}
 		},
 		{
@@ -2111,10 +4919,10 @@
 				"coordinates" : [ 744767.3251999998, 5391443.1724999994 ]
 			},
 			"properties" : {
-				"BAB" : "A92",
-				"NK" : "7339021O",
-				"KT" : "17",
-				"AS" : "AS Wörth a.d.Isar"
+				"nk" : "7339021",
+				"bab" : "A92",
+				"kt" : "17",
+				"as" : "AS Wörth a.d.Isar"
 			}
 		},
 		{
@@ -2124,10 +4932,10 @@
 				"coordinates" : [ 753092.1248000003, 5393895.6576000005 ]
 			},
 			"properties" : {
-				"BAB" : "A92",
-				"NK" : "7340045O",
-				"KT" : "18",
-				"AS" : "AS Dingolfing-West"
+				"nk" : "7340045",
+				"bab" : "A92",
+				"kt" : "18",
+				"as" : "AS Dingolfing-West"
 			}
 		},
 		{
@@ -2137,10 +4945,10 @@
 				"coordinates" : [ 755596.7988999998, 5395119.7942999993 ]
 			},
 			"properties" : {
-				"BAB" : "A92",
-				"NK" : "7340035O",
-				"KT" : "19",
-				"AS" : "AS Dingolfing-Mitte"
+				"nk" : "7340035",
+				"bab" : "A92",
+				"kt" : "19",
+				"as" : "AS Dingolfing-Mitte"
 			}
 		},
 		{
@@ -2150,10 +4958,10 @@
 				"coordinates" : [ 759428.4083000002, 5395910.5584999993 ]
 			},
 			"properties" : {
-				"BAB" : "A92",
-				"NK" : "7341028O",
-				"KT" : "20",
-				"AS" : "AS Dingolfing-Ost"
+				"nk" : "7341028",
+				"bab" : "A92",
+				"kt" : "20",
+				"as" : "AS Dingolfing-Ost"
 			}
 		},
 		{
@@ -2163,10 +4971,10 @@
 				"coordinates" : [ 765610.5082, 5398383.7595000006 ]
 			},
 			"properties" : {
-				"BAB" : "A92",
-				"NK" : "7341022O",
-				"KT" : "21",
-				"AS" : "AS Pilsting-Großköllnbach"
+				"nk" : "7341022",
+				"bab" : "A92",
+				"kt" : "21",
+				"as" : "AS Pilsting-Großköllnbach"
 			}
 		},
 		{
@@ -2176,10 +4984,10 @@
 				"coordinates" : [ 770391.9537000004, 5400193.4345999993 ]
 			},
 			"properties" : {
-				"BAB" : "A92",
-				"NK" : "7342032O",
-				"KT" : "22",
-				"AS" : "AS Landau a.d.Isar"
+				"nk" : "7342032",
+				"bab" : "A92",
+				"kt" : "22",
+				"as" : "AS Landau a.d.Isar"
 			}
 		},
 		{
@@ -2189,10 +4997,10 @@
 				"coordinates" : [ 774129.8197999997, 5403803.7431000005 ]
 			},
 			"properties" : {
-				"BAB" : "A92",
-				"NK" : "7242033O",
-				"KT" : "23",
-				"AS" : "AS Wallersdorf-West"
+				"nk" : "7242033",
+				"bab" : "A92",
+				"kt" : "23",
+				"as" : "AS Wallersdorf-West"
 			}
 		},
 		{
@@ -2202,10 +5010,10 @@
 				"coordinates" : [ 775184.0360000003, 5405973.7008999996 ]
 			},
 			"properties" : {
-				"BAB" : "A92",
-				"NK" : "7242022O",
-				"KT" : "24",
-				"AS" : "AS Wallersdorf-Nord"
+				"nk" : "7242022",
+				"bab" : "A92",
+				"kt" : "24",
+				"as" : "AS Wallersdorf-Nord"
 			}
 		},
 		{
@@ -2215,10 +5023,10 @@
 				"coordinates" : [ 781645.1245999997, 5411379.8947999999 ]
 			},
 			"properties" : {
-				"BAB" : "A92",
-				"NK" : "7243003O",
-				"KT" : "25",
-				"AS" : "AS Plattling-West"
+				"nk" : "7243003",
+				"bab" : "A92",
+				"kt" : "25",
+				"as" : "AS Plattling-West"
 			}
 		},
 		{
@@ -2228,10 +5036,10 @@
 				"coordinates" : [ 786721.0827000001, 5412261.7469999995 ]
 			},
 			"properties" : {
-				"BAB" : "A92",
-				"NK" : "7243001O",
-				"KT" : "27",
-				"AS" : "AS Plattling-Nord"
+				"nk" : "7243001",
+				"bab" : "A92",
+				"kt" : "27",
+				"as" : "AS Plattling-Nord"
 			}
 		},
 		{
@@ -2241,10 +5049,10 @@
 				"coordinates" : [ 789183.6884000003, 5414763.5547000002 ]
 			},
 			"properties" : {
-				"BAB" : "A92",
-				"NK" : "7143018O",
-				"KT" : "28",
-				"AS" : "AK Deggendorf"
+				"nk" : "7143018",
+				"bab" : "A92",
+				"kt" : "28",
+				"as" : "AK Deggendorf"
 			}
 		},
 		{
@@ -2254,10 +5062,478 @@
 				"coordinates" : [ 790143.8799999999, 5416525.9038999993 ]
 			},
 			"properties" : {
-				"BAB" : "A92",
-				"NK" : "7143032Q",
-				"KT" : "29",
-				"AS" : "AS Deggendorf-Mitte"
+				"nk" : "7143032",
+				"bab" : "A92",
+				"kt" : "29",
+				"as" : "AS Deggendorf-Mitte"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 710637.3301999997, 5585508.0759999994 ]
+			},
+			"properties" : {
+				"nk" : "5637053",
+				"bab" : "A93N",
+				"kt" : "1",
+				"as" : "AD Hochfranken"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 711431.0422, 5581981.3137999997 ]
+			},
+			"properties" : {
+				"nk" : "5637052",
+				"bab" : "A93N",
+				"kt" : "2",
+				"as" : "AS Hof-Ost"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 715229.0285999998, 5577557.2842999995 ]
+			},
+			"properties" : {
+				"nk" : "5638207",
+				"bab" : "A93N",
+				"kt" : "3",
+				"as" : "AS Regnitzlosau"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 716097.3159999996, 5572903.9914999995 ]
+			},
+			"properties" : {
+				"nk" : "5738020",
+				"bab" : "A93N",
+				"kt" : "4",
+				"as" : "AS Hof-Süd"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 717071.6161000002, 5572050.4104999993 ]
+			},
+			"properties" : {
+				"nk" : "5738013",
+				"bab" : "A93N",
+				"kt" : "5",
+				"as" : "AS Rehau-Nord"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 718143.6272999998, 5570572.9072999991 ]
+			},
+			"properties" : {
+				"nk" : "5738015",
+				"bab" : "A93N",
+				"kt" : "6",
+				"as" : "AS Rehau-Süd"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 720469.2577999998, 5567161.8333999999 ]
+			},
+			"properties" : {
+				"nk" : "5738021",
+				"bab" : "A93N",
+				"kt" : "7",
+				"as" : "AS Schönwald"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 722899.1805999996, 5563381.4937999994 ]
+			},
+			"properties" : {
+				"nk" : "5838007",
+				"bab" : "A93N",
+				"kt" : "8",
+				"as" : "AS Selb-Nord"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 721890.4697000002, 5561908.9968999997 ]
+			},
+			"properties" : {
+				"nk" : "5838006",
+				"bab" : "A93N",
+				"kt" : "9",
+				"as" : "AS Selb-West"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 721278.9641000004, 5554686.3282999992 ]
+			},
+			"properties" : {
+				"nk" : "5838012",
+				"bab" : "A93N",
+				"kt" : "10",
+				"as" : "AS Höchstädt "
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 721944.2825999996, 5551565.3674999997 ]
+			},
+			"properties" : {
+				"nk" : "5938026",
+				"bab" : "A93N",
+				"kt" : "11",
+				"as" : "AS Thiersheim"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 722374.4162999997, 5547505.3595000003 ]
+			},
+			"properties" : {
+				"nk" : "5938011",
+				"bab" : "A93N",
+				"kt" : "12",
+				"as" : "AS Wunsiedel"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 723076.6984999999, 5545193.1520000007 ]
+			},
+			"properties" : {
+				"nk" : "5938031",
+				"bab" : "A93N",
+				"kt" : "13",
+				"as" : "AS Marktredwitz-Nord"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 722966.0497000003, 5543733.1287999991 ]
+			},
+			"properties" : {
+				"nk" : "5938030",
+				"bab" : "A93N",
+				"kt" : "14",
+				"as" : "AS Marktredwitz-Süd"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 724725.3359000003, 5541052.7664000001 ]
+			},
+			"properties" : {
+				"nk" : "6038017",
+				"bab" : "A93N",
+				"kt" : "15",
+				"as" : "AS Pechbrunn"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 730341.7959000003, 5537963.1718000006 ]
+			},
+			"properties" : {
+				"nk" : "6039027",
+				"bab" : "A93N",
+				"kt" : "16",
+				"as" : "AS Mitterteich-Nord"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 731411.7611999996, 5536477.2731999997 ]
+			},
+			"properties" : {
+				"nk" : "6039028",
+				"bab" : "A93N",
+				"kt" : "17",
+				"as" : "AS Mitterteich-Süd"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 731147.0972999996, 5533790.9168999996 ]
+			},
+			"properties" : {
+				"nk" : "6039025",
+				"bab" : "A93N",
+				"kt" : "18",
+				"as" : "AS Wiesau"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 728541.9570000004, 5527747.6634 ]
+			},
+			"properties" : {
+				"nk" : "6139021",
+				"bab" : "A93N",
+				"kt" : "19",
+				"as" : "AS Falkenberg"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 728980.6140999999, 5521830.6978999991 ]
+			},
+			"properties" : {
+				"nk" : "6139017",
+				"bab" : "A93N",
+				"kt" : "20",
+				"as" : "AS Windischeschenbach"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 727281.5493000001, 5514398.7218999993 ]
+			},
+			"properties" : {
+				"nk" : "6238020",
+				"bab" : "A93N",
+				"kt" : "21a",
+				"as" : "AS Neustadt a.d.Waldnaab"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 727209.6410999997, 5512670.1681999993 ]
+			},
+			"properties" : {
+				"nk" : "6238016",
+				"bab" : "A93N",
+				"kt" : "21b",
+				"as" : "AS Altenstadt a.d.Waldnaab"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 726087.6752000004, 5510142.5795000009 ]
+			},
+			"properties" : {
+				"nk" : "6238018",
+				"bab" : "A93N",
+				"kt" : "22",
+				"as" : "AS Weiden-Nord"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 725592.7253, 5508231.3420000002 ]
+			},
+			"properties" : {
+				"nk" : "6338002",
+				"bab" : "A93N",
+				"kt" : "23",
+				"as" : "AS Weiden-West"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 725993.2895, 5506882.2279000003 ]
+			},
+			"properties" : {
+				"nk" : "6338009",
+				"bab" : "A93N",
+				"kt" : "24",
+				"as" : "AS Weiden-Frauenricht"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 727225.6778999995, 5504443.3931000009 ]
+			},
+			"properties" : {
+				"nk" : "6338029",
+				"bab" : "A93N",
+				"kt" : "25",
+				"as" : "AS Weiden-Süd"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 726994.4430999998, 5498118.0022 ]
+			},
+			"properties" : {
+				"nk" : "6438028",
+				"bab" : "A93N",
+				"kt" : "26",
+				"as" : "AS Luhe-Wildenau"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 727125.5926999999, 5491508.4934999999 ]
+			},
+			"properties" : {
+				"nk" : "6438029",
+				"bab" : "A93N",
+				"kt" : "27",
+				"as" : "AS Wernberg-Köblitz"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 728977.6339999996, 5489927.1063000001 ]
+			},
+			"properties" : {
+				"nk" : "6438033",
+				"bab" : "A93N",
+				"kt" : "28",
+				"as" : "AK Oberpfälzer Wald"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 730927.8647999996, 5486904.7873 ]
+			},
+			"properties" : {
+				"nk" : "6539004",
+				"bab" : "A93N",
+				"kt" : "29",
+				"as" : "AS Pfreimd"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 731466.0515000001, 5483009.5184000004 ]
+			},
+			"properties" : {
+				"nk" : "6539009",
+				"bab" : "A93N",
+				"kt" : "30",
+				"as" : "AS Nabburg"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 728464.9149000002, 5475362.6843999997 ]
+			},
+			"properties" : {
+				"nk" : "6638006",
+				"bab" : "A93N",
+				"kt" : "31",
+				"as" : "AS Schwarzenfeld"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 728785.6891999999, 5470384.7749000005 ]
+			},
+			"properties" : {
+				"nk" : "6638018",
+				"bab" : "A93N",
+				"kt" : "32",
+				"as" : "AS Schwandorf-Nord"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 729220.0971999997, 5467111.7570999991 ]
+			},
+			"properties" : {
+				"nk" : "6638025",
+				"bab" : "A93N",
+				"kt" : "33",
+				"as" : "AS Schwandorf-Mitte"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 727475.676, 5462447.8059 ]
+			},
+			"properties" : {
+				"nk" : "6738005",
+				"bab" : "A93N",
+				"kt" : "34",
+				"as" : "AS Schwandorf-Süd"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 727678.2158000004, 5456428.7307999991 ]
+			},
+			"properties" : {
+				"nk" : "6738018",
+				"bab" : "A93N",
+				"kt" : "35",
+				"as" : "AS Teublitz"
 			}
 		},
 		{
@@ -2267,10 +5543,10 @@
 				"coordinates" : [ 726916.8509, 5449881.2423999999 ]
 			},
 			"properties" : {
-				"BAB" : "A93N",
-				"NK" : "6838027O",
-				"KT" : "-",
-				"AS" : "A93 NLG Nordbayern / Südbayern"
+				"nk" : "6838027",
+				"bab" : "A93N",
+				"kt" : "-",
+				"as" : "A93 NLG Nordbayern / Südbayern"
 			}
 		},
 		{
@@ -2280,10 +5556,10 @@
 				"coordinates" : [ 726755.5006999997, 5449521.4278999995 ]
 			},
 			"properties" : {
-				"BAB" : "A93N",
-				"NK" : "6838017O",
-				"KT" : "36",
-				"AS" : "AS Ponholz"
+				"nk" : "6838017",
+				"bab" : "A93N",
+				"kt" : "36",
+				"as" : "AS Ponholz"
 			}
 		},
 		{
@@ -2293,10 +5569,10 @@
 				"coordinates" : [ 726625.4069999997, 5445329.4185000006 ]
 			},
 			"properties" : {
-				"BAB" : "A93N",
-				"NK" : "6838022O",
-				"KT" : "37",
-				"AS" : "AS Regenstauf"
+				"nk" : "6838022",
+				"bab" : "A93N",
+				"kt" : "37",
+				"as" : "AS Regenstauf"
 			}
 		},
 		{
@@ -2306,10 +5582,10 @@
 				"coordinates" : [ 726231.4855000004, 5437021.8813000005 ]
 			},
 			"properties" : {
-				"BAB" : "A93N",
-				"NK" : "6938036O",
-				"KT" : "38",
-				"AS" : "AS Regensburg-Nord"
+				"nk" : "6938036",
+				"bab" : "A93N",
+				"kt" : "38",
+				"as" : "AS Regensburg-Nord"
 			}
 		},
 		{
@@ -2319,10 +5595,10 @@
 				"coordinates" : [ 725087.6026999997, 5435329.4189999998 ]
 			},
 			"properties" : {
-				"BAB" : "A93N",
-				"NK" : "6938014O",
-				"KT" : "39",
-				"AS" : "AS Regensburg-Pfaffenstein"
+				"nk" : "6938014",
+				"bab" : "A93N",
+				"kt" : "39",
+				"as" : "AS Regensburg-Pfaffenstein"
 			}
 		},
 		{
@@ -2332,10 +5608,10 @@
 				"coordinates" : [ 724388.3872999996, 5434663.3604000006 ]
 			},
 			"properties" : {
-				"BAB" : "A93N",
-				"NK" : "6938019O",
-				"KT" : "40",
-				"AS" : "AS Regensburg-West"
+				"nk" : "6938019",
+				"bab" : "A93N",
+				"kt" : "40",
+				"as" : "AS Regensburg-West"
 			}
 		},
 		{
@@ -2345,10 +5621,10 @@
 				"coordinates" : [ 724125.8306999998, 5433724.5776000004 ]
 			},
 			"properties" : {
-				"BAB" : "A93N",
-				"NK" : "6938020O",
-				"KT" : "41",
-				"AS" : "AS Regensburg-Prüfening"
+				"nk" : "6938020",
+				"bab" : "A93N",
+				"kt" : "41",
+				"as" : "AS Regensburg-Prüfening"
 			}
 		},
 		{
@@ -2358,10 +5634,10 @@
 				"coordinates" : [ 723838.4945, 5433120.7502999995 ]
 			},
 			"properties" : {
-				"BAB" : "A93N",
-				"NK" : "6938023O",
-				"KT" : "42",
-				"AS" : "AS Regensburg-Königswiesen"
+				"nk" : "6938023",
+				"bab" : "A93N",
+				"kt" : "42",
+				"as" : "AS Regensburg-Königswiesen"
 			}
 		},
 		{
@@ -2371,10 +5647,10 @@
 				"coordinates" : [ 724024.1653000005, 5432113.5277999993 ]
 			},
 			"properties" : {
-				"BAB" : "A93N",
-				"NK" : "6938030O",
-				"KT" : "43",
-				"AS" : "AS Regensburg-Kumpfmühl"
+				"nk" : "6938030",
+				"bab" : "A93N",
+				"kt" : "43",
+				"as" : "AS Regensburg-Kumpfmühl"
 			}
 		},
 		{
@@ -2384,10 +5660,10 @@
 				"coordinates" : [ 723976.2247000001, 5431273.1165999994 ]
 			},
 			"properties" : {
-				"BAB" : "A93N",
-				"NK" : "7038002O",
-				"KT" : "44",
-				"AS" : "AK Regensburg"
+				"nk" : "7038002",
+				"bab" : "A93N",
+				"kt" : "44",
+				"as" : "AK Regensburg"
 			}
 		},
 		{
@@ -2397,10 +5673,10 @@
 				"coordinates" : [ 724257.1920999996, 5429422.2775999997 ]
 			},
 			"properties" : {
-				"BAB" : "A93N",
-				"NK" : "7038008O",
-				"KT" : "45",
-				"AS" : "AS Regensburg-Süd"
+				"nk" : "7038008",
+				"bab" : "A93N",
+				"kt" : "45",
+				"as" : "AS Regensburg-Süd"
 			}
 		},
 		{
@@ -2410,10 +5686,10 @@
 				"coordinates" : [ 726391.5636, 5427510.4093999993 ]
 			},
 			"properties" : {
-				"BAB" : "A93N",
-				"NK" : "7038035O",
-				"KT" : "-",
-				"AS" : "A93 GVS"
+				"nk" : "7038035",
+				"bab" : "A93N",
+				"kt" : "-",
+				"as" : "A93 GVS"
 			}
 		},
 		{
@@ -2423,10 +5699,10 @@
 				"coordinates" : [ 726283.5108000003, 5424757.5030000005 ]
 			},
 			"properties" : {
-				"BAB" : "A93N",
-				"NK" : "7038029O",
-				"KT" : "46",
-				"AS" : "AS Bad Abbach"
+				"nk" : "7038029",
+				"bab" : "A93N",
+				"kt" : "46",
+				"as" : "AS Bad Abbach"
 			}
 		},
 		{
@@ -2436,10 +5712,10 @@
 				"coordinates" : [ 725392.2481000004, 5419789.3072999995 ]
 			},
 			"properties" : {
-				"BAB" : "A93N",
-				"NK" : "7138032O",
-				"KT" : "47",
-				"AS" : "AD Saalhaupt"
+				"nk" : "7138032",
+				"bab" : "A93N",
+				"kt" : "47",
+				"as" : "AD Saalhaupt"
 			}
 		},
 		{
@@ -2449,10 +5725,10 @@
 				"coordinates" : [ 720901.4998000003, 5415639.1173999999 ]
 			},
 			"properties" : {
-				"BAB" : "A93N",
-				"NK" : "7138029O",
-				"KT" : "48",
-				"AS" : "AS Hausen"
+				"nk" : "7138029",
+				"bab" : "A93N",
+				"kt" : "48",
+				"as" : "AS Hausen"
 			}
 		},
 		{
@@ -2462,10 +5738,10 @@
 				"coordinates" : [ 716147.2322000004, 5410864.7643999998 ]
 			},
 			"properties" : {
-				"BAB" : "A93N",
-				"NK" : "7137019O",
-				"KT" : "49",
-				"AS" : "AS Abensberg"
+				"nk" : "7137019",
+				"bab" : "A93N",
+				"kt" : "49",
+				"as" : "AS Abensberg"
 			}
 		},
 		{
@@ -2475,10 +5751,10 @@
 				"coordinates" : [ 710754.6941, 5403762.0873000007 ]
 			},
 			"properties" : {
-				"BAB" : "A93N",
-				"NK" : "7237011O",
-				"KT" : "50",
-				"AS" : "AS Siegenburg"
+				"nk" : "7237011",
+				"bab" : "A93N",
+				"kt" : "50",
+				"as" : "AS Siegenburg"
 			}
 		},
 		{
@@ -2488,10 +5764,10 @@
 				"coordinates" : [ 705958.8973000003, 5399311.2683000006 ]
 			},
 			"properties" : {
-				"BAB" : "A93N",
-				"NK" : "7236016O",
-				"KT" : "51",
-				"AS" : "AS Elsendorf"
+				"nk" : "7236016",
+				"bab" : "A93N",
+				"kt" : "51",
+				"as" : "AS Elsendorf"
 			}
 		},
 		{
@@ -2501,10 +5777,10 @@
 				"coordinates" : [ 701379.9118999997, 5396378.3575999998 ]
 			},
 			"properties" : {
-				"BAB" : "A93N",
-				"NK" : "7336001O",
-				"KT" : "52",
-				"AS" : "AS Aiglsbach"
+				"nk" : "7336001",
+				"bab" : "A93N",
+				"kt" : "52",
+				"as" : "AS Aiglsbach"
 			}
 		},
 		{
@@ -2514,10 +5790,10 @@
 				"coordinates" : [ 699185.3119999999, 5389683.8006999996 ]
 			},
 			"properties" : {
-				"BAB" : "A93N",
-				"NK" : "7336010O",
-				"KT" : "53",
-				"AS" : "AS Mainburg"
+				"nk" : "7336010",
+				"bab" : "A93N",
+				"kt" : "53",
+				"as" : "AS Mainburg"
 			}
 		},
 		{
@@ -2527,10 +5803,10 @@
 				"coordinates" : [ 694002.0520000001, 5385891.9813999999 ]
 			},
 			"properties" : {
-				"BAB" : "A93N",
-				"NK" : "7435001O",
-				"KT" : "54",
-				"AS" : "AS Wolnzach"
+				"nk" : "7435001",
+				"bab" : "A93N",
+				"kt" : "54",
+				"as" : "AS Wolnzach"
 			}
 		},
 		{
@@ -2540,10 +5816,10 @@
 				"coordinates" : [ 691079.2920000004, 5383961.7067000009 ]
 			},
 			"properties" : {
-				"BAB" : "A93N",
-				"NK" : "7435003O",
-				"KT" : "55",
-				"AS" : "AD Holledau"
+				"nk" : "7435003",
+				"bab" : "A93N",
+				"kt" : "55",
+				"as" : "AD Holledau"
 			}
 		},
 		{
@@ -2553,10 +5829,10 @@
 				"coordinates" : [ 731845.8481999999, 5299817.4289999995 ]
 			},
 			"properties" : {
-				"BAB" : "A93S",
-				"NK" : "8138022O",
-				"KT" : "56",
-				"AS" : "AD Inntal"
+				"nk" : "8138022",
+				"bab" : "A93S",
+				"kt" : "56",
+				"as" : "AD Inntal"
 			}
 		},
 		{
@@ -2566,10 +5842,10 @@
 				"coordinates" : [ 732734.5286999997, 5294464.8328000009 ]
 			},
 			"properties" : {
-				"BAB" : "A93S",
-				"NK" : "8238008O",
-				"KT" : "57",
-				"AS" : "AS Reischenhart"
+				"nk" : "8238008",
+				"bab" : "A93S",
+				"kt" : "57",
+				"as" : "AS Reischenhart"
 			}
 		},
 		{
@@ -2579,10 +5855,10 @@
 				"coordinates" : [ 734505.4853999997, 5291909.4500999991 ]
 			},
 			"properties" : {
-				"BAB" : "A93S",
-				"NK" : "8238012O",
-				"KT" : "58",
-				"AS" : "AS Brannenburg"
+				"nk" : "8238012",
+				"bab" : "A93S",
+				"kt" : "58",
+				"as" : "AS Brannenburg"
 			}
 		},
 		{
@@ -2592,10 +5868,10 @@
 				"coordinates" : [ 739524.6393999998, 5281993.8899000008 ]
 			},
 			"properties" : {
-				"BAB" : "A93S",
-				"NK" : "8339003O",
-				"KT" : "59",
-				"AS" : "AS Oberaudorf"
+				"nk" : "8339003",
+				"bab" : "A93S",
+				"kt" : "59",
+				"as" : "AS Oberaudorf"
 			}
 		},
 		{
@@ -2605,10 +5881,10 @@
 				"coordinates" : [ 740627.6445000004, 5278871.5080999993 ]
 			},
 			"properties" : {
-				"BAB" : "A93S",
-				"NK" : "8339006O",
-				"KT" : "60",
-				"AS" : "AS Kiefersfelden"
+				"nk" : "8339006",
+				"bab" : "A93S",
+				"kt" : "60",
+				"as" : "AS Kiefersfelden"
 			}
 		},
 		{
@@ -2618,10 +5894,10 @@
 				"coordinates" : [ 740038.3842000002, 5277347.7796 ]
 			},
 			"properties" : {
-				"BAB" : "A93S",
-				"NK" : "8339007O",
-				"KT" : "-",
-				"AS" : "BGR Österreich"
+				"nk" : "8339007",
+				"bab" : "A93S",
+				"kt" : "-",
+				"as" : "BGR Österreich"
 			}
 		},
 		{
@@ -2631,10 +5907,10 @@
 				"coordinates" : [ 695460.2527999999, 5335027.0767000001 ]
 			},
 			"properties" : {
-				"BAB" : "A94",
-				"NK" : "7835054O",
-				"KT" : "1",
-				"AS" : "AS München-Steinhausen"
+				"nk" : "7835054",
+				"bab" : "A94",
+				"kt" : "1",
+				"as" : "AS München-Steinhausen"
 			}
 		},
 		{
@@ -2644,10 +5920,10 @@
 				"coordinates" : [ 697006.8926999997, 5335166.7285999991 ]
 			},
 			"properties" : {
-				"BAB" : "A94",
-				"NK" : "7835055O",
-				"KT" : "2",
-				"AS" : "AS München-Zamdorf"
+				"nk" : "7835055",
+				"bab" : "A94",
+				"kt" : "2",
+				"as" : "AS München-Zamdorf"
 			}
 		},
 		{
@@ -2657,10 +5933,10 @@
 				"coordinates" : [ 698045.6392000001, 5335187.5029000007 ]
 			},
 			"properties" : {
-				"BAB" : "A94",
-				"NK" : "7835037O",
-				"KT" : "3",
-				"AS" : "AS München-Daglfing"
+				"nk" : "7835037",
+				"bab" : "A94",
+				"kt" : "3",
+				"as" : "AS München-Daglfing"
 			}
 		},
 		{
@@ -2670,10 +5946,10 @@
 				"coordinates" : [ 698803.0755000003, 5335050.6736999992 ]
 			},
 			"properties" : {
-				"BAB" : "A94",
-				"NK" : "7836043O",
-				"KT" : "4",
-				"AS" : "AS München-Am Moosfeld"
+				"nk" : "7836043",
+				"bab" : "A94",
+				"kt" : "4",
+				"as" : "AS München-Am Moosfeld"
 			}
 		},
 		{
@@ -2683,10 +5959,10 @@
 				"coordinates" : [ 699973.0575999999, 5335337.0556000005 ]
 			},
 			"properties" : {
-				"BAB" : "A94",
-				"NK" : "7836019O",
-				"KT" : "5",
-				"AS" : "AS München-Riem"
+				"nk" : "7836019",
+				"bab" : "A94",
+				"kt" : "5",
+				"as" : "AS München-Riem"
 			}
 		},
 		{
@@ -2696,10 +5972,10 @@
 				"coordinates" : [ 701547.5788000003, 5335640.6472999994 ]
 			},
 			"properties" : {
-				"BAB" : "A94",
-				"NK" : "7836017O",
-				"KT" : "6",
-				"AS" : "AS Feldkirchen-West"
+				"nk" : "7836017",
+				"bab" : "A94",
+				"kt" : "6",
+				"as" : "AS Feldkirchen-West"
 			}
 		},
 		{
@@ -2709,10 +5985,10 @@
 				"coordinates" : [ 704177.6265000002, 5335845.7139999997 ]
 			},
 			"properties" : {
-				"BAB" : "A94",
-				"NK" : "7836051O",
-				"KT" : "7",
-				"AS" : "AS Feldkirchen-Ost"
+				"nk" : "7836051",
+				"bab" : "A94",
+				"kt" : "7",
+				"as" : "AS Feldkirchen-Ost"
 			}
 		},
 		{
@@ -2722,10 +5998,10 @@
 				"coordinates" : [ 705144.7980000004, 5335841.6949000005 ]
 			},
 			"properties" : {
-				"BAB" : "A94",
-				"NK" : "7836015O",
-				"KT" : "8",
-				"AS" : "AK München-Ost"
+				"nk" : "7836015",
+				"bab" : "A94",
+				"kt" : "8",
+				"as" : "AK München-Ost"
 			}
 		},
 		{
@@ -2735,10 +6011,10 @@
 				"coordinates" : [ 707260.8136, 5336627.9847999997 ]
 			},
 			"properties" : {
-				"BAB" : "A94",
-				"NK" : "7836039O",
-				"KT" : "9a",
-				"AS" : "AS Parsdorf"
+				"nk" : "7836039",
+				"bab" : "A94",
+				"kt" : "9a",
+				"as" : "AS Parsdorf"
 			}
 		},
 		{
@@ -2748,10 +6024,10 @@
 				"coordinates" : [ 710635.3428999996, 5337869.6721000001 ]
 			},
 			"properties" : {
-				"BAB" : "A94",
-				"NK" : "7837025O",
-				"KT" : "9b",
-				"AS" : "AS Markt Schwaben"
+				"nk" : "7837025",
+				"bab" : "A94",
+				"kt" : "9b",
+				"as" : "AS Markt Schwaben"
 			}
 		},
 		{
@@ -2761,10 +6037,10 @@
 				"coordinates" : [ 712322.7964000003, 5338207.4806999993 ]
 			},
 			"properties" : {
-				"BAB" : "A94",
-				"NK" : "7837014O",
-				"KT" : "10",
-				"AS" : "AS Anzing"
+				"nk" : "7837014",
+				"bab" : "A94",
+				"kt" : "10",
+				"as" : "AS Anzing"
 			}
 		},
 		{
@@ -2774,10 +6050,10 @@
 				"coordinates" : [ 714910.2018999998, 5339226.3056000005 ]
 			},
 			"properties" : {
-				"BAB" : "A94",
-				"NK" : "7837015O",
-				"KT" : "11",
-				"AS" : "AS Forstinning"
+				"nk" : "7837015",
+				"bab" : "A94",
+				"kt" : "11",
+				"as" : "AS Forstinning"
 			}
 		},
 		{
@@ -2787,10 +6063,10 @@
 				"coordinates" : [ 716511.2285000002, 5340794.8497000001 ]
 			},
 			"properties" : {
-				"BAB" : "A94",
-				"NK" : "7837026O",
-				"KT" : "12",
-				"AS" : "AS Hohenlinden"
+				"nk" : "7837026",
+				"bab" : "A94",
+				"kt" : "12",
+				"as" : "AS Hohenlinden"
 			}
 		},
 		{
@@ -2800,10 +6076,10 @@
 				"coordinates" : [ 719088.4758000001, 5344413.3392999992 ]
 			},
 			"properties" : {
-				"BAB" : "A94",
-				"NK" : "7737036O",
-				"KT" : "13",
-				"AS" : "AS Pastetten"
+				"nk" : "7737036",
+				"bab" : "A94",
+				"kt" : "13",
+				"as" : "AS Pastetten"
 			}
 		},
 		{
@@ -2813,10 +6089,10 @@
 				"coordinates" : [ 725770.8541000001, 5348206.2028000001 ]
 			},
 			"properties" : {
-				"BAB" : "A94",
-				"NK" : "7738024O",
-				"KT" : "14",
-				"AS" : "AS Lengdorf"
+				"nk" : "7738024",
+				"bab" : "A94",
+				"kt" : "14",
+				"as" : "AS Lengdorf"
 			}
 		},
 		{
@@ -2826,10 +6102,10 @@
 				"coordinates" : [ 734601.3150000004, 5349881.0219000001 ]
 			},
 			"properties" : {
-				"BAB" : "A94",
-				"NK" : "7738025O",
-				"KT" : "15",
-				"AS" : "AS Dorfen"
+				"nk" : "7738025",
+				"bab" : "A94",
+				"kt" : "15",
+				"as" : "AS Dorfen"
 			}
 		},
 		{
@@ -2839,10 +6115,10 @@
 				"coordinates" : [ 743623.5672000004, 5349259.8394000009 ]
 			},
 			"properties" : {
-				"BAB" : "A94",
-				"NK" : "7739032O",
-				"KT" : "16",
-				"AS" : "AS Schwindegg"
+				"nk" : "7739032",
+				"bab" : "A94",
+				"kt" : "16",
+				"as" : "AS Schwindegg"
 			}
 		},
 		{
@@ -2852,10 +6128,10 @@
 				"coordinates" : [ 749130.8443999998, 5349304.8759000003 ]
 			},
 			"properties" : {
-				"BAB" : "A94",
-				"NK" : "7740043O",
-				"KT" : "17",
-				"AS" : "AS Heldenstein"
+				"nk" : "7740043",
+				"bab" : "A94",
+				"kt" : "17",
+				"as" : "AS Heldenstein"
 			}
 		},
 		{
@@ -2865,10 +6141,10 @@
 				"coordinates" : [ 753308.1473000003, 5349321.8105999995 ]
 			},
 			"properties" : {
-				"BAB" : "A94",
-				"NK" : "7740013O",
-				"KT" : "18",
-				"AS" : "AS Waldkraiburg/Ampfing"
+				"nk" : "7740013",
+				"bab" : "A94",
+				"kt" : "18",
+				"as" : "AS Waldkraiburg/Ampfing"
 			}
 		},
 		{
@@ -2878,10 +6154,10 @@
 				"coordinates" : [ 755175.0784999998, 5349924.5089999996 ]
 			},
 			"properties" : {
-				"BAB" : "A94",
-				"NK" : "7740032O",
-				"KT" : "19",
-				"AS" : "AS Mühldorf-West"
+				"nk" : "7740032",
+				"bab" : "A94",
+				"kt" : "19",
+				"as" : "AS Mühldorf-West"
 			}
 		},
 		{
@@ -2891,10 +6167,10 @@
 				"coordinates" : [ 763587.4760999996, 5352921.1700999998 ]
 			},
 			"properties" : {
-				"BAB" : "A94",
-				"NK" : "7741042O",
-				"KT" : "20",
-				"AS" : "AS Mühldorf-Nord"
+				"nk" : "7741042",
+				"bab" : "A94",
+				"kt" : "20",
+				"as" : "AS Mühldorf-Nord"
 			}
 		},
 		{
@@ -2904,10 +6180,10 @@
 				"coordinates" : [ 767623.1760999998, 5352136.6165999994 ]
 			},
 			"properties" : {
-				"BAB" : "A94",
-				"NK" : "7741043O",
-				"KT" : "21",
-				"AS" : "AS Töging"
+				"nk" : "7741043",
+				"bab" : "A94",
+				"kt" : "21",
+				"as" : "AS Töging"
 			}
 		},
 		{
@@ -2917,10 +6193,10 @@
 				"coordinates" : [ 771984.1792000001, 5350822.3609999996 ]
 			},
 			"properties" : {
-				"BAB" : "A94",
-				"NK" : "7741037O",
-				"KT" : "22",
-				"AS" : "AS Altötting"
+				"nk" : "7741037",
+				"bab" : "A94",
+				"kt" : "22",
+				"as" : "AS Altötting"
 			}
 		},
 		{
@@ -2930,10 +6206,10 @@
 				"coordinates" : [ 774161.0181999998, 5351135.5460000001 ]
 			},
 			"properties" : {
-				"BAB" : "A94",
-				"NK" : "7742023O",
-				"KT" : "23",
-				"AS" : "AS Neuötting"
+				"nk" : "7742023",
+				"bab" : "A94",
+				"kt" : "23",
+				"as" : "AS Neuötting"
 			}
 		},
 		{
@@ -2943,10 +6219,10 @@
 				"coordinates" : [ 778535.9698000001, 5350668.0287999995 ]
 			},
 			"properties" : {
-				"BAB" : "A94",
-				"NK" : "7742015O",
-				"KT" : "24",
-				"AS" : "AS Neuötting-Ost"
+				"nk" : "7742015",
+				"bab" : "A94",
+				"kt" : "24",
+				"as" : "AS Neuötting-Ost"
 			}
 		},
 		{
@@ -2956,10 +6232,10 @@
 				"coordinates" : [ 784593.4040999999, 5350631.8344999999 ]
 			},
 			"properties" : {
-				"BAB" : "A94",
-				"NK" : "7743017O",
-				"KT" : "25",
-				"AS" : "AS Burghausen"
+				"nk" : "7743017",
+				"bab" : "A94",
+				"kt" : "25",
+				"as" : "AS Burghausen"
 			}
 		},
 		{
@@ -2969,10 +6245,10 @@
 				"coordinates" : [ 785215.8234999999, 5350576.0760999992 ]
 			},
 			"properties" : {
-				"BAB" : "A94",
-				"NK" : "7743028O",
-				"KT" : "-",
-				"AS" : "AN Burghausen (Übergang A 94/B12)"
+				"nk" : "7743028",
+				"bab" : "A94",
+				"kt" : "-",
+				"as" : "AN Burghausen (Übergang A 94/B12)"
 			}
 		},
 		{
@@ -2982,10 +6258,10 @@
 				"coordinates" : [ 809295.5269999998, 5358861.6785000004 ]
 			},
 			"properties" : {
-				"BAB" : "A94",
-				"NK" : "7645038O",
-				"KT" : "-",
-				"AS" : "AN A94 B12"
+				"nk" : "7645038",
+				"bab" : "A94",
+				"kt" : "-",
+				"as" : "AN A94 B12"
 			}
 		},
 		{
@@ -2995,10 +6271,10 @@
 				"coordinates" : [ 811927.2710999995, 5360519.7475000005 ]
 			},
 			"properties" : {
-				"BAB" : "A94",
-				"NK" : "7645039O",
-				"KT" : "30",
-				"AS" : "AS Malching"
+				"nk" : "7645039",
+				"bab" : "A94",
+				"kt" : "30",
+				"as" : "AS Malching"
 			}
 		},
 		{
@@ -3008,10 +6284,10 @@
 				"coordinates" : [ 812712.0208000001, 5361348.4474999998 ]
 			},
 			"properties" : {
-				"BAB" : "A94",
-				"NK" : "7645050O",
-				"KT" : "-",
-				"AS" : "AN A94 B12"
+				"nk" : "7645050",
+				"bab" : "A94",
+				"kt" : "-",
+				"as" : "AN A94 B12"
 			}
 		},
 		{
@@ -3021,10 +6297,10 @@
 				"coordinates" : [ 686024.3139000004, 5330543.0823999997 ]
 			},
 			"properties" : {
-				"BAB" : "A95",
-				"NK" : "7835079O",
-				"KT" : "-",
-				"AS" : "A95 B2"
+				"nk" : "7835079",
+				"bab" : "A95",
+				"kt" : "-",
+				"as" : "A95 B2"
 			}
 		},
 		{
@@ -3034,10 +6310,10 @@
 				"coordinates" : [ 685270.5765000004, 5328861.0034999996 ]
 			},
 			"properties" : {
-				"BAB" : "A95",
-				"NK" : "7934003O",
-				"KT" : "3",
-				"AS" : "AS München-Fürstenried"
+				"nk" : "7934003",
+				"bab" : "A95",
+				"kt" : "3",
+				"as" : "AS München-Fürstenried"
 			}
 		},
 		{
@@ -3047,10 +6323,10 @@
 				"coordinates" : [ 680270.2165000001, 5320844.4605 ]
 			},
 			"properties" : {
-				"BAB" : "A95",
-				"NK" : "7934010O",
-				"KT" : "4",
-				"AS" : "AD Starnberg"
+				"nk" : "7934010",
+				"bab" : "A95",
+				"kt" : "4",
+				"as" : "AD Starnberg"
 			}
 		},
 		{
@@ -3060,10 +6336,10 @@
 				"coordinates" : [ 681193.5273000002, 5318578.6219999995 ]
 			},
 			"properties" : {
-				"BAB" : "A95",
-				"NK" : "8034003O",
-				"KT" : "5",
-				"AS" : "AS Schäftlarn"
+				"nk" : "8034003",
+				"bab" : "A95",
+				"kt" : "5",
+				"as" : "AS Schäftlarn"
 			}
 		},
 		{
@@ -3073,10 +6349,10 @@
 				"coordinates" : [ 679137.4500000002, 5308245.4169999994 ]
 			},
 			"properties" : {
-				"BAB" : "A95",
-				"NK" : "8034035O",
-				"KT" : "6",
-				"AS" : "AS Wolfratshausen"
+				"nk" : "8034035",
+				"bab" : "A95",
+				"kt" : "6",
+				"as" : "AS Wolfratshausen"
 			}
 		},
 		{
@@ -3086,10 +6362,10 @@
 				"coordinates" : [ 676729.7753999997, 5299265.5637999997 ]
 			},
 			"properties" : {
-				"BAB" : "A95",
-				"NK" : "8134011O",
-				"KT" : "7",
-				"AS" : "AS Seeshaupt"
+				"nk" : "8134011",
+				"bab" : "A95",
+				"kt" : "7",
+				"as" : "AS Seeshaupt"
 			}
 		},
 		{
@@ -3099,10 +6375,10 @@
 				"coordinates" : [ 675379.3148999996, 5293680.8625000007 ]
 			},
 			"properties" : {
-				"BAB" : "A95",
-				"NK" : "8234004O",
-				"KT" : "8",
-				"AS" : "AS Penzberg/Iffeldorf"
+				"nk" : "8234004",
+				"bab" : "A95",
+				"kt" : "8",
+				"as" : "AS Penzberg/Iffeldorf"
 			}
 		},
 		{
@@ -3112,10 +6388,10 @@
 				"coordinates" : [ 674358.1288999999, 5288704.7426999994 ]
 			},
 			"properties" : {
-				"BAB" : "A95",
-				"NK" : "8233028O",
-				"KT" : "9",
-				"AS" : "AS Sindelsdorf"
+				"nk" : "8233028",
+				"bab" : "A95",
+				"kt" : "9",
+				"as" : "AS Sindelsdorf"
 			}
 		},
 		{
@@ -3125,10 +6401,10 @@
 				"coordinates" : [ 671297.5779999997, 5282560.0302000009 ]
 			},
 			"properties" : {
-				"BAB" : "A95",
-				"NK" : "8333006O",
-				"KT" : "10a",
-				"AS" : "AS Kochel a.See"
+				"nk" : "8333006",
+				"bab" : "A95",
+				"kt" : "10a",
+				"as" : "AS Kochel a.See"
 			}
 		},
 		{
@@ -3138,10 +6414,10 @@
 				"coordinates" : [ 665528.1255999999, 5277192.9825999998 ]
 			},
 			"properties" : {
-				"BAB" : "A95",
-				"NK" : "8333017O",
-				"KT" : "10b",
-				"AS" : "AS Ohlstadt"
+				"nk" : "8333017",
+				"bab" : "A95",
+				"kt" : "10b",
+				"as" : "AS Ohlstadt"
 			}
 		},
 		{
@@ -3151,10 +6427,10 @@
 				"coordinates" : [ 663554.0623000003, 5274508.9590000007 ]
 			},
 			"properties" : {
-				"BAB" : "A95",
-				"NK" : "8333010O",
-				"KT" : "11",
-				"AS" : "AS Eschenlohe"
+				"nk" : "8333010",
+				"bab" : "A95",
+				"kt" : "11",
+				"as" : "AS Eschenlohe"
 			}
 		},
 		{
@@ -3164,10 +6440,10 @@
 				"coordinates" : [ 663502.0392000005, 5272690.9890000001 ]
 			},
 			"properties" : {
-				"BAB" : "A95",
-				"NK" : "8433005O",
-				"KT" : "-",
-				"AS" : "B2 AN Eschenlohe (Übergang A 95/B 2)"
+				"nk" : "8433005",
+				"bab" : "A95",
+				"kt" : "-",
+				"as" : "B2 AN Eschenlohe (Übergang A 95/B 2)"
 			}
 		},
 		{
@@ -3177,10 +6453,10 @@
 				"coordinates" : [ 555370.4530999996, 5266250.4288999997 ]
 			},
 			"properties" : {
-				"BAB" : "A96",
-				"NK" : "8424024O",
-				"KT" : "-",
-				"AS" : "BGR Österreich A96"
+				"nk" : "8424024",
+				"bab" : "A96",
+				"kt" : "-",
+				"as" : "BGR Österreich A96"
 			}
 		},
 		{
@@ -3190,10 +6466,10 @@
 				"coordinates" : [ 555260.9566000002, 5266458.2468999997 ]
 			},
 			"properties" : {
-				"BAB" : "A96",
-				"NK" : "8424023O",
-				"KT" : "2",
-				"AS" : "AS Lindau"
+				"nk" : "8424023",
+				"bab" : "A96",
+				"kt" : "2",
+				"as" : "AS Lindau"
 			}
 		},
 		{
@@ -3203,10 +6479,10 @@
 				"coordinates" : [ 555279.7073999997, 5269789.5116000008 ]
 			},
 			"properties" : {
-				"BAB" : "A96",
-				"NK" : "8424022O",
-				"KT" : "3",
-				"AS" : "AS Sigmarszell"
+				"nk" : "8424022",
+				"bab" : "A96",
+				"kt" : "3",
+				"as" : "AS Sigmarszell"
 			}
 		},
 		{
@@ -3216,10 +6492,10 @@
 				"coordinates" : [ 555200.6653000005, 5271430.7627000008 ]
 			},
 			"properties" : {
-				"BAB" : "A96",
-				"NK" : "8424040O",
-				"KT" : "4",
-				"AS" : "AS Weißensberg"
+				"nk" : "8424040",
+				"bab" : "A96",
+				"kt" : "4",
+				"as" : "AS Weißensberg"
 			}
 		},
 		{
@@ -3229,10 +6505,10 @@
 				"coordinates" : [ 555265.5872, 5273795.7625999991 ]
 			},
 			"properties" : {
-				"BAB" : "A96",
-				"NK" : "8324053O",
-				"KT" : "-",
-				"AS" : "LGR Baden-Württemberg"
+				"nk" : "8324053",
+				"bab" : "A96",
+				"kt" : "-",
+				"as" : "LGR Baden-Württemberg"
 			}
 		},
 		{
@@ -3242,10 +6518,10 @@
 				"coordinates" : [ 555616.0799000002, 5275462.4669000003 ]
 			},
 			"properties" : {
-				"BAB" : "A96",
-				"NK" : "8324069O",
-				"KT" : "-",
-				"AS" : "AS Neuravensburg "
+				"nk" : "8324069",
+				"bab" : "A96",
+				"kt" : "-",
+				"as" : "AS Neuravensburg "
 			}
 		},
 		{
@@ -3255,10 +6531,10 @@
 				"coordinates" : [ 560266.2701000003, 5284004.0341999996 ]
 			},
 			"properties" : {
-				"BAB" : "A96",
-				"NK" : "8224041O",
-				"KT" : "5",
-				"AS" : "AS Wangen-West "
+				"nk" : "8224041",
+				"bab" : "A96",
+				"kt" : "5",
+				"as" : "AS Wangen-West "
 			}
 		},
 		{
@@ -3268,10 +6544,10 @@
 				"coordinates" : [ 565351.6416999996, 5286163.2891000006 ]
 			},
 			"properties" : {
-				"BAB" : "A96",
-				"NK" : "8225042O",
-				"KT" : "6",
-				"AS" : "AS Wangen-Nord"
+				"nk" : "8225042",
+				"bab" : "A96",
+				"kt" : "6",
+				"as" : "AS Wangen-Nord"
 			}
 		},
 		{
@@ -3281,10 +6557,10 @@
 				"coordinates" : [ 567891.9219000004, 5289113.3427000009 ]
 			},
 			"properties" : {
-				"BAB" : "A96",
-				"NK" : "8225044O",
-				"KT" : "7",
-				"AS" : "AS Kißlegg"
+				"nk" : "8225044",
+				"bab" : "A96",
+				"kt" : "7",
+				"as" : "AS Kißlegg"
 			}
 		},
 		{
@@ -3294,10 +6570,10 @@
 				"coordinates" : [ 574193.7674000002, 5296484.9959999993 ]
 			},
 			"properties" : {
-				"BAB" : "A96",
-				"NK" : "8125036O",
-				"KT" : "8",
-				"AS" : "AS Leutkirch-Süd"
+				"nk" : "8125036",
+				"bab" : "A96",
+				"kt" : "8",
+				"as" : "AS Leutkirch-Süd"
 			}
 		},
 		{
@@ -3307,10 +6583,10 @@
 				"coordinates" : [ 574171.4833000004, 5298528.1422000006 ]
 			},
 			"properties" : {
-				"BAB" : "A96",
-				"NK" : "8125037O",
-				"KT" : "9",
-				"AS" : "AS Leutkirch-West"
+				"nk" : "8125037",
+				"bab" : "A96",
+				"kt" : "9",
+				"as" : "AS Leutkirch-West"
 			}
 		},
 		{
@@ -3320,10 +6596,10 @@
 				"coordinates" : [ 577762.8036000002, 5303941.0767000001 ]
 			},
 			"properties" : {
-				"BAB" : "A96",
-				"NK" : "8126030O",
-				"KT" : "10",
-				"AS" : "AS Aichstetten"
+				"nk" : "8126030",
+				"bab" : "A96",
+				"kt" : "10",
+				"as" : "AS Aichstetten"
 			}
 		},
 		{
@@ -3333,10 +6609,10 @@
 				"coordinates" : [ 581890.7767000003, 5309550.9375 ]
 			},
 			"properties" : {
-				"BAB" : "A96",
-				"NK" : "8026025O",
-				"KT" : "11",
-				"AS" : "AS Aitrach"
+				"nk" : "8026025",
+				"bab" : "A96",
+				"kt" : "11",
+				"as" : "AS Aitrach"
 			}
 		},
 		{
@@ -3346,10 +6622,10 @@
 				"coordinates" : [ 582161.9803999998, 5310397.0742000006 ]
 			},
 			"properties" : {
-				"BAB" : "A96",
-				"NK" : "8026026O",
-				"KT" : "-",
-				"AS" : "LGR Baden-Württemberg"
+				"nk" : "8026026",
+				"bab" : "A96",
+				"kt" : "-",
+				"as" : "LGR Baden-Württemberg"
 			}
 		},
 		{
@@ -3359,10 +6635,10 @@
 				"coordinates" : [ 585843.7681, 5316500.0247000009 ]
 			},
 			"properties" : {
-				"BAB" : "A96",
-				"NK" : "8026202O",
-				"KT" : "12",
-				"AS" : "AK Memmingen"
+				"nk" : "8026202",
+				"bab" : "A96",
+				"kt" : "12",
+				"as" : "AK Memmingen"
 			}
 		},
 		{
@@ -3372,10 +6648,10 @@
 				"coordinates" : [ 586212.3832, 5316649.3353000004 ]
 			},
 			"properties" : {
-				"BAB" : "A96",
-				"NK" : "8026201O",
-				"KT" : "13",
-				"AS" : "AS Memmingen-Nord"
+				"nk" : "8026201",
+				"bab" : "A96",
+				"kt" : "13",
+				"as" : "AS Memmingen-Nord"
 			}
 		},
 		{
@@ -3385,10 +6661,10 @@
 				"coordinates" : [ 589648.2889999999, 5316830.9550000001 ]
 			},
 			"properties" : {
-				"BAB" : "A96",
-				"NK" : "8027034O",
-				"KT" : "14",
-				"AS" : "AS Memmingen-Ost"
+				"nk" : "8027034",
+				"bab" : "A96",
+				"kt" : "14",
+				"as" : "AS Memmingen-Ost"
 			}
 		},
 		{
@@ -3398,10 +6674,10 @@
 				"coordinates" : [ 595003.6401000004, 5319351.1947000008 ]
 			},
 			"properties" : {
-				"BAB" : "A96",
-				"NK" : "7927017O",
-				"KT" : "15",
-				"AS" : "AS Holzgünz"
+				"nk" : "7927017",
+				"bab" : "A96",
+				"kt" : "15",
+				"as" : "AS Holzgünz"
 			}
 		},
 		{
@@ -3411,10 +6687,10 @@
 				"coordinates" : [ 598800.0027000001, 5320253.5872000009 ]
 			},
 			"properties" : {
-				"BAB" : "A96",
-				"NK" : "7927016O",
-				"KT" : "16",
-				"AS" : "AS Erkheim"
+				"nk" : "7927016",
+				"bab" : "A96",
+				"kt" : "16",
+				"as" : "AS Erkheim"
 			}
 		},
 		{
@@ -3424,10 +6700,10 @@
 				"coordinates" : [ 607430.5429999996, 5320937.1687000003 ]
 			},
 			"properties" : {
-				"BAB" : "A96",
-				"NK" : "7928015O",
-				"KT" : "18",
-				"AS" : "AS Stetten"
+				"nk" : "7928015",
+				"bab" : "A96",
+				"kt" : "18",
+				"as" : "AS Stetten"
 			}
 		},
 		{
@@ -3437,10 +6713,10 @@
 				"coordinates" : [ 612579.5839, 5320698.4960999992 ]
 			},
 			"properties" : {
-				"BAB" : "A96",
-				"NK" : "7929026O",
-				"KT" : "19",
-				"AS" : "AS Mindelheim"
+				"nk" : "7929026",
+				"bab" : "A96",
+				"kt" : "19",
+				"as" : "AS Mindelheim"
 			}
 		},
 		{
@@ -3450,10 +6726,10 @@
 				"coordinates" : [ 620749.4116000002, 5322142.2962999996 ]
 			},
 			"properties" : {
-				"BAB" : "A96",
-				"NK" : "7929012O",
-				"KT" : "20",
-				"AS" : "AS Bad Wörishofen"
+				"nk" : "7929012",
+				"bab" : "A96",
+				"kt" : "20",
+				"as" : "AS Bad Wörishofen"
 			}
 		},
 		{
@@ -3463,10 +6739,10 @@
 				"coordinates" : [ 627413.0547000002, 5320433.3235999998 ]
 			},
 			"properties" : {
-				"BAB" : "A96",
-				"NK" : "7930028O",
-				"KT" : "21",
-				"AS" : "AS Buchloe-West"
+				"nk" : "7930028",
+				"bab" : "A96",
+				"kt" : "21",
+				"as" : "AS Buchloe-West"
 			}
 		},
 		{
@@ -3476,10 +6752,10 @@
 				"coordinates" : [ 628778.801, 5320699.1783000007 ]
 			},
 			"properties" : {
-				"BAB" : "A96",
-				"NK" : "7930014O",
-				"KT" : "22",
-				"AS" : "AS Jengen/Kaufbeuren"
+				"nk" : "7930014",
+				"bab" : "A96",
+				"kt" : "22",
+				"as" : "AS Jengen/Kaufbeuren"
 			}
 		},
 		{
@@ -3489,10 +6765,10 @@
 				"coordinates" : [ 630175.2791999998, 5321735.2865999993 ]
 			},
 			"properties" : {
-				"BAB" : "A96",
-				"NK" : "7930012O",
-				"KT" : "23",
-				"AS" : "AS Buchloe-Ost"
+				"nk" : "7930012",
+				"bab" : "A96",
+				"kt" : "23",
+				"as" : "AS Buchloe-Ost"
 			}
 		},
 		{
@@ -3502,10 +6778,10 @@
 				"coordinates" : [ 636946.5718999999, 5323295.8624000009 ]
 			},
 			"properties" : {
-				"BAB" : "A96",
-				"NK" : "7931038O",
-				"KT" : "24",
-				"AS" : "AS Landsberg a.Lech-West"
+				"nk" : "7931038",
+				"bab" : "A96",
+				"kt" : "24",
+				"as" : "AS Landsberg a.Lech-West"
 			}
 		},
 		{
@@ -3515,10 +6791,10 @@
 				"coordinates" : [ 638959.1566000003, 5325324.7642999999 ]
 			},
 			"properties" : {
-				"BAB" : "A96",
-				"NK" : "7931017O",
-				"KT" : "25",
-				"AS" : "AS Landsberg a.Lech-Nord"
+				"nk" : "7931017",
+				"bab" : "A96",
+				"kt" : "25",
+				"as" : "AS Landsberg a.Lech-Nord"
 			}
 		},
 		{
@@ -3528,10 +6804,10 @@
 				"coordinates" : [ 642135.3969000001, 5324433.8757000007 ]
 			},
 			"properties" : {
-				"BAB" : "A96",
-				"NK" : "7931018O",
-				"KT" : "26",
-				"AS" : "AS Landsberg a.Lech-Ost"
+				"nk" : "7931018",
+				"bab" : "A96",
+				"kt" : "26",
+				"as" : "AS Landsberg a.Lech-Ost"
 			}
 		},
 		{
@@ -3541,10 +6817,10 @@
 				"coordinates" : [ 649391.682, 5325588.9941000007 ]
 			},
 			"properties" : {
-				"BAB" : "A96",
-				"NK" : "7932013O",
-				"KT" : "27",
-				"AS" : "AS Schöffelding"
+				"nk" : "7932013",
+				"bab" : "A96",
+				"kt" : "27",
+				"as" : "AS Schöffelding"
 			}
 		},
 		{
@@ -3554,10 +6830,10 @@
 				"coordinates" : [ 651831.2249999996, 5326501.6513999999 ]
 			},
 			"properties" : {
-				"BAB" : "A96",
-				"NK" : "7932008O",
-				"KT" : "28",
-				"AS" : "AS Windach"
+				"nk" : "7932008",
+				"bab" : "A96",
+				"kt" : "28",
+				"as" : "AS Windach"
 			}
 		},
 		{
@@ -3567,10 +6843,10 @@
 				"coordinates" : [ 656240.5579000004, 5326781.1564000007 ]
 			},
 			"properties" : {
-				"BAB" : "A96",
-				"NK" : "7932020O",
-				"KT" : "29",
-				"AS" : "AS Greifenberg"
+				"nk" : "7932020",
+				"bab" : "A96",
+				"kt" : "29",
+				"as" : "AS Greifenberg"
 			}
 		},
 		{
@@ -3580,10 +6856,10 @@
 				"coordinates" : [ 660229.4627999999, 5327951.7816000003 ]
 			},
 			"properties" : {
-				"BAB" : "A96",
-				"NK" : "7932002O",
-				"KT" : "30",
-				"AS" : "AS Inning a.Ammersee"
+				"nk" : "7932002",
+				"bab" : "A96",
+				"kt" : "30",
+				"as" : "AS Inning a.Ammersee"
 			}
 		},
 		{
@@ -3593,10 +6869,10 @@
 				"coordinates" : [ 665769.5404000003, 5328387.8805999998 ]
 			},
 			"properties" : {
-				"BAB" : "A96",
-				"NK" : "7933032O",
-				"KT" : "31",
-				"AS" : "AS Wörthsee"
+				"nk" : "7933032",
+				"bab" : "A96",
+				"kt" : "31",
+				"as" : "AS Wörthsee"
 			}
 		},
 		{
@@ -3606,10 +6882,10 @@
 				"coordinates" : [ 669957.0757999998, 5329189.7588 ]
 			},
 			"properties" : {
-				"BAB" : "A96",
-				"NK" : "7933029O",
-				"KT" : "32",
-				"AS" : "AS Oberpfaffenhofen"
+				"nk" : "7933029",
+				"bab" : "A96",
+				"kt" : "32",
+				"as" : "AS Oberpfaffenhofen"
 			}
 		},
 		{
@@ -3619,10 +6895,10 @@
 				"coordinates" : [ 672268.8806999996, 5329601.4649999999 ]
 			},
 			"properties" : {
-				"BAB" : "A96",
-				"NK" : "7933001O",
-				"KT" : "33",
-				"AS" : "AS Gilching"
+				"nk" : "7933001",
+				"bab" : "A96",
+				"kt" : "33",
+				"as" : "AS Gilching"
 			}
 		},
 		{
@@ -3632,10 +6908,10 @@
 				"coordinates" : [ 677413.2980000004, 5332073.5418999996 ]
 			},
 			"properties" : {
-				"BAB" : "A96",
-				"NK" : "7834030O",
-				"KT" : "34",
-				"AS" : "AS Germering-Süd"
+				"nk" : "7834030",
+				"bab" : "A96",
+				"kt" : "34",
+				"as" : "AS Germering-Süd"
 			}
 		},
 		{
@@ -3645,10 +6921,10 @@
 				"coordinates" : [ 678954.5288000004, 5333202.7620000001 ]
 			},
 			"properties" : {
-				"BAB" : "A96",
-				"NK" : "7834045O",
-				"KT" : "35",
-				"AS" : "AD München-Süd-West"
+				"nk" : "7834045",
+				"bab" : "A96",
+				"kt" : "35",
+				"as" : "AD München-Süd-West"
 			}
 		},
 		{
@@ -3658,10 +6934,10 @@
 				"coordinates" : [ 679669.5259999996, 5333569.7372999992 ]
 			},
 			"properties" : {
-				"BAB" : "A96",
-				"NK" : "7834046O",
-				"KT" : "36a",
-				"AS" : "AS München-Freiham-Süd"
+				"nk" : "7834046",
+				"bab" : "A96",
+				"kt" : "36a",
+				"as" : "AS München-Freiham-Süd"
 			}
 		},
 		{
@@ -3671,10 +6947,10 @@
 				"coordinates" : [ 682170.6134000001, 5333270.3668000009 ]
 			},
 			"properties" : {
-				"BAB" : "A96",
-				"NK" : "7834022O",
-				"KT" : "36b",
-				"AS" : "AS Gräfelfing"
+				"nk" : "7834022",
+				"bab" : "A96",
+				"kt" : "36b",
+				"as" : "AS Gräfelfing"
 			}
 		},
 		{
@@ -3684,10 +6960,10 @@
 				"coordinates" : [ 684492.8327000001, 5333014.3567999993 ]
 			},
 			"properties" : {
-				"BAB" : "A96",
-				"NK" : "7834023O",
-				"KT" : "37",
-				"AS" : "AS München-Blumenau"
+				"nk" : "7834023",
+				"bab" : "A96",
+				"kt" : "37",
+				"as" : "AS München-Blumenau"
 			}
 		},
 		{
@@ -3697,10 +6973,10 @@
 				"coordinates" : [ 686237.9774000002, 5333313.8849999998 ]
 			},
 			"properties" : {
-				"BAB" : "A96",
-				"NK" : "7835039O",
-				"KT" : "38",
-				"AS" : "AS München-Laim"
+				"nk" : "7835039",
+				"bab" : "A96",
+				"kt" : "38",
+				"as" : "AS München-Laim"
 			}
 		},
 		{
@@ -3710,10 +6986,10 @@
 				"coordinates" : [ 687535.8317999998, 5333117.9242000002 ]
 			},
 			"properties" : {
-				"BAB" : "A96",
-				"NK" : "7835040O",
-				"KT" : "39",
-				"AS" : "AS München-Sendling"
+				"nk" : "7835040",
+				"bab" : "A96",
+				"kt" : "39",
+				"as" : "AS München-Sendling"
 			}
 		},
 		{
@@ -3723,10 +6999,10 @@
 				"coordinates" : [ 678669.0247999998, 5333628.6337000001 ]
 			},
 			"properties" : {
-				"BAB" : "A99",
-				"NK" : "7834045U",
-				"KT" : "4",
-				"AS" : "AD München-Süd-West"
+				"nk" : "7834045",
+				"bab" : "A99",
+				"kt" : "4",
+				"as" : "AD München-Süd-West"
 			}
 		},
 		{
@@ -3736,10 +7012,10 @@
 				"coordinates" : [ 678328.2750000004, 5334454.8730999995 ]
 			},
 			"properties" : {
-				"BAB" : "A99",
-				"NK" : "7834044O",
-				"KT" : "5",
-				"AS" : "AS München-Freiham-Mitte"
+				"nk" : "7834044",
+				"bab" : "A99",
+				"kt" : "5",
+				"as" : "AS München-Freiham-Mitte"
 			}
 		},
 		{
@@ -3749,10 +7025,10 @@
 				"coordinates" : [ 678071.5593999997, 5335318.6864999998 ]
 			},
 			"properties" : {
-				"BAB" : "A99",
-				"NK" : "7834043O",
-				"KT" : "6",
-				"AS" : "AS Germering-Nord"
+				"nk" : "7834043",
+				"bab" : "A99",
+				"kt" : "6",
+				"as" : "AS Germering-Nord"
 			}
 		},
 		{
@@ -3762,10 +7038,10 @@
 				"coordinates" : [ 680261.3532999996, 5338505.1038000006 ]
 			},
 			"properties" : {
-				"BAB" : "A99",
-				"NK" : "7834039O",
-				"KT" : "7",
-				"AS" : "AS München-Lochhausen"
+				"nk" : "7834039",
+				"bab" : "A99",
+				"kt" : "7",
+				"as" : "AS München-Lochhausen"
 			}
 		},
 		{
@@ -3775,10 +7051,10 @@
 				"coordinates" : [ 680817.8913000003, 5339302.7185999993 ]
 			},
 			"properties" : {
-				"BAB" : "A99",
-				"NK" : "7834038O",
-				"KT" : "8",
-				"AS" : "AK München-West"
+				"nk" : "7834038",
+				"bab" : "A99",
+				"kt" : "8",
+				"as" : "AK München-West"
 			}
 		},
 		{
@@ -3788,10 +7064,10 @@
 				"coordinates" : [ 681473.6475999998, 5341845.9650999997 ]
 			},
 			"properties" : {
-				"BAB" : "A99",
-				"NK" : "7734038O",
-				"KT" : "9",
-				"AS" : "AD München-Allach"
+				"nk" : "7734038",
+				"bab" : "A99",
+				"kt" : "9",
+				"as" : "AD München-Allach"
 			}
 		},
 		{
@@ -3801,10 +7077,10 @@
 				"coordinates" : [ 681896.4479999999, 5341911.6214000005 ]
 			},
 			"properties" : {
-				"BAB" : "A99",
-				"NK" : "7734038A",
-				"KT" : "9",
-				"AS" : "AD München-Allach"
+				"nk" : "7734038",
+				"bab" : "A99",
+				"kt" : "9",
+				"as" : "AD München-Allach"
 			}
 		},
 		{
@@ -3814,10 +7090,10 @@
 				"coordinates" : [ 677378.5470000003, 5342419.4739999995 ]
 			},
 			"properties" : {
-				"BAB" : "A99",
-				"NK" : "7734037A",
-				"KT" : "-",
-				"AS" : "AD München-Eschenried"
+				"nk" : "7734037",
+				"bab" : "A99",
+				"kt" : "-",
+				"as" : "AD München-Eschenried"
 			}
 		},
 		{
@@ -3827,10 +7103,10 @@
 				"coordinates" : [ 684642.2554000001, 5342528.2694000006 ]
 			},
 			"properties" : {
-				"BAB" : "A99",
-				"NK" : "7734030O",
-				"KT" : "10",
-				"AS" : "AS München-Ludwigsfeld"
+				"nk" : "7734030",
+				"bab" : "A99",
+				"kt" : "10",
+				"as" : "AS München-Ludwigsfeld"
 			}
 		},
 		{
@@ -3840,10 +7116,10 @@
 				"coordinates" : [ 688778.2076000003, 5344565.4866000004 ]
 			},
 			"properties" : {
-				"BAB" : "A99",
-				"NK" : "7735017O",
-				"KT" : "11",
-				"AS" : "AD München-Feldmoching"
+				"nk" : "7735017",
+				"bab" : "A99",
+				"kt" : "11",
+				"as" : "AD München-Feldmoching"
 			}
 		},
 		{
@@ -3853,10 +7129,10 @@
 				"coordinates" : [ 692065.2423, 5344938.8956000004 ]
 			},
 			"properties" : {
-				"BAB" : "A99",
-				"NK" : "7735018O",
-				"KT" : "12a",
-				"AS" : "AS München-Neuherberg"
+				"nk" : "7735018",
+				"bab" : "A99",
+				"kt" : "12a",
+				"as" : "AS München-Neuherberg"
 			}
 		},
 		{
@@ -3866,10 +7142,10 @@
 				"coordinates" : [ 694433.5259999996, 5344666.4855000004 ]
 			},
 			"properties" : {
-				"BAB" : "A99",
-				"NK" : "7735034O",
-				"KT" : "12b",
-				"AS" : "AS München-Fröttmaning-Nord"
+				"nk" : "7735034",
+				"bab" : "A99",
+				"kt" : "12b",
+				"as" : "AS München-Fröttmaning-Nord"
 			}
 		},
 		{
@@ -3879,10 +7155,10 @@
 				"coordinates" : [ 695284.6895000003, 5344215.2303999998 ]
 			},
 			"properties" : {
-				"BAB" : "A99",
-				"NK" : "7735012O",
-				"KT" : "13",
-				"AS" : "AK München-Nord"
+				"nk" : "7735012",
+				"bab" : "A99",
+				"kt" : "13",
+				"as" : "AK München-Nord"
 			}
 		},
 		{
@@ -3892,10 +7168,10 @@
 				"coordinates" : [ 700194.0014000004, 5341256.2027000003 ]
 			},
 			"properties" : {
-				"BAB" : "A99",
-				"NK" : "7836063O",
-				"KT" : "14",
-				"AS" : "AS Aschheim/Ismaning"
+				"nk" : "7836063",
+				"bab" : "A99",
+				"kt" : "14",
+				"as" : "AS Aschheim/Ismaning"
 			}
 		},
 		{
@@ -3905,10 +7181,10 @@
 				"coordinates" : [ 703637.3092999998, 5338715.8098000009 ]
 			},
 			"properties" : {
-				"BAB" : "A99",
-				"NK" : "7836008O",
-				"KT" : "15",
-				"AS" : "AS Kirchheim b.München"
+				"nk" : "7836008",
+				"bab" : "A99",
+				"kt" : "15",
+				"as" : "AS Kirchheim b.München"
 			}
 		},
 		{
@@ -3918,10 +7194,10 @@
 				"coordinates" : [ 705144.7980000004, 5335841.6949000005 ]
 			},
 			"properties" : {
-				"BAB" : "A99",
-				"NK" : "7836015O",
-				"KT" : "17",
-				"AS" : "AK München-Ost"
+				"nk" : "7836015",
+				"bab" : "A99",
+				"kt" : "17",
+				"as" : "AK München-Ost"
 			}
 		},
 		{
@@ -3931,10 +7207,10 @@
 				"coordinates" : [ 704906.2127999999, 5331370.7348999996 ]
 			},
 			"properties" : {
-				"BAB" : "A99",
-				"NK" : "7836026O",
-				"KT" : "18",
-				"AS" : "AS Haar"
+				"nk" : "7836026",
+				"bab" : "A99",
+				"kt" : "18",
+				"as" : "AS Haar"
 			}
 		},
 		{
@@ -3944,10 +7220,10 @@
 				"coordinates" : [ 701934.8393000001, 5326924.8998000007 ]
 			},
 			"properties" : {
-				"BAB" : "A99",
-				"NK" : "7936008O",
-				"KT" : "19",
-				"AS" : "AS Hohenbrunn"
+				"nk" : "7936008",
+				"bab" : "A99",
+				"kt" : "19",
+				"as" : "AS Hohenbrunn"
 			}
 		},
 		{
@@ -3957,10 +7233,10 @@
 				"coordinates" : [ 699761.7052999996, 5324195.1254999992 ]
 			},
 			"properties" : {
-				"BAB" : "A99",
-				"NK" : "7936012O",
-				"KT" : "20",
-				"AS" : "AS Ottobrunn"
+				"nk" : "7936012",
+				"bab" : "A99",
+				"kt" : "20",
+				"as" : "AS Ottobrunn"
 			}
 		},
 		{
@@ -3970,10 +7246,10 @@
 				"coordinates" : [ 698117.0906999996, 5322771.7073999997 ]
 			},
 			"properties" : {
-				"BAB" : "A99",
-				"NK" : "7935020O",
-				"KT" : "21",
-				"AS" : "AK München-Süd"
+				"nk" : "7935020",
+				"bab" : "A99",
+				"kt" : "21",
+				"as" : "AK München-Süd"
 			}
 		},
 		{
@@ -3983,10 +7259,10 @@
 				"coordinates" : [ 680270.2165000001, 5320844.4605 ]
 			},
 			"properties" : {
-				"BAB" : "A952",
-				"NK" : "7934010O",
-				"KT" : "1",
-				"AS" : "AD Starnberg"
+				"nk" : "7934010",
+				"bab" : "A952",
+				"kt" : "1",
+				"as" : "AD Starnberg"
 			}
 		},
 		{
@@ -3996,10 +7272,10 @@
 				"coordinates" : [ 675929.5322000002, 5319075.8493000008 ]
 			},
 			"properties" : {
-				"BAB" : "A952",
-				"NK" : "7934014G",
-				"KT" : "2",
-				"AS" : "AS Percha"
+				"nk" : "7934014",
+				"bab" : "A952",
+				"kt" : "2",
+				"as" : "AS Percha"
 			}
 		},
 		{
@@ -4009,10 +7285,10 @@
 				"coordinates" : [ 602651.7051999997, 5282463.1892000008 ]
 			},
 			"properties" : {
-				"BAB" : "A980",
-				"NK" : "8328013O",
-				"KT" : "1",
-				"AS" : "AD Allgäu"
+				"nk" : "8328013",
+				"bab" : "A980",
+				"kt" : "1",
+				"as" : "AD Allgäu"
 			}
 		},
 		{
@@ -4022,10 +7298,10 @@
 				"coordinates" : [ 599737.0427000001, 5281947.4392000008 ]
 			},
 			"properties" : {
-				"BAB" : "A980",
-				"NK" : "8327009O",
-				"KT" : "2",
-				"AS" : "AS Durach"
+				"nk" : "8327009",
+				"bab" : "A980",
+				"kt" : "2",
+				"as" : "AS Durach"
 			}
 		},
 		{
@@ -4035,10 +7311,10 @@
 				"coordinates" : [ 597656.7598999999, 5281623.4094999991 ]
 			},
 			"properties" : {
-				"BAB" : "A980",
-				"NK" : "8327010B",
-				"KT" : "3",
-				"AS" : "AS Waltenhofen"
+				"nk" : "8327010",
+				"bab" : "A980",
+				"kt" : "3",
+				"as" : "AS Waltenhofen"
 			}
 		},
 		{
@@ -4048,10 +7324,10 @@
 				"coordinates" : [ 692698.9212999996, 5330095.0330999997 ]
 			},
 			"properties" : {
-				"BAB" : "A995",
-				"NK" : "7935001O",
-				"KT" : "1",
-				"AS" : "AS München-Giesing"
+				"nk" : "7935001",
+				"bab" : "A995",
+				"kt" : "1",
+				"as" : "AS München-Giesing"
 			}
 		},
 		{
@@ -4061,10 +7337,10 @@
 				"coordinates" : [ 693294.5047000004, 5328766.6873000003 ]
 			},
 			"properties" : {
-				"BAB" : "A995",
-				"NK" : "7935004O",
-				"KT" : "2",
-				"AS" : "AS Unterhaching-Nord"
+				"nk" : "7935004",
+				"bab" : "A995",
+				"kt" : "2",
+				"as" : "AS Unterhaching-Nord"
 			}
 		},
 		{
@@ -4074,10 +7350,10 @@
 				"coordinates" : [ 693369.4896, 5325572.2855999991 ]
 			},
 			"properties" : {
-				"BAB" : "A995",
-				"NK" : "7935010O",
-				"KT" : "3",
-				"AS" : "AS Taufkirchen-West"
+				"nk" : "7935010",
+				"bab" : "A995",
+				"kt" : "3",
+				"as" : "AS Taufkirchen-West"
 			}
 		},
 		{
@@ -4087,10 +7363,10 @@
 				"coordinates" : [ 694411.3419000003, 5323424.2024000008 ]
 			},
 			"properties" : {
-				"BAB" : "A995",
-				"NK" : "7935018O",
-				"KT" : "4",
-				"AS" : "AS Oberhaching"
+				"nk" : "7935018",
+				"bab" : "A995",
+				"kt" : "4",
+				"as" : "AS Oberhaching"
 			}
 		},
 		{
@@ -4100,10 +7376,10 @@
 				"coordinates" : [ 696486.5515999999, 5322708.0547000002 ]
 			},
 			"properties" : {
-				"BAB" : "A995",
-				"NK" : "7935019O",
-				"KT" : "5",
-				"AS" : "AS Sauerlach"
+				"nk" : "7935019",
+				"bab" : "A995",
+				"kt" : "5",
+				"as" : "AS Sauerlach"
 			}
 		},
 		{
@@ -4113,10 +7389,10 @@
 				"coordinates" : [ 697627.0436000004, 5322668.1122999992 ]
 			},
 			"properties" : {
-				"BAB" : "A995",
-				"NK" : "7935020F",
-				"KT" : "6",
-				"AS" : "AK München-Süd"
+				"nk" : "7935020",
+				"bab" : "A995",
+				"kt" : "6",
+				"as" : "AK München-Süd"
 			}
 		}
 	]
