@@ -48,6 +48,10 @@ let karteAbschnittSource = null;
 let karteAbschnittLayer = null;
 let karteAbschnittFeatures = [];
 let karteHighlightSource = null;
+let karteNetzknotenSource = null;
+let karteNetzknotenLayer = null;
+let karteNetzknotenFeatures = [];
+let karteAbschnittGeometryRevision = 0;
 let karteAbschnittExtentFitted = false;
 let karteInitialBabFitted = false;
 let karteSearchActive = false;
@@ -80,6 +84,9 @@ let kartePinchCenter = null;
 let stationSliderActive = false;
 let lastAbschnittId = null;
 let karteZoomCenterFrame = null;
+let netzknotenMeasureContext = null;
+let netzknotenSelectorIconCache = new Map();
+let netzknotenTextMetricsCache = new Map();
 const COPY_STATUS_DURATION_MS = 1600;
 const COPY_STATUS_FADE_MS = 180;
 const copySuccessTickTargets = new Set([
@@ -95,6 +102,23 @@ const MAP_SEARCH_RADIUS_PX = 18;
 const STATION_LOCK_ZOOM = 14;
 const ABSCHNITT_LABEL_MIN_ZOOM = 10;
 const ABSCHNITT_LABEL_MIN_PX = 90;
+const NETZKNOTEN_LABEL_MIN_ZOOM = 10;
+const NETZKNOTEN_LABEL_POINT_GAP_PX = 5;
+const NETZKNOTEN_LABEL_SEARCH_PADDING_PX = 12;
+const NETZKNOTEN_LABEL_FALLBACK_ANCHOR_X = 0;
+const NETZKNOTEN_LABEL_FALLBACK_ANCHOR_Y = 1;
+const NETZKNOTEN_SIGN_MAX_AS_CHARS = 42;
+const NETZKNOTEN_ICON_TARGET_HEIGHT = 11;
+const NETZKNOTEN_ICON_FALLBACK_WIDTH = 26;
+const NETZKNOTEN_ICON_FALLBACK_HEIGHT = 21;
+const NETZKNOTEN_SIGN_CONTENT_PAD_X = 6;
+const NETZKNOTEN_SIGN_CONTENT_PAD_Y = 3;
+const NETZKNOTEN_SIGN_MIN_WIDTH = 60;
+const NETZKNOTEN_SIGN_MIN_HEIGHT = 26;
+const NETZKNOTEN_KT_PILL_PADDING_X = 5;
+const NETZKNOTEN_KT_PILL_PADDING_Y = 1.5;
+const NETZKNOTEN_KT_PILL_MIN_HEIGHT = 12;
+const NETZKNOTEN_METRICS_SAMPLE = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzÄÖÜäöüß';
 const INITIAL_MAP_ZOOM = 10;
 const INITIAL_BAB_FIT = 'A99';
 const MAP_SEARCH_SNAP_MIN_DISTANCE = 1;
@@ -404,6 +428,7 @@ function initKarteMap() {
   initKartePinchZoomLock(mapTarget);
   initKarteLensMap(mapTarget);
   initKarteAbschnittLayer(projection);
+  initKarteNetzknotenLayer(projection);
   updatePanOutput();
   updateUtmOutput();
   updateLatLonOutput();
@@ -527,7 +552,7 @@ function getFirstGeoJsonCoordinate(coordinates) {
   return getFirstGeoJsonCoordinate(coordinates[0]);
 }
 
-function resolveAbsGeoJsonDataProjection(data) {
+function resolveGeoJsonDataProjection(data) {
   const fallback = 'EPSG:4326';
   if (!data || typeof data !== 'object') return fallback;
 
@@ -548,6 +573,616 @@ function resolveAbsGeoJsonDataProjection(data) {
   }
 
   return fallback;
+}
+
+function getTextMeasureContext() {
+  if (netzknotenMeasureContext) return netzknotenMeasureContext;
+  if (typeof document === 'undefined' || typeof document.createElement !== 'function') {
+    return null;
+  }
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return null;
+  netzknotenMeasureContext = ctx;
+  return netzknotenMeasureContext;
+}
+
+function measureTextWidth(text, font) {
+  const value = text === undefined || text === null ? '' : String(text);
+  if (!value) return 0;
+  const ctx = getTextMeasureContext();
+  if (!ctx) {
+    return Math.ceil(value.length * 7);
+  }
+  ctx.font = font;
+  return Math.ceil(ctx.measureText(value).width);
+}
+
+function getFontSizeFromFontString(font) {
+  const match = String(font || '').match(/(\d+(?:\.\d+)?)px/);
+  if (!match) return 12;
+  const size = Number.parseFloat(match[1]);
+  return Number.isFinite(size) && size > 0 ? size : 12;
+}
+
+function getTextMetrics(font) {
+  const key = String(font || '');
+  if (netzknotenTextMetricsCache.has(key)) {
+    return netzknotenTextMetricsCache.get(key);
+  }
+
+  const fallbackSize = getFontSizeFromFontString(font);
+  const fallbackMetrics = {
+    ascent: fallbackSize * 0.78,
+    descent: fallbackSize * 0.22
+  };
+
+  const ctx = getTextMeasureContext();
+  if (!ctx) {
+    netzknotenTextMetricsCache.set(key, fallbackMetrics);
+    return fallbackMetrics;
+  }
+
+  ctx.font = font;
+  const measure = ctx.measureText(NETZKNOTEN_METRICS_SAMPLE);
+  const ascent = Number(measure.actualBoundingBoxAscent);
+  const descent = Number(measure.actualBoundingBoxDescent);
+  const metrics = (Number.isFinite(ascent) && ascent > 0 && Number.isFinite(descent) && descent >= 0)
+    ? { ascent, descent }
+    : fallbackMetrics;
+  netzknotenTextMetricsCache.set(key, metrics);
+  return metrics;
+}
+
+function measureTextMetrics(text, font) {
+  const value = text === undefined || text === null ? '' : String(text);
+  const fallback = getTextMetrics(font);
+  const fallbackWidth = measureTextWidth(value, font);
+  const fallbackPayload = {
+    ascent: fallback.ascent,
+    descent: fallback.descent,
+    left: 0,
+    right: fallbackWidth,
+    width: fallbackWidth
+  };
+  const ctx = getTextMeasureContext();
+  if (!ctx || !value) return fallbackPayload;
+  ctx.font = font;
+  const measure = ctx.measureText(value);
+  const ascent = Number(measure.actualBoundingBoxAscent);
+  const descent = Number(measure.actualBoundingBoxDescent);
+  const left = Number(measure.actualBoundingBoxLeft);
+  const right = Number(measure.actualBoundingBoxRight);
+  const width = Number(measure.width);
+  return {
+    ascent: (Number.isFinite(ascent) && ascent > 0) ? ascent : fallback.ascent,
+    descent: (Number.isFinite(descent) && descent >= 0) ? descent : fallback.descent,
+    left: (Number.isFinite(left) && left >= 0) ? left : 0,
+    right: (Number.isFinite(right) && right >= 0) ? right : fallbackWidth,
+    width: (Number.isFinite(width) && width >= 0) ? width : fallbackWidth
+  };
+}
+
+function escapeSvgText(value) {
+  if (value === undefined || value === null) return '';
+  return String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function truncateNetzknotenLabel(text, maxChars) {
+  const limit = Number.isFinite(maxChars) ? Math.max(1, Math.floor(maxChars)) : 0;
+  if (!limit) return text;
+  if (text.length <= limit) return text;
+  return `${text.slice(0, limit - 3).trimEnd()}...`;
+}
+
+function normalizeNetzknotenKtValue(value) {
+  if (value === undefined || value === null) return '';
+  const text = String(value).trim();
+  if (!text || text === '-') return '';
+  return text;
+}
+
+function normalizeNetzknotenAsParts(value) {
+  const raw = value === undefined || value === null ? '' : String(value).replace(/\s+/g, ' ').trim();
+  if (!raw || raw === '-') {
+    return { type: '', text: '' };
+  }
+  const match = raw.match(/^(AS|AK|AD)\s+(.+)$/i);
+  if (!match) {
+    return { type: '', text: truncateNetzknotenLabel(raw, NETZKNOTEN_SIGN_MAX_AS_CHARS) };
+  }
+  const type = match[1].toUpperCase();
+  const rest = match[2].trim();
+  let labelText = rest;
+  if (type === 'AK') {
+    labelText = `Kreuz ${rest}`;
+  }
+  return {
+    type,
+    text: truncateNetzknotenLabel(labelText || raw, NETZKNOTEN_SIGN_MAX_AS_CHARS)
+  };
+}
+
+function getNetzknotenTypeIconKind(type) {
+  const normalized = String(type || '').trim().toUpperCase();
+  if (normalized === 'AS') return 'as';
+  if (normalized === 'AK' || normalized === 'AD') return 'ak';
+  return '';
+}
+
+function parseNetzknotenClipPathCoordinate(value, base) {
+  const text = String(value || '').trim();
+  if (!text) return null;
+  if (text.endsWith('%')) {
+    const percent = Number.parseFloat(text.slice(0, -1));
+    if (!Number.isFinite(percent)) return null;
+    return (percent / 100) * base;
+  }
+  const numeric = Number.parseFloat(text);
+  return Number.isFinite(numeric) ? numeric : null;
+}
+
+function parseNetzknotenClipPathPolygon(clipPathValue, width, height) {
+  const text = String(clipPathValue || '').trim();
+  const match = text.match(/^polygon\s*\((.+)\)$/i);
+  if (!match) return null;
+  const pairs = match[1].split(',');
+  const points = [];
+  pairs.forEach((pair) => {
+    const parts = pair.trim().split(/\s+/);
+    if (parts.length < 2) return;
+    const x = parseNetzknotenClipPathCoordinate(parts[0], width);
+    const y = parseNetzknotenClipPathCoordinate(parts[1], height);
+    if (!Number.isFinite(x) || !Number.isFinite(y)) return;
+    points.push([x, y]);
+  });
+  return points.length >= 3 ? points : null;
+}
+
+function getNetzknotenSelectorIconData(kind) {
+  if (netzknotenSelectorIconCache.has(kind)) {
+    return netzknotenSelectorIconCache.get(kind);
+  }
+  if (typeof document === 'undefined' || typeof window === 'undefined' || !document.body) {
+    netzknotenSelectorIconCache.set(kind, null);
+    return null;
+  }
+  const className = kind === 'as' ? 'asIcon' : kind === 'ak' ? 'akIcon' : '';
+  if (!className) {
+    netzknotenSelectorIconCache.set(kind, null);
+    return null;
+  }
+
+  const probe = document.createElement('div');
+  probe.className = className;
+  probe.setAttribute('aria-hidden', 'true');
+  probe.style.position = 'absolute';
+  probe.style.left = '-9999px';
+  probe.style.top = '-9999px';
+  probe.style.visibility = 'hidden';
+  probe.style.pointerEvents = 'none';
+  document.body.appendChild(probe);
+
+  const computed = window.getComputedStyle(probe);
+  const clipPathValue = computed.getPropertyValue('clip-path')
+    || computed.getPropertyValue('-webkit-clip-path')
+    || computed.clipPath
+    || '';
+  const width = Number.parseFloat(computed.width) || NETZKNOTEN_ICON_FALLBACK_WIDTH;
+  const height = Number.parseFloat(computed.height) || NETZKNOTEN_ICON_FALLBACK_HEIGHT;
+  document.body.removeChild(probe);
+
+  const points = parseNetzknotenClipPathPolygon(clipPathValue, width, height);
+  const iconData = points ? { points, width, height } : null;
+  netzknotenSelectorIconCache.set(kind, iconData);
+  return iconData;
+}
+
+function renderNetzknotenTypeIcon(iconData, x, y, targetWidth, targetHeight) {
+  if (!iconData || !Array.isArray(iconData.points) || !iconData.points.length) {
+    return '';
+  }
+  const sx = targetWidth / iconData.width;
+  const sy = targetHeight / iconData.height;
+  const pointsText = iconData.points
+    .map(([px, py]) => `${(x + (px * sx)).toFixed(3)} ${(y + (py * sy)).toFixed(3)}`)
+    .join(' ');
+  return `<polygon points="${pointsText}" fill="#ffffff" />`;
+}
+
+function createNetzknotenSignSvg({ asText, ktText, type }) {
+  const signBlue = '#005a8c';
+  const white = '#ffffff';
+  const hasType = !!type;
+  const typeIconKind = getNetzknotenTypeIconKind(type);
+  const typeIconData = typeIconKind ? getNetzknotenSelectorIconData(typeIconKind) : null;
+  const hasTypeIcon = !!typeIconData;
+  const hasTypeTextBadge = hasType && !hasTypeIcon;
+  const hasKt = !!ktText;
+
+  const bodyFont = "11px 'ddin-expandedbold', sans-serif";
+  const badgeFont = "9px 'ddin-bold', 'roboto-bold', sans-serif";
+  const pillFont = "10px 'ddin-regular', sans-serif";
+  const bodyMetrics = getTextMetrics(bodyFont);
+  const pillBaseMetrics = getTextMetrics(pillFont);
+  const pillMetrics = hasKt
+    ? measureTextMetrics(ktText, pillFont)
+    : {
+      ascent: pillBaseMetrics.ascent,
+      descent: pillBaseMetrics.descent,
+      left: 0,
+      right: 0,
+      width: 0
+    };
+  const bodyWidth = Math.max(16, measureTextWidth(asText, bodyFont));
+  const typeHeight = hasTypeIcon ? NETZKNOTEN_ICON_TARGET_HEIGHT : 12;
+  const typeWidth = hasTypeIcon
+    ? Math.max(9, Math.round((typeIconData.width / typeIconData.height) * typeHeight))
+    : hasTypeTextBadge
+      ? Math.max(18, measureTextWidth(type, badgeFont) + 8)
+      : 0;
+  const ktTextVisualWidth = Math.max(0, pillMetrics.left + pillMetrics.right);
+  const ktWidth = hasKt
+    ? Math.max(14, Math.ceil(ktTextVisualWidth + (NETZKNOTEN_KT_PILL_PADDING_X * 2)))
+    : 0;
+
+  const spacing = 4;
+  const contentPadX = NETZKNOTEN_SIGN_CONTENT_PAD_X;
+  const contentPadY = NETZKNOTEN_SIGN_CONTENT_PAD_Y;
+  let x = contentPadX;
+  const partsWidth = [];
+  if (typeWidth) partsWidth.push(typeWidth);
+  if (ktWidth) partsWidth.push(ktWidth);
+  partsWidth.push(bodyWidth);
+  const contentWidth = partsWidth.reduce((sum, width, idx) => sum + width + (idx > 0 ? spacing : 0), 0);
+  const ktTextHeight = pillMetrics.ascent + pillMetrics.descent;
+  const ktHeight = Math.max(
+    NETZKNOTEN_KT_PILL_MIN_HEIGHT,
+    Math.ceil(ktTextHeight + (NETZKNOTEN_KT_PILL_PADDING_Y * 2))
+  );
+  const bodyTextHeight = bodyMetrics.ascent + bodyMetrics.descent;
+  const contentHeight = Math.max(typeHeight, ktHeight, bodyTextHeight);
+  const width = Math.max(NETZKNOTEN_SIGN_MIN_WIDTH, Math.ceil(contentWidth + (contentPadX * 2)));
+  const height = Math.max(NETZKNOTEN_SIGN_MIN_HEIGHT, Math.ceil(contentHeight + (contentPadY * 2)));
+  const centerY = height / 2;
+  const typeY = centerY + 0.2;
+  const typeYPos = Math.round((height - typeHeight) / 2);
+  const ktYPos = Math.round((height - ktHeight) / 2);
+  const ktBaselineOffset = ((ktHeight - ktTextHeight) / 2) + pillMetrics.ascent;
+  const sharedBaselineY = hasKt
+    ? (ktYPos + ktBaselineOffset)
+    : (centerY + ((bodyMetrics.ascent - bodyMetrics.descent) / 2));
+  const ktY = sharedBaselineY;
+  const bodyY = sharedBaselineY;
+  const bodyStartX = [];
+
+  if (typeWidth) {
+    bodyStartX.push({ kind: 'type', x, width: typeWidth });
+    x += typeWidth + spacing;
+  }
+  if (ktWidth) {
+    bodyStartX.push({ kind: 'kt', x, width: ktWidth });
+    x += ktWidth + spacing;
+  }
+  bodyStartX.push({ kind: 'body', x, width: bodyWidth });
+
+  const typePart = bodyStartX.find(part => part.kind === 'type');
+  const ktPart = bodyStartX.find(part => part.kind === 'kt');
+  const bodyPart = bodyStartX.find(part => part.kind === 'body');
+
+  const typeBadge = (typePart && hasTypeTextBadge)
+    ? `
+    <rect x="${typePart.x}" y="${typeYPos}" width="${typePart.width}" height="${typeHeight}" rx="3" fill="${white}" />
+    <text x="${typePart.x + (typePart.width / 2)}" y="${typeY}" text-anchor="middle" dominant-baseline="middle"
+      font-family="'ddin-bold','roboto-bold',sans-serif" font-size="9" fill="${signBlue}">${escapeSvgText(type)}</text>`
+    : '';
+  const typeIcon = (typePart && hasTypeIcon)
+    ? renderNetzknotenTypeIcon(typeIconData, typePart.x, typeYPos, typeWidth, typeHeight)
+    : '';
+
+  const ktBadge = ktPart
+    ? (() => {
+      const ktCenterX = ktPart.x + (ktPart.width / 2);
+      return `
+    <rect x="${ktPart.x}" y="${ktYPos}" width="${ktPart.width}" height="${ktHeight}" rx="${Math.round(ktHeight / 2)}" fill="none" stroke="${white}" stroke-width="1.2" />
+    <text x="${ktCenterX}" y="${ktY}" text-anchor="middle"
+      font-family="'ddin-regular','roboto-regular',sans-serif" font-size="10" fill="${white}">${escapeSvgText(ktText)}</text>`;
+    })()
+    : '';
+
+  const bodyText = bodyPart
+    ? `
+    <text x="${bodyPart.x}" y="${bodyY}" text-anchor="start"
+      font-family="'ddin-expandedbold',sans-serif" font-size="11" fill="${white}">${escapeSvgText(asText)}</text>`
+    : '';
+
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
+    <rect x="0.5" y="0.5" width="${width - 1}" height="${height - 1}" rx="6" fill="${signBlue}" stroke="${signBlue}" stroke-width="1" />
+    <rect x="2" y="2" width="${width - 4}" height="${height - 4}" rx="5" fill="none" stroke="${white}" stroke-width="2" />
+    ${typeBadge}
+    ${typeIcon}
+    ${ktBadge}
+    ${bodyText}
+  </svg>`;
+  return { svg, width, height };
+}
+
+function shouldShowNetzknotenLabel(resolution) {
+  const view = karteMap && typeof karteMap.getView === 'function' ? karteMap.getView() : null;
+  const zoom = view && typeof view.getZoom === 'function' ? view.getZoom() : null;
+  if (Number.isFinite(zoom) && zoom < NETZKNOTEN_LABEL_MIN_ZOOM) return false;
+  return Number.isFinite(resolution) && resolution > 0;
+}
+
+function getNetzknotenLabelCandidates() {
+  const gap = NETZKNOTEN_LABEL_POINT_GAP_PX;
+  return [
+    { anchorX: 0, anchorY: 1, dx: gap, dy: gap, index: 0 },
+    { anchorX: 1, anchorY: 1, dx: -gap, dy: gap, index: 1 },
+    { anchorX: 0, anchorY: 0, dx: gap, dy: -gap, index: 2 },
+    { anchorX: 1, anchorY: 0, dx: -gap, dy: -gap, index: 3 }
+  ];
+}
+
+function getNetzknotenOppositeCornerIndex(index) {
+  const map = {
+    0: 3,
+    1: 2,
+    2: 1,
+    3: 0
+  };
+  return Object.prototype.hasOwnProperty.call(map, index) ? map[index] : null;
+}
+
+function getNetzknotenStackIndex(feature) {
+  if (!feature || typeof feature.get !== 'function') return 0;
+  const value = Number(feature.get('__nkStackIndex'));
+  return Number.isFinite(value) && value >= 0 ? Math.floor(value) : 0;
+}
+
+function getNetzknotenStackSize(feature) {
+  if (!feature || typeof feature.get !== 'function') return 1;
+  const value = Number(feature.get('__nkStackSize'));
+  return Number.isFinite(value) && value >= 1 ? Math.floor(value) : 1;
+}
+
+function getNetzknotenCoordinateKey(feature) {
+  if (!feature || typeof feature.getGeometry !== 'function') return '';
+  const geometry = feature.getGeometry();
+  if (!geometry || typeof geometry.getCoordinates !== 'function') return '';
+  const coords = geometry.getCoordinates();
+  if (!Array.isArray(coords) || coords.length < 2) return '';
+  const x = Number(coords[0]);
+  const y = Number(coords[1]);
+  if (!Number.isFinite(x) || !Number.isFinite(y)) return '';
+  return `${x.toFixed(3)}|${y.toFixed(3)}`;
+}
+
+function assignNetzknotenStackMetadata(features) {
+  if (!Array.isArray(features) || !features.length) return;
+  const groups = new Map();
+  features.forEach((feature) => {
+    const key = getNetzknotenCoordinateKey(feature);
+    if (!key) return;
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key).push(feature);
+  });
+
+  groups.forEach((group) => {
+    if (!Array.isArray(group) || !group.length) return;
+    group.sort((a, b) => {
+      const nkA = a && typeof a.get === 'function' ? String(a.get('nk') || '') : '';
+      const nkB = b && typeof b.get === 'function' ? String(b.get('nk') || '') : '';
+      if (nkA !== nkB) return nkA.localeCompare(nkB, 'de');
+      const ktA = a && typeof a.get === 'function' ? String(a.get('kt') || '') : '';
+      const ktB = b && typeof b.get === 'function' ? String(b.get('kt') || '') : '';
+      if (ktA !== ktB) return ktA.localeCompare(ktB, 'de');
+      const asA = a && typeof a.get === 'function' ? String(a.get('as') || '') : '';
+      const asB = b && typeof b.get === 'function' ? String(b.get('as') || '') : '';
+      return asA.localeCompare(asB, 'de');
+    });
+    const size = group.length;
+    group.forEach((feature, index) => {
+      if (!feature || typeof feature.set !== 'function') return;
+      feature.set('__nkStackIndex', index, true);
+      feature.set('__nkStackSize', size, true);
+    });
+  });
+}
+
+function getNetzknotenLabelExtent(point, candidate, widthPx, heightPx, resolution) {
+  const topLeftPxX = candidate.dx - (candidate.anchorX * widthPx);
+  const topLeftPxY = -candidate.dy - (candidate.anchorY * heightPx);
+
+  const minX = point[0] + (topLeftPxX * resolution);
+  const maxX = minX + (widthPx * resolution);
+  const maxY = point[1] - (topLeftPxY * resolution);
+  const minY = maxY - (heightPx * resolution);
+  return [minX, minY, maxX, maxY];
+}
+
+function chooseNetzknotenLabelPlacement(feature, widthPx, heightPx, resolution) {
+  const fallback = {
+    anchorX: NETZKNOTEN_LABEL_FALLBACK_ANCHOR_X,
+    anchorY: NETZKNOTEN_LABEL_FALLBACK_ANCHOR_Y,
+    dx: NETZKNOTEN_LABEL_POINT_GAP_PX,
+    dy: NETZKNOTEN_LABEL_POINT_GAP_PX
+  };
+  if (!feature || !Number.isFinite(widthPx) || !Number.isFinite(heightPx) || !Number.isFinite(resolution)) {
+    return fallback;
+  }
+
+  const geometry = typeof feature.getGeometry === 'function' ? feature.getGeometry() : null;
+  const point = geometry && typeof geometry.getCoordinates === 'function' ? geometry.getCoordinates() : null;
+  if (!Array.isArray(point) || point.length < 2) return fallback;
+
+  const nearbyFeatures = [];
+  if (karteAbschnittSource && typeof karteAbschnittSource.forEachFeatureInExtent === 'function') {
+    const searchRadiusMap = (Math.max(widthPx, heightPx) + NETZKNOTEN_LABEL_SEARCH_PADDING_PX) * resolution;
+    const searchExtent = [
+      point[0] - searchRadiusMap,
+      point[1] - searchRadiusMap,
+      point[0] + searchRadiusMap,
+      point[1] + searchRadiusMap
+    ];
+    karteAbschnittSource.forEachFeatureInExtent(searchExtent, (absFeature) => {
+      nearbyFeatures.push(absFeature);
+    });
+  }
+  if (!nearbyFeatures.length && Array.isArray(karteAbschnittFeatures) && karteAbschnittFeatures.length) {
+    nearbyFeatures.push(...karteAbschnittFeatures);
+  }
+  if (!nearbyFeatures.length) return fallback;
+
+  const stackIndex = getNetzknotenStackIndex(feature);
+  const stackSize = getNetzknotenStackSize(feature);
+  const candidates = getNetzknotenLabelCandidates();
+  const scoredCandidates = [];
+  candidates.forEach((candidate) => {
+    const extent = getNetzknotenLabelExtent(point, candidate, widthPx, heightPx, resolution);
+    const center = [
+      (extent[0] + extent[2]) / 2,
+      (extent[1] + extent[3]) / 2
+    ];
+    let intersections = 0;
+    let minDistanceSq = Infinity;
+
+    nearbyFeatures.forEach((absFeature) => {
+      const absGeometry = absFeature && typeof absFeature.getGeometry === 'function'
+        ? absFeature.getGeometry()
+        : null;
+      if (!absGeometry) return;
+      if (typeof absGeometry.intersectsExtent === 'function' && absGeometry.intersectsExtent(extent)) {
+        intersections += 1;
+      }
+      const closest = getClosestPointOnGeometry(absGeometry, center);
+      if (!closest || !Number.isFinite(closest.distanceSq)) return;
+      if (closest.distanceSq < minDistanceSq) {
+        minDistanceSq = closest.distanceSq;
+      }
+    });
+
+    const distanceSq = (candidate.dx * candidate.dx) + (candidate.dy * candidate.dy);
+    scoredCandidates.push({
+      anchorX: candidate.anchorX,
+      anchorY: candidate.anchorY,
+      dx: candidate.dx,
+      dy: candidate.dy,
+      index: candidate.index,
+      intersections,
+      minDistanceSq,
+      distanceSq
+    });
+  });
+
+  if (!scoredCandidates.length) return fallback;
+  scoredCandidates.sort((a, b) => {
+    if (a.intersections !== b.intersections) return a.intersections - b.intersections;
+    if (a.minDistanceSq !== b.minDistanceSq) return b.minDistanceSq - a.minDistanceSq;
+    if (a.distanceSq !== b.distanceSq) return a.distanceSq - b.distanceSq;
+    return a.index - b.index;
+  });
+
+  let selected = null;
+  if (stackSize === 2 && stackIndex === 1) {
+    const primary = scoredCandidates[0];
+    const oppositeIndex = getNetzknotenOppositeCornerIndex(primary ? primary.index : null);
+    const opposite = scoredCandidates.find(candidate => candidate.index === oppositeIndex);
+    const fallbackSecond = scoredCandidates[1] || primary;
+    if (opposite && primary) {
+      const extraIntersections = opposite.intersections - primary.intersections;
+      selected = extraIntersections <= 1 ? opposite : fallbackSecond;
+    } else {
+      selected = fallbackSecond;
+    }
+  } else if (stackSize > 1) {
+    selected = scoredCandidates[stackIndex % scoredCandidates.length];
+  } else {
+    selected = scoredCandidates[0];
+  }
+  if (!selected) return fallback;
+
+  const ring = stackSize > 1 ? Math.floor(stackIndex / scoredCandidates.length) : 0;
+  const ringStep = ring > 0 ? ring * 4 : 0;
+  const dx = selected.dx === 0
+    ? 0
+    : selected.dx + (Math.sign(selected.dx) * ringStep);
+  const dy = selected.dy === 0
+    ? 0
+    : selected.dy + (Math.sign(selected.dy) * ringStep);
+
+  return {
+    anchorX: selected.anchorX,
+    anchorY: selected.anchorY,
+    dx,
+    dy
+  };
+}
+
+function getNetzknotenLabelPlacement(feature, widthPx, heightPx, resolution, zoomBucket) {
+  const fallback = {
+    anchorX: NETZKNOTEN_LABEL_FALLBACK_ANCHOR_X,
+    anchorY: NETZKNOTEN_LABEL_FALLBACK_ANCHOR_Y,
+    dx: NETZKNOTEN_LABEL_POINT_GAP_PX,
+    dy: NETZKNOTEN_LABEL_POINT_GAP_PX
+  };
+  if (!feature || typeof feature.get !== 'function') return fallback;
+  const sizeKey = `${Math.round(widthPx)}x${Math.round(heightPx)}`;
+  const cache = feature.get('__nkLabelPlacement');
+  if (cache
+    && cache.rev === karteAbschnittGeometryRevision
+    && cache.zoom === zoomBucket
+    && cache.sizeKey === sizeKey
+    && Number.isFinite(cache.anchorX)
+    && Number.isFinite(cache.anchorY)
+    && Number.isFinite(cache.dx)
+    && Number.isFinite(cache.dy)) {
+    return {
+      anchorX: cache.anchorX,
+      anchorY: cache.anchorY,
+      dx: cache.dx,
+      dy: cache.dy
+    };
+  }
+
+  const placement = chooseNetzknotenLabelPlacement(feature, widthPx, heightPx, resolution);
+  const normalized = {
+    anchorX: Number.isFinite(placement.anchorX) ? placement.anchorX : fallback.anchorX,
+    anchorY: Number.isFinite(placement.anchorY) ? placement.anchorY : fallback.anchorY,
+    dx: Number.isFinite(placement.dx) ? Math.round(placement.dx * 10) / 10 : fallback.dx,
+    dy: Number.isFinite(placement.dy) ? Math.round(placement.dy * 10) / 10 : fallback.dy
+  };
+  feature.set('__nkLabelPlacement', {
+    rev: karteAbschnittGeometryRevision,
+    zoom: zoomBucket,
+    sizeKey,
+    anchorX: normalized.anchorX,
+    anchorY: normalized.anchorY,
+    dx: normalized.dx,
+    dy: normalized.dy
+  }, true);
+  return normalized;
+}
+
+function refreshNetzknotenLabelDisplacements() {
+  if (!Array.isArray(karteNetzknotenFeatures) || !karteNetzknotenFeatures.length) return;
+  if (!Array.isArray(karteAbschnittFeatures) || !karteAbschnittFeatures.length) return;
+
+  karteNetzknotenFeatures.forEach((feature) => {
+    if (!feature) return;
+    if (typeof feature.unset === 'function') {
+      feature.unset('__nkLabelPlacement', true);
+    }
+  });
+
+  if (karteNetzknotenLayer && typeof karteNetzknotenLayer.changed === 'function') {
+    karteNetzknotenLayer.changed();
+  }
 }
 
 function initKarteSearchMode(mapTarget) {
@@ -1450,7 +2085,7 @@ function resetKarteViewToDefault() {
 function initKarteAbschnittLayer(projection) {
   if (!karteMap || !projection) return;
 
-  const abschnittColor = '#598fec';
+  const abschnittColor = '#005a8c';
   const highlightColor = 'rgba(255, 150, 60, 0.9)';
 
   karteAbschnittSource = new ol.source.Vector();
@@ -1574,7 +2209,7 @@ function initKarteAbschnittLayer(projection) {
     .then((res) => res.json())
     .then((data) => {
       const format = new ol.format.GeoJSON();
-      const dataProjection = resolveAbsGeoJsonDataProjection(data);
+      const dataProjection = resolveGeoJsonDataProjection(data);
       const features = format.readFeatures(data, {
         dataProjection,
         featureProjection: projection
@@ -1592,6 +2227,8 @@ function initKarteAbschnittLayer(projection) {
         karteAbschnittSource.clear();
         karteAbschnittSource.addFeatures(features);
       }
+      karteAbschnittGeometryRevision += 1;
+      refreshNetzknotenLabelDisplacements();
 
       if (INITIAL_BAB_FIT && !karteInitialBabFitted) {
         const fitted = fitMapToBabExtent(INITIAL_BAB_FIT);
@@ -1622,6 +2259,106 @@ function initKarteAbschnittLayer(projection) {
     })
     .catch((err) => {
       console.error('abs.geojson konnte nicht geladen werden:', err);
+    });
+}
+
+function initKarteNetzknotenLayer(projection) {
+  if (!karteMap || !projection) return;
+  if (!ol || !ol.source || !ol.layer || !ol.style) return;
+
+  karteNetzknotenSource = new ol.source.Vector();
+
+  const pointStyle = new ol.style.Style({
+    image: new ol.style.Circle({
+      radius: 3.5,
+      fill: new ol.style.Fill({ color: '#005a8c' }),
+      stroke: new ol.style.Stroke({ color: '#ffffff', width: 1.5 })
+    }),
+    zIndex: 5.3
+  });
+  const labelStyles = new Map();
+  const labelSignCache = new Map();
+
+  const getStyle = (feature, resolution) => {
+    const kt = normalizeNetzknotenKtValue(feature && typeof feature.get === 'function' ? feature.get('kt') : '');
+    const asParts = normalizeNetzknotenAsParts(feature && typeof feature.get === 'function' ? feature.get('as') : '');
+    const hasLabel = !!asParts.text;
+    if (!hasLabel || !shouldShowNetzknotenLabel(resolution)) {
+      return pointStyle;
+    }
+    const signKey = `${asParts.type}|${kt}|${asParts.text}`;
+    let sign = labelSignCache.get(signKey);
+    if (!sign) {
+      sign = createNetzknotenSignSvg({
+        type: asParts.type,
+        ktText: kt,
+        asText: asParts.text
+      });
+      labelSignCache.set(signKey, sign);
+    }
+
+    const view = karteMap && typeof karteMap.getView === 'function' ? karteMap.getView() : null;
+    const zoom = view && typeof view.getZoom === 'function' ? view.getZoom() : null;
+    const zoomBucket = Number.isFinite(zoom) ? Math.round(zoom * 2) / 2 : null;
+    const placement = getNetzknotenLabelPlacement(feature, sign.width, sign.height, resolution, zoomBucket);
+    const anchorX = placement && Number.isFinite(placement.anchorX)
+      ? placement.anchorX
+      : NETZKNOTEN_LABEL_FALLBACK_ANCHOR_X;
+    const anchorY = placement && Number.isFinite(placement.anchorY)
+      ? placement.anchorY
+      : NETZKNOTEN_LABEL_FALLBACK_ANCHOR_Y;
+    const dx = placement && Number.isFinite(placement.dx) ? placement.dx : NETZKNOTEN_LABEL_POINT_GAP_PX;
+    const dy = placement && Number.isFinite(placement.dy) ? placement.dy : NETZKNOTEN_LABEL_POINT_GAP_PX;
+    const key = `${signKey}|${anchorX}|${anchorY}|${dx}|${dy}|${zoomBucket}`;
+    let style = labelStyles.get(key);
+    if (!style) {
+      const src = `data:image/svg+xml;utf8,${encodeURIComponent(sign.svg)}`;
+      style = [
+        pointStyle,
+        new ol.style.Style({
+          image: new ol.style.Icon({
+            src,
+            anchor: [anchorX, anchorY],
+            anchorXUnits: 'fraction',
+            anchorYUnits: 'fraction',
+            displacement: [dx, dy]
+          }),
+          zIndex: 5.4
+        })
+      ];
+      labelStyles.set(key, style);
+    }
+    return style;
+  };
+
+  karteNetzknotenLayer = new ol.layer.Vector({
+    source: karteNetzknotenSource,
+    zIndex: 5.3,
+    declutter: true,
+    style: getStyle
+  });
+  karteMap.addLayer(karteNetzknotenLayer);
+
+  fetch('obj/nks.geojson')
+    .then((res) => res.json())
+    .then((data) => {
+      const format = new ol.format.GeoJSON();
+      const dataProjection = resolveGeoJsonDataProjection(data);
+      const features = format.readFeatures(data, {
+        dataProjection,
+        featureProjection: projection
+      });
+      assignNetzknotenStackMetadata(features);
+      karteNetzknotenFeatures = features;
+
+      if (karteNetzknotenSource) {
+        karteNetzknotenSource.clear();
+        karteNetzknotenSource.addFeatures(features);
+      }
+      refreshNetzknotenLabelDisplacements();
+    })
+    .catch((err) => {
+      console.error('nks.geojson konnte nicht geladen werden:', err);
     });
 }
 
@@ -1721,6 +2458,7 @@ function getClosestPointOnGeometry(geometry, target) {
   let minDistSq = Infinity;
   let closest = null;
   let lengthAtClosest = 0;
+  let closestNormal = null;
 
   lines.forEach((coords) => {
     if (!Array.isArray(coords) || coords.length < 2) return;
@@ -1747,6 +2485,7 @@ function getClosestPointOnGeometry(geometry, target) {
         minDistSq = distSq;
         closest = [px, py];
         lengthAtClosest = lengthAt;
+        closestNormal = [-dy / segLen, dx / segLen];
       }
 
       lengthSoFar += segLen;
@@ -1759,7 +2498,8 @@ function getClosestPointOnGeometry(geometry, target) {
   return {
     point: closest,
     fraction: lengthAtClosest / totalLength,
-    distanceSq: minDistSq
+    distanceSq: minDistSq,
+    normal: closestNormal
   };
 }
 
