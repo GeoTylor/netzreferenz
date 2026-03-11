@@ -766,16 +766,12 @@ body {
 @keyframes snapBorderFlash {
     0% {
         border-color: var(--snap-frame-color);
-        filter: none;
     }
     35% {
-        border-color: rgba(255, 244, 236, 1);
-        filter: drop-shadow(0 0 1px rgba(255, 255, 255, 0.95))
-                drop-shadow(0 0 6px rgba(255, 130, 58, 0.95));
+        border-color: #005a8c;
     }
     100% {
         border-color: var(--snap-frame-color);
-        filter: none;
     }
 }
 

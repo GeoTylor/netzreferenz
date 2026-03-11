@@ -797,13 +797,18 @@ function renderNetzknotenTypeIcon(iconData, x, y, targetWidth, targetHeight) {
 
 function createNetzknotenSignSvg({ asText, ktText, type }) {
   const signBlue = '#005a8c';
+  const signNoIconBg = '#e9f5ff';
+  const signNoIconText = '#627d98';
   const white = '#ffffff';
   const hasType = !!type;
   const typeIconKind = getNetzknotenTypeIconKind(type);
   const typeIconData = typeIconKind ? getNetzknotenSelectorIconData(typeIconKind) : null;
   const hasTypeIcon = !!typeIconData;
   const hasTypeTextBadge = hasType && !hasTypeIcon;
+  const useNoIconVariant = !hasType;
   const hasKt = !!ktText;
+  const signBackground = useNoIconVariant ? signNoIconBg : signBlue;
+  const bodyTextColor = useNoIconVariant ? signNoIconText : white;
 
   const bodyFont = "11px 'ddin-expandedbold', sans-serif";
   const badgeFont = "9px 'ddin-bold', 'roboto-bold', sans-serif";
@@ -898,11 +903,11 @@ function createNetzknotenSignSvg({ asText, ktText, type }) {
   const bodyText = bodyPart
     ? `
     <text x="${bodyPart.x}" y="${bodyY}" text-anchor="start"
-      font-family="'ddin-expandedbold',sans-serif" font-size="11" fill="${white}">${escapeSvgText(asText)}</text>`
+      font-family="'ddin-expandedbold',sans-serif" font-size="11" fill="${bodyTextColor}">${escapeSvgText(asText)}</text>`
     : '';
 
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
-    <rect x="0.5" y="0.5" width="${width - 1}" height="${height - 1}" rx="6" fill="${signBlue}" stroke="${signBlue}" stroke-width="1" />
+    <rect x="0.5" y="0.5" width="${width - 1}" height="${height - 1}" rx="6" fill="${signBackground}" stroke="${signBlue}" stroke-width="1" />
     <rect x="2" y="2" width="${width - 4}" height="${height - 4}" rx="5" fill="none" stroke="${white}" stroke-width="2" />
     ${typeBadge}
     ${typeIcon}
