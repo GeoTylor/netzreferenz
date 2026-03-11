@@ -129,7 +129,7 @@ body {
     border-radius: 0;
     position: relative;
     overflow: hidden;
-    --snap-frame-color: rgba(89, 143, 236, 0.9);
+    --snap-frame-color: rgba(255, 130, 58, 0.92);
     --lens-size-default: 90%;
     --karte-zoom-btn-size: 32px;
     --karte-search-control-height: 32px;
@@ -765,13 +765,17 @@ body {
 
 @keyframes snapBorderFlash {
     0% {
-        border-color: rgba(255, 130, 58, 0.85);
+        border-color: var(--snap-frame-color);
+        filter: none;
     }
-    50% {
-        border-color: rgba(255, 130, 58, 0.85);
+    35% {
+        border-color: rgba(255, 244, 236, 1);
+        filter: drop-shadow(0 0 1px rgba(255, 255, 255, 0.95))
+                drop-shadow(0 0 6px rgba(255, 130, 58, 0.95));
     }
     100% {
-        border-color: rgba(255, 130, 58, 0.85);
+        border-color: var(--snap-frame-color);
+        filter: none;
     }
 }
 

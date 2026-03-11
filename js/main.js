@@ -2086,7 +2086,7 @@ function initKarteAbschnittLayer(projection) {
   if (!karteMap || !projection) return;
 
   const abschnittColor = '#005a8c';
-  const highlightColor = 'rgba(255, 150, 60, 0.9)';
+  const highlightColor = '#ff823a';
 
   karteAbschnittSource = new ol.source.Vector();
   const abschnittStroke = new ol.style.Stroke({
