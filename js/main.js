@@ -102,7 +102,12 @@ const MAP_SEARCH_RADIUS_PX = 18;
 const STATION_LOCK_ZOOM = 14;
 const ABSCHNITT_LABEL_MIN_ZOOM = 10;
 const ABSCHNITT_LABEL_MIN_PX = 90;
+const ABSCHNITT_STROKE_COLOR = 'rgba(0, 90, 140, 0.62)';
+const ABSCHNITT_HIGHLIGHT_COLOR = 'rgba(255, 130, 58, 0.76)';
+const ABSCHNITT_LABEL_COLOR = 'rgba(98, 125, 152, 0.78)';
+const ABSCHNITT_LABEL_HALO_COLOR = 'rgba(245, 247, 250, 0.9)';
 const NETZKNOTEN_LABEL_MIN_ZOOM = 10;
+const NETZKNOTEN_FULL_LABEL_MIN_ZOOM = 13;
 const NETZKNOTEN_LABEL_POINT_GAP_PX = 5;
 const NETZKNOTEN_LABEL_SEARCH_PADDING_PX = 12;
 const NETZKNOTEN_LABEL_FALLBACK_ANCHOR_X = 0;
@@ -118,6 +123,8 @@ const NETZKNOTEN_SIGN_MIN_HEIGHT = 26;
 const NETZKNOTEN_KT_PILL_PADDING_X = 5;
 const NETZKNOTEN_KT_PILL_PADDING_Y = 1.5;
 const NETZKNOTEN_KT_PILL_MIN_HEIGHT = 12;
+const NETZKNOTEN_LABEL_OPACITY = 0.9;
+const BAB_SIGN_SHIELD_POLYGON_POINTS = '50 0,50 0,47.122 0.33,42.648 1.255,37.023 2.626,30.696 4.296,24.115 6.116,17.726 7.938,11.978 9.613,7.319 10.993,4.194 11.93,3.054 12.275,3.054 12.275,2.547 12.465,2.072 12.769,1.633 13.178,1.236 13.683,0.885 14.273,0.586 14.94,0.343 15.673,0.161 16.463,0.046 17.301,0.002 18.175,0 18.175,0 81.825,0.002 81.825,0.002 81.825,0.046 82.7,0.161 83.538,0.343 84.328,0.586 85.062,0.885 85.728,1.236 86.319,1.633 86.824,2.072 87.233,2.547 87.538,3.054 87.728,3.054 87.728,4.194 88.073,7.319 89.01,11.978 90.389,17.726 92.064,24.115 93.885,30.696 95.705,37.023 97.375,42.648 98.746,47.122 99.67,50 100,50 100,52.823 99.652,57.266 98.717,62.878 97.341,69.207 95.672,75.801 93.857,82.209 92.042,87.979 90.375,92.66 89.002,95.8 88.071,96.946 87.728,96.946 87.728,97.453 87.538,97.928 87.233,98.367 86.824,98.764 86.319,99.115 85.728,99.415 85.062,99.658 84.328,99.84 83.538,99.956 82.7,100 81.825,100 81.825,100 18.179,100 18.179,100 18.179,99.956 17.303,99.84 16.465,99.659 15.674,99.416 14.941,99.116 14.274,98.766 13.683,98.368 13.178,97.93 12.769,97.455 12.465,96.948 12.275,96.948 12.275,95.801 11.932,92.661 11,87.98 9.627,82.209 7.96,75.801 6.144,69.207 4.329,62.878 2.659,57.266 1.284,52.823 0.348,50 0,50 0';
 const NETZKNOTEN_METRICS_SAMPLE = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzÄÖÜäöüß';
 const INITIAL_MAP_ZOOM = 10;
 const INITIAL_BAB_FIT = 'A99';
@@ -708,6 +715,14 @@ function normalizeNetzknotenAsParts(value) {
   };
 }
 
+function normalizeBabDisplayText(value) {
+  const source = String(value || '').trim();
+  if (!source) return '';
+  const match = source.match(/(\d+)/);
+  if (match) return match[1];
+  return source.replace(/^A\s*/i, '');
+}
+
 function getNetzknotenTypeIconKind(type) {
   const normalized = String(type || '').trim().toUpperCase();
   if (normalized === 'AS') return 'as';
@@ -917,11 +932,66 @@ function createNetzknotenSignSvg({ asText, ktText, type }) {
   return { svg, width, height };
 }
 
+function createNetzknotenCompactBabSignSvg({ babText, ktText }) {
+  const signBlue = '#005a8c';
+  const white = '#ffffff';
+  const compactBabText = normalizeBabDisplayText(babText);
+  const compactKtText = normalizeNetzknotenKtValue(ktText);
+  const babFont = "10px 'roboto-bold', sans-serif";
+  const ktFont = "10px 'ddin-regular', sans-serif";
+  const babTextMetrics = measureTextMetrics(compactBabText, babFont);
+  const babTextWidth = Math.max(0, babTextMetrics.left + babTextMetrics.right);
+  const innerWidth = Math.max(28, Math.ceil(babTextWidth + 10));
+  const innerHeight = 19;
+  const outerPadX = 2;
+  const outerPadY = 2;
+  const gap = compactKtText ? 4 : 0;
+  const ktTextMetrics = compactKtText ? measureTextMetrics(compactKtText, ktFont) : null;
+  const ktTextWidth = ktTextMetrics ? Math.max(0, ktTextMetrics.left + ktTextMetrics.right) : 0;
+  const ktPillHeight = compactKtText ? 15 : 0;
+  const ktPillWidth = compactKtText ? Math.max(16, Math.ceil(ktTextWidth + 10)) : 0;
+  const contentWidth = innerWidth + gap + ktPillWidth;
+  const contentHeight = Math.max(innerHeight, ktPillHeight);
+  const width = contentWidth + (outerPadX * 2);
+  const height = contentHeight + (outerPadY * 2);
+  const innerX = outerPadX;
+  const innerY = outerPadY + Math.round((contentHeight - innerHeight) / 2);
+  const baselineY = innerY + ((innerHeight - (babTextMetrics.ascent + babTextMetrics.descent)) / 2) + babTextMetrics.ascent;
+  const textX = innerX + (innerWidth / 2);
+  const shieldScaleX = innerWidth / 100;
+  const shieldScaleY = innerHeight / 100;
+  const ktPillX = innerX + innerWidth + gap;
+  const ktPillY = outerPadY + Math.round((contentHeight - ktPillHeight) / 2);
+  const ktTextX = ktPillX + (ktPillWidth / 2);
+  const ktTextY = ktTextMetrics
+    ? ktPillY + ((ktPillHeight - (ktTextMetrics.ascent + ktTextMetrics.descent)) / 2) + ktTextMetrics.ascent
+    : 0;
+  const ktPillRadius = Math.round(ktPillHeight / 2);
+  const ktPillSvg = compactKtText
+    ? `
+    <rect x="${ktPillX + 0.5}" y="${ktPillY + 0.5}" width="${ktPillWidth - 1}" height="${ktPillHeight - 1}" rx="${ktPillRadius}" fill="${signBlue}" stroke="${white}" stroke-width="1" />
+    <text x="${ktTextX}" y="${ktTextY}" text-anchor="middle"
+      font-family="'ddin-regular',sans-serif" font-size="10" fill="${white}">${escapeSvgText(compactKtText)}</text>`
+    : '';
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
+    <rect x="0.5" y="0.5" width="${width - 1}" height="${height - 1}" rx="4" fill="${white}" stroke="${signBlue}" stroke-width="1" />
+    <polygon points="${BAB_SIGN_SHIELD_POLYGON_POINTS}" fill="${signBlue}" transform="translate(${innerX} ${innerY}) scale(${shieldScaleX} ${shieldScaleY})" />
+    <text x="${textX}" y="${baselineY}" text-anchor="middle"
+      font-family="'roboto-bold',sans-serif" font-size="10" fill="${white}">${escapeSvgText(compactBabText)}</text>
+    ${ktPillSvg}
+  </svg>`;
+  return { svg, width, height };
+}
+
 function shouldShowNetzknotenLabel(resolution) {
   const view = karteMap && typeof karteMap.getView === 'function' ? karteMap.getView() : null;
   const zoom = view && typeof view.getZoom === 'function' ? view.getZoom() : null;
   if (Number.isFinite(zoom) && zoom < NETZKNOTEN_LABEL_MIN_ZOOM) return false;
   return Number.isFinite(resolution) && resolution > 0;
+}
+
+function shouldUseCompactNetzknotenLabel(zoom) {
+  return Number.isFinite(zoom) && zoom < NETZKNOTEN_FULL_LABEL_MIN_ZOOM;
 }
 
 function getNetzknotenLabelCandidates() {
@@ -2089,13 +2159,11 @@ function resetKarteViewToDefault() {
 
 function initKarteAbschnittLayer(projection) {
   if (!karteMap || !projection) return;
-
-  const abschnittColor = '#005a8c';
-  const highlightColor = '#ff823a';
+  if (!ol || !ol.source || !ol.layer || !ol.style) return;
 
   karteAbschnittSource = new ol.source.Vector();
   const abschnittStroke = new ol.style.Stroke({
-    color: abschnittColor,
+    color: ABSCHNITT_STROKE_COLOR,
     width: 6,
     lineCap: 'butt',
     lineJoin: 'miter'
@@ -2105,8 +2173,8 @@ function initKarteAbschnittLayer(projection) {
   });
   const abschnittLabelStyles = new Map();
   const highlightLabelStyles = new Map();
-  const abschnittLabelFill = new ol.style.Fill({ color: '#627d98' });
-  const abschnittLabelHalo = new ol.style.Stroke({ color: 'rgba(245, 247, 250, 0.9)', width: 3 });
+  const abschnittLabelFill = new ol.style.Fill({ color: ABSCHNITT_LABEL_COLOR });
+  const abschnittLabelHalo = new ol.style.Stroke({ color: ABSCHNITT_LABEL_HALO_COLOR, width: 3 });
   const abschnittHiddenStyle = new ol.style.Style({
     stroke: new ol.style.Stroke({
       color: 'rgba(0, 0, 0, 0)',
@@ -2169,7 +2237,7 @@ function initKarteAbschnittLayer(projection) {
 
   karteHighlightSource = new ol.source.Vector();
   const highlightStroke = new ol.style.Stroke({
-    color: highlightColor,
+    color: ABSCHNITT_HIGHLIGHT_COLOR,
     width: 6,
     lineCap: 'butt',
     lineJoin: 'miter'
@@ -2283,28 +2351,47 @@ function initKarteNetzknotenLayer(projection) {
   });
   const labelStyles = new Map();
   const labelSignCache = new Map();
+  const compactLabelSignCache = new Map();
 
   const getStyle = (feature, resolution) => {
+    const bab = feature && typeof feature.get === 'function'
+      ? String(feature.get('bab') || '').trim()
+      : '';
     const kt = normalizeNetzknotenKtValue(feature && typeof feature.get === 'function' ? feature.get('kt') : '');
     const asParts = normalizeNetzknotenAsParts(feature && typeof feature.get === 'function' ? feature.get('as') : '');
-    const hasLabel = !!asParts.text;
-    if (!hasLabel || !shouldShowNetzknotenLabel(resolution)) {
+    if (!shouldShowNetzknotenLabel(resolution)) {
       return pointStyle;
-    }
-    const signKey = `${asParts.type}|${kt}|${asParts.text}`;
-    let sign = labelSignCache.get(signKey);
-    if (!sign) {
-      sign = createNetzknotenSignSvg({
-        type: asParts.type,
-        ktText: kt,
-        asText: asParts.text
-      });
-      labelSignCache.set(signKey, sign);
     }
 
     const view = karteMap && typeof karteMap.getView === 'function' ? karteMap.getView() : null;
     const zoom = view && typeof view.getZoom === 'function' ? view.getZoom() : null;
     const zoomBucket = Number.isFinite(zoom) ? Math.round(zoom * 2) / 2 : null;
+    const useCompactLabel = shouldUseCompactNetzknotenLabel(zoomBucket);
+    if (useCompactLabel && !bab) {
+      return pointStyle;
+    }
+    if (!useCompactLabel && !asParts.text) {
+      return pointStyle;
+    }
+    const signKey = useCompactLabel
+      ? `bab|${bab}|${kt}`
+      : `full|${asParts.type}|${kt}|${asParts.text}`;
+    const signCache = useCompactLabel ? compactLabelSignCache : labelSignCache;
+    let sign = signCache.get(signKey);
+    if (!sign) {
+      sign = useCompactLabel
+        ? createNetzknotenCompactBabSignSvg({
+          babText: bab,
+          ktText: kt
+        })
+        : createNetzknotenSignSvg({
+          type: asParts.type,
+          ktText: kt,
+          asText: asParts.text
+        });
+      signCache.set(signKey, sign);
+    }
+
     const placement = getNetzknotenLabelPlacement(feature, sign.width, sign.height, resolution, zoomBucket);
     const anchorX = placement && Number.isFinite(placement.anchorX)
       ? placement.anchorX
@@ -2323,6 +2410,7 @@ function initKarteNetzknotenLayer(projection) {
         new ol.style.Style({
           image: new ol.style.Icon({
             src,
+            opacity: NETZKNOTEN_LABEL_OPACITY,
             anchor: [anchorX, anchorY],
             anchorXUnits: 'fraction',
             anchorYUnits: 'fraction',
