@@ -107,6 +107,7 @@ const ABSCHNITT_STROKE_COLOR = 'rgba(0, 90, 140, 0.9)';
 const ABSCHNITT_HIGHLIGHT_COLOR = 'rgba(255, 130, 58, 0.76)';
 const ABSCHNITT_LABEL_COLOR = '#627d98';
 const ABSCHNITT_LABEL_HALO_COLOR = 'rgba(245, 247, 250, 0.9)';
+const NETZKNOTEN_POINT_MIN_ZOOM = 10;
 const NETZKNOTEN_LABEL_MIN_ZOOM = 10;
 const NETZKNOTEN_FULL_LABEL_MIN_ZOOM = 13;
 const NETZKNOTEN_LABEL_POINT_GAP_PX = 3;
@@ -1148,9 +1149,7 @@ function scoreNetzknotenLabelCandidate(point, candidate, widthPx, heightPx, reso
 function getNetzknotenPreferredCornerIndex(feature, widthPx, heightPx, resolution, zoomBucket) {
   const babKey = getNetzknotenBabKey(feature);
   if (!babKey || !Array.isArray(karteNetzknotenFeatures) || !karteNetzknotenFeatures.length) return null;
-  const sizeKey = `${Math.round(widthPx)}x${Math.round(heightPx)}`;
-  const zoomKey = zoomBucket === null || zoomBucket === undefined ? 'na' : String(zoomBucket);
-  const cacheKey = `${babKey}|${sizeKey}|${zoomKey}|${karteAbschnittGeometryRevision}`;
+  const cacheKey = `${babKey}|${karteAbschnittGeometryRevision}`;
   if (netzknotenBabCornerCache.has(cacheKey)) {
     return netzknotenBabCornerCache.get(cacheKey);
   }
@@ -1231,9 +1230,35 @@ function chooseNetzknotenLabelPlacement(feature, widthPx, heightPx, resolution, 
   });
 
   const preferredCornerIndex = getNetzknotenPreferredCornerIndex(feature, widthPx, heightPx, resolution, zoomBucket);
-  const selected = preferredCornerIndex !== null
+  const primary = preferredCornerIndex !== null
     ? (scoredCandidates.find(candidate => candidate.index === preferredCornerIndex) || scoredCandidates[0])
     : scoredCandidates[0];
+  let selected = primary;
+  if (stackSize === 2 && stackIndex === 1) {
+    const oppositeIndex = getNetzknotenOppositeCornerIndex(primary ? primary.index : null);
+    const opposite = scoredCandidates.find(candidate => candidate.index === oppositeIndex);
+    const fallbackSecond = scoredCandidates.find(candidate => candidate.index !== primary.index) || primary;
+    if (opposite && primary) {
+      const extraIntersections = opposite.intersections - primary.intersections;
+      selected = extraIntersections <= 1 ? opposite : fallbackSecond;
+    } else {
+      selected = fallbackSecond;
+    }
+  } else if (stackSize > 1 && stackIndex > 0) {
+    const oppositeIndex = getNetzknotenOppositeCornerIndex(primary ? primary.index : null);
+    const orderedCorners = [];
+    if (primary) orderedCorners.push(primary);
+    if (oppositeIndex !== null) {
+      const opposite = scoredCandidates.find(candidate => candidate.index === oppositeIndex);
+      if (opposite) orderedCorners.push(opposite);
+    }
+    scoredCandidates.forEach((candidate) => {
+      if (!orderedCorners.some(entry => entry.index === candidate.index)) {
+        orderedCorners.push(candidate);
+      }
+    });
+    selected = orderedCorners[stackIndex % orderedCorners.length] || primary;
+  }
   if (!selected) return fallback;
 
   const ringStep = stackSize > 1 && stackIndex > 0 ? stackIndex * 4 : 0;
@@ -2219,8 +2244,8 @@ function initKarteAbschnittLayer(projection) {
   const abschnittStroke = new ol.style.Stroke({
     color: ABSCHNITT_STROKE_COLOR,
     width: 6,
-    lineCap: 'butt',
-    lineJoin: 'miter'
+    lineCap: 'round',
+    lineJoin: 'round'
   });
   const abschnittStyle = new ol.style.Style({
     stroke: abschnittStroke
@@ -2293,8 +2318,8 @@ function initKarteAbschnittLayer(projection) {
   const highlightStroke = new ol.style.Stroke({
     color: ABSCHNITT_HIGHLIGHT_COLOR,
     width: 6,
-    lineCap: 'butt',
-    lineJoin: 'miter'
+    lineCap: 'round',
+    lineJoin: 'round'
   });
   const highlightStyle = new ol.style.Style({
     stroke: highlightStroke
@@ -2403,6 +2428,14 @@ function initKarteNetzknotenLayer(projection) {
     }),
     zIndex: 5.3
   });
+  const getPointStyle = () => {
+    const view = karteMap && typeof karteMap.getView === 'function' ? karteMap.getView() : null;
+    const zoom = view && typeof view.getZoom === 'function' ? view.getZoom() : null;
+    if (Number.isFinite(zoom) && zoom < NETZKNOTEN_POINT_MIN_ZOOM) {
+      return null;
+    }
+    return pointStyle;
+  };
   const labelStyles = new Map();
   const labelSignCache = new Map();
   const compactLabelSignCache = new Map();
@@ -2479,7 +2512,7 @@ function initKarteNetzknotenLayer(projection) {
     source: karteNetzknotenSource,
     zIndex: 5.3,
     declutter: false,
-    style: pointStyle
+    style: getPointStyle
   });
   karteMap.addLayer(pointLayer);
 
@@ -4133,6 +4166,7 @@ function initTomSelects() {
     placeholder: 'Autobahn',
     maxOptions: null,
     render: {
+      no_results: () => '<div class="no-results">Keine Suchergebnisse</div>',
       option: (data, escape) => {
         return renderBabEntry(data, escape);
       }
@@ -4153,6 +4187,7 @@ function initTomSelects() {
     placeholder: 'Abschnitt',
     maxOptions: null,
     render: {
+      no_results: () => '<div class="no-results">Keine Suchergebnisse</div>',
       optgroup_header: (data, escape) => {
         return renderBabEntry(data, escape, {
           outerClass: 'tblOption tblOption--bab tblOption--babGroup'
