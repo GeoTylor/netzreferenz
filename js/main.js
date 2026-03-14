@@ -4198,6 +4198,11 @@ function initTomSelects() {
     valueField: 'id',
     labelField: 'label', // "Abschnitt 470" etc. as selected text
     searchField: ['label', 'aoa', 'vkt', 'vnk', 'vas', 'nkt', 'nnk', 'nas', 'von', 'bis'],
+    sortField: [{ field: '$order', direction: 'asc' }],
+    score(search) {
+      const scoreFn = this.sifter.getScoreFunction(search, this.getSearchOptions());
+      return (item) => (scoreFn(item) > 0 ? 1 : 0);
+    },
     placeholder: 'Abschnitt',
     maxOptions: null,
     render: {
@@ -4585,7 +4590,7 @@ function focusAbschnittSelect() {
   if (selectEl) selectEl.focus();
 }
 
-function buildAbsOptionsForBab(bab) {
+function buildAbsOptionsForBab(bab, babIndex = 0) {
   if (!bab) return [];
   const abschnitte = bab.abschnitte || [];
 
@@ -4593,7 +4598,7 @@ function buildAbsOptionsForBab(bab) {
   let prevToBkm = null;
   let prevNNK = null;
 
-  abschnitte.forEach(a => {
+  abschnitte.forEach((a, absIndex) => {
     const vkmMeters = Number(a.vkm);
     const nkmMeters = Number(a.nkm);
     const prevMeters = Number(prevToBkm);
@@ -4613,7 +4618,8 @@ function buildAbsOptionsForBab(bab) {
       vkmMeters,
       nkmMeters,
       bkmGapAbove,
-      deltaKm
+      deltaKm,
+      $order: (babIndex * 100000) + absIndex
     });
 
     prevToBkm = a.nkm;
@@ -4638,7 +4644,7 @@ function buildAbsOptionsIndex() {
   if (!autobahnen || !autobahnen.length) return;
 
   autobahnen.forEach((bab, index) => {
-    const options = buildAbsOptionsForBab(bab);
+    const options = buildAbsOptionsForBab(bab, index);
     const babKey = bab && bab.bab ? String(bab.bab).trim() : '';
     if (babKey) {
       const babLabel = bab && (bab.lbl || bab.bab) ? String(bab.lbl || bab.bab).trim() : babKey;
