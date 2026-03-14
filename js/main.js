@@ -104,7 +104,7 @@ const STATION_LOCK_ZOOM = 14;
 const ABSCHNITT_LABEL_MIN_ZOOM = 10;
 const ABSCHNITT_LABEL_MIN_PX = 90;
 const ABSCHNITT_STROKE_COLOR = 'rgba(0, 90, 140, 0.9)';
-const ABSCHNITT_HIGHLIGHT_COLOR = 'rgba(255, 130, 58, 0.76)';
+const ABSCHNITT_HIGHLIGHT_COLOR = 'rgba(255, 98, 12, 0.76)';
 const ABSCHNITT_LABEL_COLOR = '#627d98';
 const ABSCHNITT_LABEL_HALO_COLOR = 'rgba(245, 247, 250, 0.9)';
 const NETZKNOTEN_POINT_MIN_ZOOM = 10;
@@ -1341,14 +1341,7 @@ function refreshNetzknotenLabelDisplacements() {
 
 function initKarteSearchMode(mapTarget) {
   if (!karteMap || !mapTarget) return;
-  if (mapTarget.querySelector('.karteSearchToggle')) return;
-
-  const button = document.createElement('button');
-  button.type = 'button';
-  button.className = 'karteSearchToggle';
-  button.textContent = 'Fangmodus';
-  button.setAttribute('aria-pressed', 'false');
-  button.setAttribute('title', 'Fangmodus');
+  if (mapTarget.querySelector('.karteSearchCrosshair')) return;
 
   const crosshair = document.createElement('div');
   crosshair.className = 'karteSearchCrosshair';
@@ -1368,10 +1361,9 @@ function initKarteSearchMode(mapTarget) {
     </div>
   `;
 
-  mapTarget.appendChild(button);
   mapTarget.appendChild(crosshair);
 
-  karteSearchButton = button;
+  karteSearchButton = null;
   karteSearchCrosshair = crosshair;
   karteSearchFrame = crosshair.querySelector('.karteSnapFrame');
   karteSearchDot = crosshair.querySelector('.karteCrossDot');
@@ -1379,11 +1371,7 @@ function initKarteSearchMode(mapTarget) {
   karteSearchBarLabel = crosshair.querySelector('.karteSnapBarLabel');
   karteSearchCorners = Array.from(crosshair.querySelectorAll('.karteSnapCorner'));
 
-  button.addEventListener('click', () => {
-    setKarteSearchActive(!karteSearchActive, mapTarget);
-  });
-
-  setKarteSearchActive(false, mapTarget);
+  setKarteSearchActive(true, mapTarget);
 
   karteMap.on('pointerdrag', () => {
     if (!karteSearchActive) return;
