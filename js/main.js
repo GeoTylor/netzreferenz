@@ -1346,9 +1346,9 @@ function initKarteSearchMode(mapTarget) {
   const button = document.createElement('button');
   button.type = 'button';
   button.className = 'karteSearchToggle';
-  button.textContent = 'Kartensuche';
+  button.textContent = 'Fangmodus';
   button.setAttribute('aria-pressed', 'false');
-  button.setAttribute('title', 'Kartensuche');
+  button.setAttribute('title', 'Fangmodus');
 
   const crosshair = document.createElement('div');
   crosshair.className = 'karteSearchCrosshair';
@@ -1401,13 +1401,15 @@ function initKarteSearchMode(mapTarget) {
   });
 
   karteMap.on('moveend', () => {
-    if (!karteSearchActive) return;
     const shouldHandleGeocoder = karteSearchGeocoderPending;
+    if (!karteSearchActive && !shouldHandleGeocoder) return;
     if (!karteSearchDragging && !shouldHandleGeocoder) return;
     karteSearchDragging = false;
     karteSearchGeocoderPending = false;
-    scheduleKarteSearchDotUpdate();
-    scheduleKarteSearchBarUpdate();
+    if (karteSearchActive) {
+      scheduleKarteSearchDotUpdate();
+      scheduleKarteSearchBarUpdate();
+    }
     if (shouldHandleGeocoder) {
       handleKarteSearchGeocoderJump();
       return;
@@ -1433,11 +1435,12 @@ function initKarteGeocoder(mapTarget) {
   if (karteGeocoder) return;
   if (typeof Geocoder !== 'function') return;
 
+  const direktsucheTarget = document.getElementById('direktsucheTools');
   const wrap = document.createElement('div');
   wrap.className = 'karteGeocoderWrap';
-  wrap.setAttribute('aria-hidden', 'true');
-  if (karteSearchButton && karteSearchButton.parentElement === mapTarget) {
-    karteSearchButton.insertAdjacentElement('afterend', wrap);
+  wrap.setAttribute('aria-hidden', 'false');
+  if (direktsucheTarget) {
+    direktsucheTarget.appendChild(wrap);
   } else {
     mapTarget.appendChild(wrap);
   }
@@ -1506,32 +1509,17 @@ function setKarteSearchActive(isActive, mapTarget) {
   if (!karteSearchActive) {
     karteSearchDragging = false;
     karteSearchHasUserInteraction = false;
-    karteSearchGeocoderPending = false;
     resetKarteSearchDot();
-    if (karteGeocoderInput) {
-      karteGeocoderInput.value = '';
-    }
-    clearKarteGeocoderMarker();
-    if (karteGeocoderWrap) {
-      karteGeocoderWrap.setAttribute('aria-hidden', 'true');
-    }
-    if (karteGeocoderInput) {
-      karteGeocoderInput.blur();
-    }
   } else {
     karteSearchDragging = false;
     karteSearchSnapping = false;
     karteSearchHasUserInteraction = false;
-    karteSearchGeocoderPending = false;
     karteSearchSnapTarget = null;
     if (karteSearchSnapTimeout) {
       clearTimeout(karteSearchSnapTimeout);
       karteSearchSnapTimeout = null;
     }
     karteSearchHasUserInteraction = false;
-    if (karteGeocoderWrap) {
-      karteGeocoderWrap.setAttribute('aria-hidden', 'false');
-    }
     scheduleKarteSearchDotUpdate();
   }
   scheduleKarteSearchBarUpdate();
@@ -2111,7 +2099,6 @@ function scheduleKarteSearchDotUpdate() {
 }
 
 function scheduleKarteSearchGeocoderJump() {
-  if (!karteSearchActive) return;
   karteSearchHasUserInteraction = true;
   karteSearchGeocoderPending = true;
 }
