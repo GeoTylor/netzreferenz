@@ -12,6 +12,7 @@ let blockOutput = null;
 let refOutput = null;
 let aoaOutput = null;
 let panOutput = null;
+let atlasOutput = null;
 let utmOutput = null;
 let latLonOutput = null;
 let scaleOutput = null;
@@ -334,6 +335,7 @@ document.addEventListener('DOMContentLoaded', () => {
   refOutput = document.getElementById('refOutput');
   aoaOutput = document.getElementById('aoaOutput');
   panOutput = document.getElementById('panOutput');
+  atlasOutput = document.getElementById('atlasOutput');
   utmOutput = document.getElementById('utmOutput');
   latLonOutput = document.getElementById('latLonOutput');
   scaleOutput = document.getElementById('scaleOutput');
@@ -439,12 +441,14 @@ function initKarteMap() {
   initKarteAbschnittLayer(projection);
   initKarteNetzknotenLayer(projection);
   updatePanOutput();
+  updateAtlasOutput();
   updateUtmOutput();
   updateLatLonOutput();
   updateScaleOutput();
   if (view && typeof view.on === 'function') {
     view.on('change:center', () => {
       updatePanOutput();
+      updateAtlasOutput();
       updateUtmOutput();
       updateLatLonOutput();
       updateScaleOutput();
@@ -1712,10 +1716,14 @@ function initKarteLensMap(mapTarget) {
   const aoaTile = document.getElementById('aoaOutput')?.closest('.bkmTafel--aoa');
   const refTile = document.getElementById('refOutput')?.closest('.bkmTafel--aoa');
   const panTile = document.getElementById('panOutput')?.closest('.bkmTafel--aoa');
+  const atlasTile = document.getElementById('atlasOutput')?.closest('.bkmTafel--aoa');
   const utmTile = document.getElementById('utmOutput')?.closest('.bkmTafel--aoa');
   const latLonTile = document.getElementById('latLonOutput')?.closest('.bkmTafel--aoa');
   if (panTile) {
     tilesWrap.appendChild(panTile);
+  }
+  if (atlasTile) {
+    tilesWrap.appendChild(atlasTile);
   }
   if (refTile) {
     tilesWrap.appendChild(refTile);
@@ -1786,6 +1794,24 @@ function buildStreetViewUrl(lat, lon) {
   return `https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${safeLat},${safeLon}`;
 }
 
+function buildBayernAtlasUrl(center, zoom) {
+  if (!Array.isArray(center) || center.length < 2) return '#';
+  const x = Math.round(Number(center[0]));
+  const y = Math.round(Number(center[1]));
+  if (!Number.isFinite(x) || !Number.isFinite(y)) return '#';
+  const safeZoom = Number.isFinite(zoom) ? Math.max(0, Math.round(zoom)) : 10;
+  const layer = karteLensEnabled ? 'vt_luftbild' : 'vt_grau';
+  const viewProjection = karteMap && karteMap.getView ? karteMap.getView().getProjection() : null;
+  const crosshairCoord = viewProjection && window.ol && ol.proj
+    ? ol.proj.transform(center, viewProjection, 'EPSG:3857')
+    : null;
+  const crh = Array.isArray(crosshairCoord) && crosshairCoord.length >= 2
+    && Number.isFinite(crosshairCoord[0]) && Number.isFinite(crosshairCoord[1])
+    ? `&crh=true,${Number(crosshairCoord[0]).toFixed(6)},${Number(crosshairCoord[1]).toFixed(6)}`
+    : '';
+  return `https://atlas.bayern.de/?c=${x},${y}&z=${safeZoom}&r=0&l=${layer}${crh}&mid=2`;
+}
+
 function formatUtmCenter(center) {
   if (!Array.isArray(center) || center.length < 2) return '';
   const viewProjection = karteMap && karteMap.getView ? karteMap.getView().getProjection() : null;
@@ -1838,6 +1864,18 @@ function updatePanOutput() {
   if (!lonLat || !Number.isFinite(lonLat[0]) || !Number.isFinite(lonLat[1])) return;
   const url = buildStreetViewUrl(lonLat[1], lonLat[0]);
   panOutput.setAttribute('href', url);
+}
+
+function updateAtlasOutput() {
+  if (!atlasOutput || !karteMap) return;
+  const view = karteMap.getView ? karteMap.getView() : null;
+  const center = view ? view.getCenter() : null;
+  if (!center) {
+    atlasOutput.setAttribute('href', '#');
+    return;
+  }
+  const zoom = view && typeof view.getZoom === 'function' ? view.getZoom() : null;
+  atlasOutput.setAttribute('href', buildBayernAtlasUrl(center, zoom));
 }
 
 function updateUtmOutput() {
@@ -1911,6 +1949,7 @@ function setKarteLensEnabled(enabled, mapTarget) {
   if (karteMapAerialLayer && typeof karteMapAerialLayer.setVisible === 'function') {
     karteMapAerialLayer.setVisible(karteLensEnabled);
   }
+  updateAtlasOutput();
 }
 
 function syncKarteLensSize(mapTarget) {
@@ -3491,9 +3530,10 @@ function updateKarteOutputTilesVisibility() {
   const aoaText = getOutputText(aoaOutput).trim();
   const refText = getOutputText(refOutput).trim();
   const panText = getOutputText(panOutput).trim();
+  const atlasText = getOutputText(atlasOutput).trim();
   const utmText = getOutputText(utmOutput).trim();
   const latLonText = getOutputText(latLonOutput).trim();
-  const hasAny = aoaText !== '' || refText !== '' || panText !== '' || utmText !== '' || latLonText !== '';
+  const hasAny = aoaText !== '' || refText !== '' || panText !== '' || atlasText !== '' || utmText !== '' || latLonText !== '';
   karteOutputTiles.classList.toggle('is-hidden', !hasAny);
 }
 
