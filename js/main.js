@@ -1441,7 +1441,7 @@ function initKarteGeocoder(mapTarget) {
   const geocoder = new Geocoder('nominatim', {
     provider: createBayernGeocoderProvider(),
     lang: 'de-DE',
-    placeholder: 'Adresse suchen',
+    placeholder: 'Adresse | Ort | POI',
     targetType: 'text-input',
     keepOpen: true,
     limit: 6,
