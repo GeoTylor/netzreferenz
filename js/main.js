@@ -823,7 +823,7 @@ function createNetzknotenSignSvg({ asText, ktText, type }) {
   const hasTypeIcon = !!typeIconData;
   const hasTypeTextBadge = hasType && !hasTypeIcon;
   const useNoIconVariant = !hasType;
-  const hasKt = !!ktText;
+  const hasKt = !!ktText && !useNoIconVariant;
   const signBackground = useNoIconVariant ? signNoIconBg : signBlue;
   const bodyTextColor = useNoIconVariant ? signNoIconText : white;
 
@@ -3190,20 +3190,19 @@ function renderAbsEntry(data, escape, {
       : null)
     : null;
 
-  const pillClass = useBlueSign ? 'knPill' : 'knPill knPill--plain';
+  const hasVasIcon = !!vasIconClass;
+  const hasNasIcon = !!nasIconClass;
+  const pillClass = 'knPill';
 
-  const vktPillHtml = vktText.trim()
+  const vktPillHtml = useBlueSign && hasVasIcon && vktText.trim()
     ? `<div class="${pillClass}">${escape(vktText)}</div>`
     : '';
-  const nktPillHtml = nktText.trim()
+  const nktPillHtml = useBlueSign && hasNasIcon && nktText.trim()
     ? `<div class="${pillClass}">${escape(nktText)}</div>`
     : '';
 
   const vasText = escape(formatSignText(data.vas));
   const nasText = escape(formatSignText(data.nas));
-
-  const hasVasIcon = !!vasIconClass;
-  const hasNasIcon = !!nasIconClass;
 
   const vasBlueSignClass = hasVasIcon ? 'blueSign' : 'blueSign blueSign--noIcon';
   const nasBlueSignClass = hasNasIcon ? 'blueSign' : 'blueSign blueSign--noIcon';
