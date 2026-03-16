@@ -3902,6 +3902,19 @@
 			"type" : "Feature",
 			"geometry" : {
 				"type" : "Point",
+				"coordinates" : [ 686595.9247000003, 5544664.9370000008 ]
+			},
+			"properties" : {
+				"nk" : "5935011",
+				"bab" : "A70",
+				"kt" : "40a",
+				"as" : "AD Bayreuth/Kulmbach"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
 				"coordinates" : [ 598885.0636, 5587234.7544999998 ]
 			},
 			"properties" : {
@@ -4019,6 +4032,84 @@
 			"type" : "Feature",
 			"geometry" : {
 				"type" : "Point",
+				"coordinates" : [ 719509.3557000002, 5591622.5713999998 ]
+			},
+			"properties" : {
+				"nk" : "5538101",
+				"bab" : "A72",
+				"kt" : "5",
+				"as" : "AS Pirk"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 732139.4247000003, 5605316.0841000006 ]
+			},
+			"properties" : {
+				"nk" : "5439103",
+				"bab" : "A72",
+				"kt" : "8",
+				"as" : "AS Treuen"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 736081.0619000001, 5610051.7501999997 ]
+			},
+			"properties" : {
+				"nk" : "5440122",
+				"bab" : "A72",
+				"kt" : "9",
+				"as" : "AS Reichenbach"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 724324.6566000003, 5592673.8873999994 ]
+			},
+			"properties" : {
+				"nk" : "5538102",
+				"bab" : "A72",
+				"kt" : "6",
+				"as" : "AS Plauen-Süd"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 727136.0360000003, 5599301.6183000002 ]
+			},
+			"properties" : {
+				"nk" : "5439118",
+				"bab" : "A72",
+				"kt" : "7",
+				"as" : "AS Plauen-Ost"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 711816.4611999998, 5586220.7509000003 ]
+			},
+			"properties" : {
+				"nk" : "5637004",
+				"bab" : "A72",
+				"kt" : "-",
+				"as" : "LGR Sachsen"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
 				"coordinates" : [ 698843.9009999996, 5578172.2192000002 ]
 			},
 			"properties" : {
@@ -4071,6 +4162,19 @@
 			"type" : "Feature",
 			"geometry" : {
 				"type" : "Point",
+				"coordinates" : [ 743314.6381000001, 5615346.9724000003 ]
+			},
+			"properties" : {
+				"nk" : "5340066",
+				"bab" : "A72",
+				"kt" : "10",
+				"as" : "AS Zwickau-West"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
 				"coordinates" : [ 710637.3301999997, 5585508.0759999994 ]
 			},
 			"properties" : {
@@ -4084,13 +4188,13 @@
 			"type" : "Feature",
 			"geometry" : {
 				"type" : "Point",
-				"coordinates" : [ 711817.0548999999, 5586221.2408000007 ]
+				"coordinates" : [ 752155.2303999998, 5619924.2407000009 ]
 			},
 			"properties" : {
-				"nk" : "5637004",
+				"nk" : "5341067",
 				"bab" : "A72",
 				"kt" : "-",
-				"as" : "LGR Sachsen"
+				"as" : "A72 NLG Nordbayern / Ost"
 			}
 		},
 		{
@@ -4545,7 +4649,7 @@
 				"nk" : "6532051",
 				"bab" : "A73",
 				"kt" : "43",
-				"as" : "A73 Südwesttangente (AS Nürnberg-Hafen-Ost S)"
+				"as" : "A73 SW-Tangente (AS Nürnberg-Hafen-Ost S)"
 			}
 		},
 		{
@@ -4596,7 +4700,7 @@
 			"properties" : {
 				"nk" : "6632006",
 				"bab" : "A73",
-				"kt" : "472",
+				"kt" : "47-2",
 				"as" : "AS Wendelstein (FR 2)"
 			}
 		},
@@ -4609,7 +4713,7 @@
 			"properties" : {
 				"nk" : "6633007",
 				"bab" : "A73",
-				"kt" : "471",
+				"kt" : "47-1",
 				"as" : "AS Wendelstein (FR 1)"
 			}
 		},
