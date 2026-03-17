@@ -48,6 +48,8 @@ let karteAbschnittByAoa = new Map();
 let karteAbschnittSource = null;
 let karteAbschnittLayer = null;
 let karteAbschnittFeatures = [];
+let karteBabLabelSource = null;
+let karteBabLabelLayer = null;
 let karteHighlightSource = null;
 let karteNetzknotenSource = null;
 let karteNetzknotenLayer = null;
@@ -111,6 +113,8 @@ const ABSCHNITT_LABEL_COLOR = '#627d98';
 const ABSCHNITT_LABEL_HALO_COLOR = 'rgba(245, 247, 250, 0.9)';
 const NETZKNOTEN_POINT_MIN_ZOOM = 10;
 const NETZKNOTEN_LABEL_MIN_ZOOM = 10;
+const BAB_LABEL_MAX_ZOOM = NETZKNOTEN_LABEL_MIN_ZOOM;
+const BAB_LABEL_ICON_SCALE = 0.5;
 const NETZKNOTEN_FULL_LABEL_MIN_ZOOM = 13;
 const NETZKNOTEN_LABEL_POINT_GAP_PX = 3;
 const NETZKNOTEN_LABEL_SEARCH_PADDING_PX = 12;
@@ -440,6 +444,7 @@ function initKarteMap() {
   initKartePinchZoomLock(mapTarget);
   initKarteLensMap(mapTarget);
   initKarteAbschnittLayer(projection);
+  initKarteBabLabelLayer(projection);
   initKarteNetzknotenLayer(projection);
   updatePanOutput();
   updateAtlasOutput();
@@ -960,10 +965,61 @@ function createNetzknotenCompactKtSignSvg({ ktText }) {
   return { svg, width, height };
 }
 
+function normalizeBabDisplayText(value) {
+  const source = String(value || '').trim();
+  if (!source) return '';
+  const match = source.match(/(\d+)/);
+  if (match) return match[1];
+  return source.replace(/^A\s*/i, '');
+}
+
+function createBabShieldSvg({ babText }) {
+  const signBlue = '#005a8c';
+  const badgeBorderBlue = '#627d98';
+  const white = '#ffffff';
+  const text = normalizeBabDisplayText(babText);
+  const outputShieldHeight = 36;
+  const outputShieldWidth = 58;
+  const outerPadX = 4;
+  const outerPadY = 3;
+  const width = outputShieldWidth + (outerPadX * 2);
+  const height = outputShieldHeight + (outerPadY * 2);
+  const scaleX = outputShieldWidth / 100;
+  const scaleY = outputShieldHeight / 100;
+  const shieldX = outerPadX;
+  const maxTextWidth = outputShieldWidth - 10;
+  const baseFontSize = 28;
+  const baseFont = `${baseFontSize}px 'roboto-bold', sans-serif`;
+  const baseTextMetrics = text ? measureTextMetrics(text, baseFont) : null;
+  const baseTextWidth = baseTextMetrics ? Math.max(0, baseTextMetrics.left + baseTextMetrics.right) : 0;
+  const fontSize = baseTextWidth > maxTextWidth && baseTextWidth > 0
+    ? Math.max(20, Math.floor((baseFontSize * (maxTextWidth / baseTextWidth)) * 10) / 10)
+    : baseFontSize;
+  const font = `${fontSize}px 'roboto-bold', sans-serif`;
+  const textMetrics = text ? measureTextMetrics(text, font) : null;
+  const baselineY = textMetrics
+    ? outerPadY + ((outputShieldHeight - (textMetrics.ascent + textMetrics.descent)) / 2) + textMetrics.ascent
+    : outerPadY + Math.round(outputShieldHeight / 2);
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
+    <rect x="0.5" y="0.5" width="${width - 1}" height="${height - 1}" rx="4" fill="${white}" stroke="${badgeBorderBlue}" stroke-width="1" />
+    <polygon points="${BAB_SIGN_SHIELD_POLYGON_POINTS}" fill="${signBlue}" transform="translate(${shieldX} ${outerPadY}) scale(${scaleX} ${scaleY})" />
+    <text x="${shieldX + (outputShieldWidth / 2)}" y="${baselineY}" text-anchor="middle"
+      font-family="'roboto-bold',sans-serif" font-size="${fontSize}" font-weight="600" fill="${white}">${escapeSvgText(text)}</text>
+  </svg>`;
+  return { svg, width, height };
+}
+
 function shouldShowNetzknotenLabel(resolution) {
   const view = karteMap && typeof karteMap.getView === 'function' ? karteMap.getView() : null;
   const zoom = view && typeof view.getZoom === 'function' ? view.getZoom() : null;
   if (Number.isFinite(zoom) && zoom < NETZKNOTEN_LABEL_MIN_ZOOM) return false;
+  return Number.isFinite(resolution) && resolution > 0;
+}
+
+function shouldShowBabLabel(resolution) {
+  const view = karteMap && typeof karteMap.getView === 'function' ? karteMap.getView() : null;
+  const zoom = view && typeof view.getZoom === 'function' ? view.getZoom() : null;
+  if (Number.isFinite(zoom) && zoom >= BAB_LABEL_MAX_ZOOM) return false;
   return Number.isFinite(resolution) && resolution > 0;
 }
 
@@ -2404,6 +2460,80 @@ function initKarteAbschnittLayer(projection) {
     })
     .catch((err) => {
       console.error('abs.geojson konnte nicht geladen werden:', err);
+    });
+}
+
+function initKarteBabLabelLayer(projection) {
+  if (!karteMap || !projection) return;
+  if (!ol || !ol.source || !ol.layer || !ol.style || !ol.geom || !ol.geom.Point) return;
+
+  karteBabLabelSource = new ol.source.Vector();
+  const labelStyles = new Map();
+  const getBabLabelPointGeometry = (feature) => {
+    const geometry = feature && typeof feature.getGeometry === 'function' ? feature.getGeometry() : null;
+    const coordinate = getLineCoordinateAtFraction(geometry, 0.5);
+    if (!Array.isArray(coordinate) || coordinate.length < 2) return null;
+    return new ol.geom.Point(coordinate);
+  };
+  const getBabLabelStyle = (feature, resolution) => {
+    if (!shouldShowBabLabel(resolution)) {
+      return null;
+    }
+    const bab = feature && typeof feature.get === 'function'
+      ? String(feature.get('bab') || '').trim()
+      : '';
+    if (!bab) {
+      return null;
+    }
+    const labelText = normalizeBabDisplayText(bab);
+    if (!labelText) {
+      return null;
+    }
+    let style = labelStyles.get(labelText);
+    if (!style) {
+      const sign = createBabShieldSvg({ babText: labelText });
+      const src = `data:image/svg+xml;utf8,${encodeURIComponent(sign.svg)}`;
+      style = new ol.style.Style({
+        geometry: getBabLabelPointGeometry,
+        image: new ol.style.Icon({
+          src,
+          scale: BAB_LABEL_ICON_SCALE,
+          anchor: [0.5, 0.5],
+          anchorXUnits: 'fraction',
+          anchorYUnits: 'fraction'
+        }),
+        zIndex: 5.2
+      });
+      labelStyles.set(labelText, style);
+    }
+    return style;
+  };
+
+  karteBabLabelLayer = new ol.layer.Vector({
+    source: karteBabLabelSource,
+    zIndex: 5.2,
+    declutter: true,
+    style: getBabLabelStyle
+  });
+  karteMap.addLayer(karteBabLabelLayer);
+
+  fetch('obj/bab.geojson')
+    .then((res) => res.json())
+    .then((data) => {
+      const format = new ol.format.GeoJSON();
+      const dataProjection = resolveGeoJsonDataProjection(data);
+      const features = format.readFeatures(data, {
+        dataProjection,
+        featureProjection: projection
+      });
+
+      if (karteBabLabelSource) {
+        karteBabLabelSource.clear();
+        karteBabLabelSource.addFeatures(features);
+      }
+    })
+    .catch((err) => {
+      console.error('bab.geojson konnte nicht geladen werden:', err);
     });
 }
 
