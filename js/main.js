@@ -89,6 +89,7 @@ let netzknotenMeasureContext = null;
 let netzknotenSelectorIconCache = new Map();
 let netzknotenTextMetricsCache = new Map();
 let netzknotenBabCornerCache = new Map();
+let resetNetzknotenCompactFallbackCache = null;
 const COPY_STATUS_DURATION_MS = 1600;
 const COPY_STATUS_FADE_MS = 180;
 const copySuccessTickTargets = new Set([
@@ -721,14 +722,6 @@ function normalizeNetzknotenAsParts(value) {
   };
 }
 
-function normalizeBabDisplayText(value) {
-  const source = String(value || '').trim();
-  if (!source) return '';
-  const match = source.match(/(\d+)/);
-  if (match) return match[1];
-  return source.replace(/^A\s*/i, '');
-}
-
 function getNetzknotenTypeIconKind(type) {
   const normalized = String(type || '').trim().toUpperCase();
   if (normalized === 'AS') return 'as';
@@ -938,36 +931,19 @@ function createNetzknotenSignSvg({ asText, ktText, type }) {
   return { svg, width, height };
 }
 
-function createNetzknotenCompactBabSignSvg({ babText, ktText }) {
+function createNetzknotenCompactKtSignSvg({ ktText }) {
   const signBlue = '#005a8c';
   const white = '#ffffff';
-  const compactBabText = normalizeBabDisplayText(babText);
   const compactKtText = normalizeNetzknotenKtValue(ktText);
-  const babFont = "10px 'roboto-bold', sans-serif";
   const ktFont = "10px 'ddin-regular', sans-serif";
-  const babTextMetrics = measureTextMetrics(compactBabText, babFont);
-  const babTextWidth = Math.max(0, babTextMetrics.left + babTextMetrics.right);
-  const innerWidth = Math.max(28, Math.ceil(babTextWidth + 10));
-  const innerHeight = 19;
-  const outerPadX = 2;
-  const outerPadY = 2;
-  const gap = compactKtText ? 4 : 0;
   const ktTextMetrics = compactKtText ? measureTextMetrics(compactKtText, ktFont) : null;
   const ktTextWidth = ktTextMetrics ? Math.max(0, ktTextMetrics.left + ktTextMetrics.right) : 0;
   const ktPillHeight = compactKtText ? 15 : 0;
   const ktPillWidth = compactKtText ? Math.max(16, Math.ceil(ktTextWidth + 10)) : 0;
-  const contentWidth = innerWidth + gap + ktPillWidth;
-  const contentHeight = Math.max(innerHeight, ktPillHeight);
-  const width = contentWidth + (outerPadX * 2);
-  const height = contentHeight + (outerPadY * 2);
-  const innerX = outerPadX;
-  const innerY = outerPadY + Math.round((contentHeight - innerHeight) / 2);
-  const baselineY = innerY + ((innerHeight - (babTextMetrics.ascent + babTextMetrics.descent)) / 2) + babTextMetrics.ascent;
-  const textX = innerX + (innerWidth / 2);
-  const shieldScaleX = innerWidth / 100;
-  const shieldScaleY = innerHeight / 100;
-  const ktPillX = innerX + innerWidth + gap;
-  const ktPillY = outerPadY + Math.round((contentHeight - ktPillHeight) / 2);
+  const width = ktPillWidth;
+  const height = ktPillHeight;
+  const ktPillX = 0;
+  const ktPillY = 0;
   const ktTextX = ktPillX + (ktPillWidth / 2);
   const ktTextY = ktTextMetrics
     ? ktPillY + ((ktPillHeight - (ktTextMetrics.ascent + ktTextMetrics.descent)) / 2) + ktTextMetrics.ascent
@@ -975,16 +951,11 @@ function createNetzknotenCompactBabSignSvg({ babText, ktText }) {
   const ktPillRadius = Math.round(ktPillHeight / 2);
   const ktPillSvg = compactKtText
     ? `
-    <rect x="${ktPillX + 0.5}" y="${ktPillY + 0.5}" width="${ktPillWidth - 1}" height="${ktPillHeight - 1}" rx="${ktPillRadius}" fill="${signBlue}" stroke="${white}" stroke-width="1" />
+    <rect x="${ktPillX + 0.5}" y="${ktPillY + 0.5}" width="${ktPillWidth - 1}" height="${ktPillHeight - 1}" rx="${ktPillRadius}" fill="${signBlue}" stroke="${white}" stroke-width="0.75" />
     <text x="${ktTextX}" y="${ktTextY}" text-anchor="middle"
       font-family="'ddin-regular',sans-serif" font-size="10" fill="${white}">${escapeSvgText(compactKtText)}</text>`
     : '';
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
-    <rect x="0.5" y="0.5" width="${width - 1}" height="${height - 1}" rx="4" fill="${white}" stroke="${signBlue}" stroke-width="1" />
-    <polygon points="${BAB_SIGN_SHIELD_POLYGON_POINTS}" fill="${signBlue}" transform="translate(${innerX} ${innerY}) scale(${shieldScaleX} ${shieldScaleY})" />
-    <text x="${textX}" y="${baselineY}" text-anchor="middle"
-      font-family="'roboto-bold',sans-serif" font-size="10" fill="${white}">${escapeSvgText(compactBabText)}</text>
-    ${ktPillSvg}
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">${ktPillSvg}
   </svg>`;
   return { svg, width, height };
 }
@@ -1090,6 +1061,11 @@ function getNetzknotenLabelExtent(point, candidate, widthPx, heightPx, resolutio
   const maxY = point[1] - (topLeftPxY * resolution);
   const minY = maxY - (heightPx * resolution);
   return [minX, minY, maxX, maxY];
+}
+
+function doExtentsIntersect(a, b) {
+  if (!Array.isArray(a) || a.length < 4 || !Array.isArray(b) || b.length < 4) return false;
+  return a[0] < b[2] && a[2] > b[0] && a[1] < b[3] && a[3] > b[1];
 }
 
 function getNearbyAbschnittFeaturesForNetzknotenPoint(point, widthPx, heightPx, resolution) {
@@ -1337,6 +1313,9 @@ function refreshNetzknotenLabelDisplacements() {
       feature.unset('__nkLabelPlacement', true);
     }
   });
+  if (typeof resetNetzknotenCompactFallbackCache === 'function') {
+    resetNetzknotenCompactFallbackCache();
+  }
 
   if (karteNetzknotenLayer && typeof karteNetzknotenLayer.changed === 'function') {
     karteNetzknotenLayer.changed();
@@ -2453,13 +2432,89 @@ function initKarteNetzknotenLayer(projection) {
   const labelStyles = new Map();
   const labelSignCache = new Map();
   const compactLabelSignCache = new Map();
+  let compactFallbackCacheKey = '';
+  let compactFallbackByFeature = new WeakMap();
 
-  const getLabelStyle = (feature, resolution) => {
-    const bab = feature && typeof feature.get === 'function'
-      ? String(feature.get('bab') || '').trim()
-      : '';
+  const resetCompactFallbackCache = () => {
+    compactFallbackCacheKey = '';
+    compactFallbackByFeature = new WeakMap();
+  };
+
+  resetNetzknotenCompactFallbackCache = resetCompactFallbackCache;
+
+  const getNetzknotenSign = (feature, useCompactLabel) => {
     const kt = normalizeNetzknotenKtValue(feature && typeof feature.get === 'function' ? feature.get('kt') : '');
     const asParts = normalizeNetzknotenAsParts(feature && typeof feature.get === 'function' ? feature.get('as') : '');
+    if (useCompactLabel) {
+      if (!kt) return null;
+      const signKey = `compact|${kt}`;
+      let sign = compactLabelSignCache.get(signKey);
+      if (!sign) {
+        sign = createNetzknotenCompactKtSignSvg({ ktText: kt });
+        compactLabelSignCache.set(signKey, sign);
+      }
+      return { sign, signKey };
+    }
+    if (!asParts.text) return null;
+    const signKey = `full|${asParts.type}|${kt}|${asParts.text}`;
+    let sign = labelSignCache.get(signKey);
+    if (!sign) {
+      sign = createNetzknotenSignSvg({
+        type: asParts.type,
+        ktText: kt,
+        asText: asParts.text
+      });
+      labelSignCache.set(signKey, sign);
+    }
+    return { sign, signKey };
+  };
+
+  const updateCompactFallbackState = (resolution, zoomBucket) => {
+    const shouldEvaluateFullLabels = Number.isFinite(zoomBucket) && !shouldUseCompactNetzknotenLabel(zoomBucket);
+    const resolutionKey = Number.isFinite(resolution) && resolution > 0
+      ? Math.round(resolution * 100000) / 100000
+      : null;
+    const nextCacheKey = shouldEvaluateFullLabels && resolutionKey !== null
+      ? `${karteAbschnittGeometryRevision}|${zoomBucket}|${resolutionKey}`
+      : `skip|${karteAbschnittGeometryRevision}|${zoomBucket}|${resolutionKey}`;
+    if (compactFallbackCacheKey === nextCacheKey) {
+      return;
+    }
+
+    resetCompactFallbackCache();
+    compactFallbackCacheKey = nextCacheKey;
+
+    if (!shouldEvaluateFullLabels || resolutionKey === null || !Array.isArray(karteNetzknotenFeatures) || !karteNetzknotenFeatures.length) {
+      return;
+    }
+
+    const acceptedExtents = [];
+    karteNetzknotenFeatures.forEach((candidateFeature) => {
+      if (!candidateFeature) return;
+      const fullLabel = getNetzknotenSign(candidateFeature, false);
+      if (!fullLabel || !fullLabel.sign) return;
+      const geometry = typeof candidateFeature.getGeometry === 'function' ? candidateFeature.getGeometry() : null;
+      const point = geometry && typeof geometry.getCoordinates === 'function' ? geometry.getCoordinates() : null;
+      if (!Array.isArray(point) || point.length < 2) return;
+
+      const placement = getNetzknotenLabelPlacement(
+        candidateFeature,
+        fullLabel.sign.width,
+        fullLabel.sign.height,
+        resolution,
+        zoomBucket
+      );
+      const extent = getNetzknotenLabelExtent(point, placement, fullLabel.sign.width, fullLabel.sign.height, resolution);
+      const useCompactFallback = acceptedExtents.some(existingExtent => doExtentsIntersect(existingExtent, extent));
+
+      compactFallbackByFeature.set(candidateFeature, useCompactFallback);
+      if (!useCompactFallback) {
+        acceptedExtents.push(extent);
+      }
+    });
+  };
+
+  const getLabelStyle = (feature, resolution) => {
     if (!shouldShowNetzknotenLabel(resolution)) {
       return null;
     }
@@ -2467,41 +2522,35 @@ function initKarteNetzknotenLayer(projection) {
     const view = karteMap && typeof karteMap.getView === 'function' ? karteMap.getView() : null;
     const zoom = view && typeof view.getZoom === 'function' ? view.getZoom() : null;
     const zoomBucket = Number.isFinite(zoom) ? Math.round(zoom * 2) / 2 : null;
-    const useCompactLabel = shouldUseCompactNetzknotenLabel(zoomBucket);
-    if (useCompactLabel && !bab) {
+    updateCompactFallbackState(resolution, zoomBucket);
+    const useZoomCompactLabel = shouldUseCompactNetzknotenLabel(zoomBucket);
+    const useCompactFallback = !useZoomCompactLabel && compactFallbackByFeature.get(feature) === true;
+    const useCompactLabel = useZoomCompactLabel || useCompactFallback;
+    const labelData = getNetzknotenSign(feature, useCompactLabel);
+    if (!labelData || !labelData.sign) {
       return null;
     }
-    if (!useCompactLabel && !asParts.text) {
-      return null;
-    }
-    const signKey = useCompactLabel
-      ? `bab|${bab}|${kt}`
-      : `full|${asParts.type}|${kt}|${asParts.text}`;
-    const signCache = useCompactLabel ? compactLabelSignCache : labelSignCache;
-    let sign = signCache.get(signKey);
-    if (!sign) {
-      sign = useCompactLabel
-        ? createNetzknotenCompactBabSignSvg({
-          babText: bab,
-          ktText: kt
-        })
-        : createNetzknotenSignSvg({
-          type: asParts.type,
-          ktText: kt,
-          asText: asParts.text
-        });
-      signCache.set(signKey, sign);
-    }
+    const { sign, signKey } = labelData;
 
-    const placement = getNetzknotenLabelPlacement(feature, sign.width, sign.height, resolution, zoomBucket);
-    const anchorX = placement && Number.isFinite(placement.anchorX)
-      ? placement.anchorX
-      : NETZKNOTEN_LABEL_FALLBACK_ANCHOR_X;
-    const anchorY = placement && Number.isFinite(placement.anchorY)
-      ? placement.anchorY
-      : NETZKNOTEN_LABEL_FALLBACK_ANCHOR_Y;
-    const dx = placement && Number.isFinite(placement.dx) ? placement.dx : NETZKNOTEN_LABEL_POINT_GAP_PX;
-    const dy = placement && Number.isFinite(placement.dy) ? placement.dy : NETZKNOTEN_LABEL_POINT_GAP_PX;
+    const placement = useCompactLabel
+      ? null
+      : getNetzknotenLabelPlacement(feature, sign.width, sign.height, resolution, zoomBucket);
+    const anchorX = useCompactLabel
+      ? 0.5
+      : placement && Number.isFinite(placement.anchorX)
+        ? placement.anchorX
+        : NETZKNOTEN_LABEL_FALLBACK_ANCHOR_X;
+    const anchorY = useCompactLabel
+      ? 0.5
+      : placement && Number.isFinite(placement.anchorY)
+        ? placement.anchorY
+        : NETZKNOTEN_LABEL_FALLBACK_ANCHOR_Y;
+    const dx = useCompactLabel
+      ? 0
+      : placement && Number.isFinite(placement.dx) ? placement.dx : NETZKNOTEN_LABEL_POINT_GAP_PX;
+    const dy = useCompactLabel
+      ? 0
+      : placement && Number.isFinite(placement.dy) ? placement.dy : NETZKNOTEN_LABEL_POINT_GAP_PX;
     const key = `${signKey}|${anchorX}|${anchorY}|${dx}|${dy}|${zoomBucket}`;
     let style = labelStyles.get(key);
     if (!style) {
