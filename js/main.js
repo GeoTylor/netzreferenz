@@ -50,6 +50,7 @@ let karteAbschnittLayer = null;
 let karteAbschnittFeatures = [];
 let karteBabLabelSource = null;
 let karteBabLabelLayer = null;
+let karteBabLabelFeatures = [];
 let karteHighlightSource = null;
 let karteNetzknotenSource = null;
 let karteNetzknotenLayer = null;
@@ -91,6 +92,9 @@ let netzknotenMeasureContext = null;
 let netzknotenSelectorIconCache = new Map();
 let netzknotenTextMetricsCache = new Map();
 let netzknotenBabCornerCache = new Map();
+let netzknotenLabelSignCache = new Map();
+let netzknotenCompactLabelSignCache = new Map();
+let netzknotenCompactFallbackByFeature = new WeakMap();
 let resetNetzknotenCompactFallbackCache = null;
 const COPY_STATUS_DURATION_MS = 1600;
 const COPY_STATUS_FADE_MS = 180;
@@ -113,8 +117,10 @@ const ABSCHNITT_LABEL_COLOR = '#627d98';
 const ABSCHNITT_LABEL_HALO_COLOR = 'rgba(245, 247, 250, 0.9)';
 const NETZKNOTEN_POINT_MIN_ZOOM = 10;
 const NETZKNOTEN_LABEL_MIN_ZOOM = 10;
-const BAB_LABEL_MAX_ZOOM = NETZKNOTEN_LABEL_MIN_ZOOM;
-const BAB_LABEL_ICON_SCALE = 0.5;
+const BAB_LABEL_ICON_SCALE = 0.42;
+const BAB_LABEL_POINT_GAP_PX = 8;
+const BAB_LABEL_SEARCH_PADDING_PX = 24;
+const BAB_LABEL_CENTER_AVOID_PX = 22;
 const NETZKNOTEN_FULL_LABEL_MIN_ZOOM = 13;
 const NETZKNOTEN_LABEL_POINT_GAP_PX = 3;
 const NETZKNOTEN_LABEL_SEARCH_PADDING_PX = 12;
@@ -1009,6 +1015,33 @@ function createBabShieldSvg({ babText }) {
   return { svg, width, height };
 }
 
+function getNetzknotenSign(feature, useCompactLabel) {
+  const kt = normalizeNetzknotenKtValue(feature && typeof feature.get === 'function' ? feature.get('kt') : '');
+  const asParts = normalizeNetzknotenAsParts(feature && typeof feature.get === 'function' ? feature.get('as') : '');
+  if (useCompactLabel) {
+    if (!kt) return null;
+    const signKey = `compact|${kt}`;
+    let sign = netzknotenCompactLabelSignCache.get(signKey);
+    if (!sign) {
+      sign = createNetzknotenCompactKtSignSvg({ ktText: kt });
+      netzknotenCompactLabelSignCache.set(signKey, sign);
+    }
+    return { sign, signKey };
+  }
+  if (!asParts.text) return null;
+  const signKey = `full|${asParts.type}|${kt}|${asParts.text}`;
+  let sign = netzknotenLabelSignCache.get(signKey);
+  if (!sign) {
+    sign = createNetzknotenSignSvg({
+      type: asParts.type,
+      ktText: kt,
+      asText: asParts.text
+    });
+    netzknotenLabelSignCache.set(signKey, sign);
+  }
+  return { sign, signKey };
+}
+
 function shouldShowNetzknotenLabel(resolution) {
   const view = karteMap && typeof karteMap.getView === 'function' ? karteMap.getView() : null;
   const zoom = view && typeof view.getZoom === 'function' ? view.getZoom() : null;
@@ -1017,14 +1050,25 @@ function shouldShowNetzknotenLabel(resolution) {
 }
 
 function shouldShowBabLabel(resolution) {
-  const view = karteMap && typeof karteMap.getView === 'function' ? karteMap.getView() : null;
-  const zoom = view && typeof view.getZoom === 'function' ? view.getZoom() : null;
-  if (Number.isFinite(zoom) && zoom >= BAB_LABEL_MAX_ZOOM) return false;
   return Number.isFinite(resolution) && resolution > 0;
 }
 
 function shouldUseCompactNetzknotenLabel(zoom) {
   return Number.isFinite(zoom) && zoom < NETZKNOTEN_FULL_LABEL_MIN_ZOOM;
+}
+
+function getBabLabelCandidates(includeCenter = true) {
+  const gap = BAB_LABEL_POINT_GAP_PX;
+  const candidates = [
+    { anchorX: 0, anchorY: 1, dx: gap, dy: gap, index: 1 },
+    { anchorX: 1, anchorY: 1, dx: -gap, dy: gap, index: 2 },
+    { anchorX: 0, anchorY: 0, dx: gap, dy: -gap, index: 3 },
+    { anchorX: 1, anchorY: 0, dx: -gap, dy: -gap, index: 4 }
+  ];
+  if (includeCenter) {
+    candidates.unshift({ anchorX: 0.5, anchorY: 0.5, dx: 0, dy: 0, index: 0 });
+  }
+  return candidates;
 }
 
 function getNetzknotenLabelCandidates() {
@@ -1108,7 +1152,7 @@ function assignNetzknotenStackMetadata(features) {
   });
 }
 
-function getNetzknotenLabelExtent(point, candidate, widthPx, heightPx, resolution) {
+function getPointLabelExtent(point, candidate, widthPx, heightPx, resolution) {
   const topLeftPxX = candidate.dx - (candidate.anchorX * widthPx);
   const topLeftPxY = -candidate.dy - (candidate.anchorY * heightPx);
 
@@ -1117,6 +1161,10 @@ function getNetzknotenLabelExtent(point, candidate, widthPx, heightPx, resolutio
   const maxY = point[1] - (topLeftPxY * resolution);
   const minY = maxY - (heightPx * resolution);
   return [minX, minY, maxX, maxY];
+}
+
+function getNetzknotenLabelExtent(point, candidate, widthPx, heightPx, resolution) {
+  return getPointLabelExtent(point, candidate, widthPx, heightPx, resolution);
 }
 
 function doExtentsIntersect(a, b) {
@@ -1358,6 +1406,188 @@ function getNetzknotenLabelPlacement(feature, widthPx, heightPx, resolution, zoo
   return normalized;
 }
 
+function getNearbyNetzknotenFeaturesForBabPoint(point, widthPx, heightPx, resolution) {
+  if (!Array.isArray(point) || point.length < 2) return [];
+  const nearbyFeatures = [];
+  if (karteNetzknotenSource && typeof karteNetzknotenSource.forEachFeatureInExtent === 'function') {
+    const searchRadiusMap = (Math.max(widthPx, heightPx) + BAB_LABEL_SEARCH_PADDING_PX + NETZKNOTEN_SIGN_MIN_WIDTH) * resolution;
+    const searchExtent = [
+      point[0] - searchRadiusMap,
+      point[1] - searchRadiusMap,
+      point[0] + searchRadiusMap,
+      point[1] + searchRadiusMap
+    ];
+    karteNetzknotenSource.forEachFeatureInExtent(searchExtent, (nkFeature) => {
+      nearbyFeatures.push(nkFeature);
+    });
+  }
+  if (!nearbyFeatures.length && Array.isArray(karteNetzknotenFeatures) && karteNetzknotenFeatures.length) {
+    nearbyFeatures.push(...karteNetzknotenFeatures);
+  }
+  return nearbyFeatures;
+}
+
+function getBabLabelCenterAvoidExtent(resolution) {
+  if (!karteMap || !Number.isFinite(resolution) || resolution <= 0) return null;
+  const view = typeof karteMap.getView === 'function' ? karteMap.getView() : null;
+  const center = view && typeof view.getCenter === 'function' ? view.getCenter() : null;
+  if (!Array.isArray(center) || center.length < 2) return null;
+  const halfSize = BAB_LABEL_CENTER_AVOID_PX * resolution;
+  return [
+    center[0] - halfSize,
+    center[1] - halfSize,
+    center[0] + halfSize,
+    center[1] + halfSize
+  ];
+}
+
+function getBabLabelCenterCacheKey() {
+  if (!karteMap) return '';
+  const view = typeof karteMap.getView === 'function' ? karteMap.getView() : null;
+  const center = view && typeof view.getCenter === 'function' ? view.getCenter() : null;
+  if (!Array.isArray(center) || center.length < 2) return '';
+  const x = Number(center[0]);
+  const y = Number(center[1]);
+  if (!Number.isFinite(x) || !Number.isFinite(y)) return '';
+  return `${Math.round(x)}|${Math.round(y)}`;
+}
+
+function getRenderedNetzknotenLabelExtent(feature, resolution, zoomBucket) {
+  if (!feature || !Number.isFinite(resolution) || resolution <= 0) return null;
+  const geometry = typeof feature.getGeometry === 'function' ? feature.getGeometry() : null;
+  const point = geometry && typeof geometry.getCoordinates === 'function' ? geometry.getCoordinates() : null;
+  if (!Array.isArray(point) || point.length < 2) return null;
+
+  const useZoomCompactLabel = shouldUseCompactNetzknotenLabel(zoomBucket);
+  const useCompactFallback = !useZoomCompactLabel && netzknotenCompactFallbackByFeature.get(feature) === true;
+  const useCompactLabel = useZoomCompactLabel || useCompactFallback;
+  const labelData = getNetzknotenSign(feature, useCompactLabel);
+  if (!labelData || !labelData.sign) return null;
+
+  const placement = useCompactLabel
+    ? { anchorX: 0.5, anchorY: 0.5, dx: 0, dy: 0 }
+    : getNetzknotenLabelPlacement(feature, labelData.sign.width, labelData.sign.height, resolution, zoomBucket);
+
+  return getPointLabelExtent(
+    point,
+    placement,
+    labelData.sign.width,
+    labelData.sign.height,
+    resolution
+  );
+}
+
+function chooseBabLabelPlacement(feature, widthPx, heightPx, resolution, zoomBucket) {
+  const fallback = { anchorX: 0.5, anchorY: 0.5, dx: 0, dy: 0 };
+  if (!feature || !Number.isFinite(widthPx) || !Number.isFinite(heightPx) || !Number.isFinite(resolution)) {
+    return fallback;
+  }
+
+  const geometry = typeof feature.getGeometry === 'function' ? feature.getGeometry() : null;
+  const point = geometry && typeof geometry.getCoordinates === 'function' ? geometry.getCoordinates() : null;
+  if (!Array.isArray(point) || point.length < 2) return fallback;
+
+  const shouldUseOffPointPlacement = shouldShowNetzknotenLabel(resolution);
+  const nearbyNetzknoten = shouldUseOffPointPlacement
+    ? getNearbyNetzknotenFeaturesForBabPoint(point, widthPx, heightPx, resolution)
+    : [];
+  const centerAvoidExtent = getBabLabelCenterAvoidExtent(resolution);
+
+  const candidates = getBabLabelCandidates(!shouldUseOffPointPlacement).map((candidate) => {
+    const extent = getPointLabelExtent(point, candidate, widthPx, heightPx, resolution);
+    let centerIntersections = 0;
+    let intersections = 0;
+
+    if (centerAvoidExtent && doExtentsIntersect(extent, centerAvoidExtent)) {
+      centerIntersections += 1;
+    }
+
+    nearbyNetzknoten.forEach((nkFeature) => {
+      const nkExtent = getRenderedNetzknotenLabelExtent(nkFeature, resolution, zoomBucket);
+      if (nkExtent && doExtentsIntersect(extent, nkExtent)) {
+        intersections += 1;
+      }
+    });
+
+    const distanceSq = (candidate.dx * candidate.dx) + (candidate.dy * candidate.dy);
+    return {
+      anchorX: candidate.anchorX,
+      anchorY: candidate.anchorY,
+      dx: candidate.dx,
+      dy: candidate.dy,
+      index: candidate.index,
+      centerIntersections,
+      intersections,
+      distanceSq
+    };
+  });
+
+  candidates.sort((a, b) => {
+    if (a.centerIntersections !== b.centerIntersections) return a.centerIntersections - b.centerIntersections;
+    if (a.intersections !== b.intersections) return a.intersections - b.intersections;
+    if (a.distanceSq !== b.distanceSq) return a.distanceSq - b.distanceSq;
+    return a.index - b.index;
+  });
+
+  return candidates[0] || fallback;
+}
+
+function getBabLabelPlacement(feature, widthPx, heightPx, resolution, zoomBucket) {
+  const fallback = { anchorX: 0.5, anchorY: 0.5, dx: 0, dy: 0 };
+  if (!feature || typeof feature.get !== 'function') return fallback;
+  const sizeKey = `${Math.round(widthPx * 10) / 10}x${Math.round(heightPx * 10) / 10}`;
+  const centerKey = getBabLabelCenterCacheKey();
+  const cache = feature.get('__babLabelPlacement');
+  if (cache
+    && cache.rev === karteAbschnittGeometryRevision
+    && cache.zoom === zoomBucket
+    && cache.sizeKey === sizeKey
+    && cache.centerKey === centerKey
+    && Number.isFinite(cache.anchorX)
+    && Number.isFinite(cache.anchorY)
+    && Number.isFinite(cache.dx)
+    && Number.isFinite(cache.dy)) {
+    return {
+      anchorX: cache.anchorX,
+      anchorY: cache.anchorY,
+      dx: cache.dx,
+      dy: cache.dy
+    };
+  }
+
+  const placement = chooseBabLabelPlacement(feature, widthPx, heightPx, resolution, zoomBucket);
+  const normalized = {
+    anchorX: Number.isFinite(placement.anchorX) ? placement.anchorX : fallback.anchorX,
+    anchorY: Number.isFinite(placement.anchorY) ? placement.anchorY : fallback.anchorY,
+    dx: Number.isFinite(placement.dx) ? Math.round(placement.dx * 10) / 10 : fallback.dx,
+    dy: Number.isFinite(placement.dy) ? Math.round(placement.dy * 10) / 10 : fallback.dy
+  };
+  feature.set('__babLabelPlacement', {
+    rev: karteAbschnittGeometryRevision,
+    zoom: zoomBucket,
+    sizeKey,
+    centerKey,
+    anchorX: normalized.anchorX,
+    anchorY: normalized.anchorY,
+    dx: normalized.dx,
+    dy: normalized.dy
+  }, true);
+  return normalized;
+}
+
+function refreshBabLabelDisplacements() {
+  if (!Array.isArray(karteBabLabelFeatures) || !karteBabLabelFeatures.length) return;
+  karteBabLabelFeatures.forEach((feature) => {
+    if (!feature) return;
+    if (typeof feature.unset === 'function') {
+      feature.unset('__babLabelPlacement', true);
+    }
+  });
+  if (karteBabLabelLayer && typeof karteBabLabelLayer.changed === 'function') {
+    karteBabLabelLayer.changed();
+  }
+}
+
 function refreshNetzknotenLabelDisplacements() {
   if (!Array.isArray(karteNetzknotenFeatures) || !karteNetzknotenFeatures.length) return;
   if (!Array.isArray(karteAbschnittFeatures) || !karteAbschnittFeatures.length) return;
@@ -1376,6 +1606,7 @@ function refreshNetzknotenLabelDisplacements() {
   if (karteNetzknotenLayer && typeof karteNetzknotenLayer.changed === 'function') {
     karteNetzknotenLayer.changed();
   }
+  refreshBabLabelDisplacements();
 }
 
 function initKarteSearchMode(mapTarget) {
@@ -2465,20 +2696,17 @@ function initKarteAbschnittLayer(projection) {
 
 function initKarteBabLabelLayer(projection) {
   if (!karteMap || !projection) return;
-  if (!ol || !ol.source || !ol.layer || !ol.style || !ol.geom || !ol.geom.Point) return;
+  if (!ol || !ol.source || !ol.layer || !ol.style) return;
 
   karteBabLabelSource = new ol.source.Vector();
   const labelStyles = new Map();
-  const getBabLabelPointGeometry = (feature) => {
-    const geometry = feature && typeof feature.getGeometry === 'function' ? feature.getGeometry() : null;
-    const coordinate = getLineCoordinateAtFraction(geometry, 0.5);
-    if (!Array.isArray(coordinate) || coordinate.length < 2) return null;
-    return new ol.geom.Point(coordinate);
-  };
   const getBabLabelStyle = (feature, resolution) => {
     if (!shouldShowBabLabel(resolution)) {
       return null;
     }
+    const view = karteMap && typeof karteMap.getView === 'function' ? karteMap.getView() : null;
+    const zoom = view && typeof view.getZoom === 'function' ? view.getZoom() : null;
+    const zoomBucket = Number.isFinite(zoom) ? Math.round(zoom * 2) / 2 : null;
     const bab = feature && typeof feature.get === 'function'
       ? String(feature.get('bab') || '').trim()
       : '';
@@ -2489,22 +2717,30 @@ function initKarteBabLabelLayer(projection) {
     if (!labelText) {
       return null;
     }
-    let style = labelStyles.get(labelText);
+    const sign = createBabShieldSvg({ babText: labelText });
+    const widthPx = sign.width * BAB_LABEL_ICON_SCALE;
+    const heightPx = sign.height * BAB_LABEL_ICON_SCALE;
+    const placement = getBabLabelPlacement(feature, widthPx, heightPx, resolution, zoomBucket);
+    const anchorX = placement && Number.isFinite(placement.anchorX) ? placement.anchorX : 0.5;
+    const anchorY = placement && Number.isFinite(placement.anchorY) ? placement.anchorY : 0.5;
+    const dx = placement && Number.isFinite(placement.dx) ? placement.dx : 0;
+    const dy = placement && Number.isFinite(placement.dy) ? placement.dy : 0;
+    const key = `${labelText}|${anchorX}|${anchorY}|${dx}|${dy}|${zoomBucket}`;
+    let style = labelStyles.get(key);
     if (!style) {
-      const sign = createBabShieldSvg({ babText: labelText });
       const src = `data:image/svg+xml;utf8,${encodeURIComponent(sign.svg)}`;
       style = new ol.style.Style({
-        geometry: getBabLabelPointGeometry,
         image: new ol.style.Icon({
           src,
           scale: BAB_LABEL_ICON_SCALE,
-          anchor: [0.5, 0.5],
+          anchor: [anchorX, anchorY],
           anchorXUnits: 'fraction',
-          anchorYUnits: 'fraction'
+          anchorYUnits: 'fraction',
+          displacement: [dx, dy]
         }),
         zIndex: 5.2
       });
-      labelStyles.set(labelText, style);
+      labelStyles.set(key, style);
     }
     return style;
   };
@@ -2526,11 +2762,13 @@ function initKarteBabLabelLayer(projection) {
         dataProjection,
         featureProjection: projection
       });
+      karteBabLabelFeatures = features;
 
       if (karteBabLabelSource) {
         karteBabLabelSource.clear();
         karteBabLabelSource.addFeatures(features);
       }
+      refreshBabLabelDisplacements();
     })
     .catch((err) => {
       console.error('bab.geojson konnte nicht geladen werden:', err);
@@ -2560,44 +2798,14 @@ function initKarteNetzknotenLayer(projection) {
     return pointStyle;
   };
   const labelStyles = new Map();
-  const labelSignCache = new Map();
-  const compactLabelSignCache = new Map();
   let compactFallbackCacheKey = '';
-  let compactFallbackByFeature = new WeakMap();
 
   const resetCompactFallbackCache = () => {
     compactFallbackCacheKey = '';
-    compactFallbackByFeature = new WeakMap();
+    netzknotenCompactFallbackByFeature = new WeakMap();
   };
 
   resetNetzknotenCompactFallbackCache = resetCompactFallbackCache;
-
-  const getNetzknotenSign = (feature, useCompactLabel) => {
-    const kt = normalizeNetzknotenKtValue(feature && typeof feature.get === 'function' ? feature.get('kt') : '');
-    const asParts = normalizeNetzknotenAsParts(feature && typeof feature.get === 'function' ? feature.get('as') : '');
-    if (useCompactLabel) {
-      if (!kt) return null;
-      const signKey = `compact|${kt}`;
-      let sign = compactLabelSignCache.get(signKey);
-      if (!sign) {
-        sign = createNetzknotenCompactKtSignSvg({ ktText: kt });
-        compactLabelSignCache.set(signKey, sign);
-      }
-      return { sign, signKey };
-    }
-    if (!asParts.text) return null;
-    const signKey = `full|${asParts.type}|${kt}|${asParts.text}`;
-    let sign = labelSignCache.get(signKey);
-    if (!sign) {
-      sign = createNetzknotenSignSvg({
-        type: asParts.type,
-        ktText: kt,
-        asText: asParts.text
-      });
-      labelSignCache.set(signKey, sign);
-    }
-    return { sign, signKey };
-  };
 
   const updateCompactFallbackState = (resolution, zoomBucket) => {
     const shouldEvaluateFullLabels = Number.isFinite(zoomBucket) && !shouldUseCompactNetzknotenLabel(zoomBucket);
@@ -2637,7 +2845,7 @@ function initKarteNetzknotenLayer(projection) {
       const extent = getNetzknotenLabelExtent(point, placement, fullLabel.sign.width, fullLabel.sign.height, resolution);
       const useCompactFallback = acceptedExtents.some(existingExtent => doExtentsIntersect(existingExtent, extent));
 
-      compactFallbackByFeature.set(candidateFeature, useCompactFallback);
+      netzknotenCompactFallbackByFeature.set(candidateFeature, useCompactFallback);
       if (!useCompactFallback) {
         acceptedExtents.push(extent);
       }
@@ -2654,7 +2862,7 @@ function initKarteNetzknotenLayer(projection) {
     const zoomBucket = Number.isFinite(zoom) ? Math.round(zoom * 2) / 2 : null;
     updateCompactFallbackState(resolution, zoomBucket);
     const useZoomCompactLabel = shouldUseCompactNetzknotenLabel(zoomBucket);
-    const useCompactFallback = !useZoomCompactLabel && compactFallbackByFeature.get(feature) === true;
+    const useCompactFallback = !useZoomCompactLabel && netzknotenCompactFallbackByFeature.get(feature) === true;
     const useCompactLabel = useZoomCompactLabel || useCompactFallback;
     const labelData = getNetzknotenSign(feature, useCompactLabel);
     if (!labelData || !labelData.sign) {
@@ -2734,6 +2942,7 @@ function initKarteNetzknotenLayer(projection) {
         karteNetzknotenSource.addFeatures(features);
       }
       refreshNetzknotenLabelDisplacements();
+      refreshBabLabelDisplacements();
     })
     .catch((err) => {
       console.error('nks.geojson konnte nicht geladen werden:', err);
