@@ -1301,12 +1301,22 @@ function chooseNetzknotenLabelPlacement(feature, widthPx, heightPx, resolution, 
   const stackIndex = getNetzknotenStackIndex(feature);
   const stackSize = getNetzknotenStackSize(feature);
   const candidates = getNetzknotenLabelCandidates();
+  const centerAvoidExtent = getMapCenterAvoidExtent(resolution, BAB_LABEL_CENTER_AVOID_PX);
   const scoredCandidates = candidates.map(candidate => (
-    scoreNetzknotenLabelCandidate(point, candidate, widthPx, heightPx, resolution, nearbyFeatures)
+    {
+      ...scoreNetzknotenLabelCandidate(point, candidate, widthPx, heightPx, resolution, nearbyFeatures),
+      centerIntersections: centerAvoidExtent && doExtentsIntersect(
+        getNetzknotenLabelExtent(point, candidate, widthPx, heightPx, resolution),
+        centerAvoidExtent
+      ) ? 1 : 0
+    }
   ));
 
   if (!scoredCandidates.length) return fallback;
-  scoredCandidates.sort((a, b) => {
+  const nonCenterCandidates = scoredCandidates.filter(candidate => candidate.centerIntersections === 0);
+  const viableCandidates = nonCenterCandidates.length ? nonCenterCandidates : scoredCandidates;
+  viableCandidates.sort((a, b) => {
+    if (a.centerIntersections !== b.centerIntersections) return a.centerIntersections - b.centerIntersections;
     if (a.intersections !== b.intersections) return a.intersections - b.intersections;
     if (a.minDistanceSq !== b.minDistanceSq) return b.minDistanceSq - a.minDistanceSq;
     if (a.distanceSq !== b.distanceSq) return a.distanceSq - b.distanceSq;
@@ -1315,13 +1325,13 @@ function chooseNetzknotenLabelPlacement(feature, widthPx, heightPx, resolution, 
 
   const preferredCornerIndex = getNetzknotenPreferredCornerIndex(feature, widthPx, heightPx, resolution, zoomBucket);
   const primary = preferredCornerIndex !== null
-    ? (scoredCandidates.find(candidate => candidate.index === preferredCornerIndex) || scoredCandidates[0])
-    : scoredCandidates[0];
+    ? (viableCandidates.find(candidate => candidate.index === preferredCornerIndex) || viableCandidates[0])
+    : viableCandidates[0];
   let selected = primary;
   if (stackSize === 2 && stackIndex === 1) {
     const oppositeIndex = getNetzknotenOppositeCornerIndex(primary ? primary.index : null);
-    const opposite = scoredCandidates.find(candidate => candidate.index === oppositeIndex);
-    const fallbackSecond = scoredCandidates.find(candidate => candidate.index !== primary.index) || primary;
+    const opposite = viableCandidates.find(candidate => candidate.index === oppositeIndex);
+    const fallbackSecond = viableCandidates.find(candidate => candidate.index !== primary.index) || primary;
     if (opposite && primary) {
       const extraIntersections = opposite.intersections - primary.intersections;
       selected = extraIntersections <= 1 ? opposite : fallbackSecond;
@@ -1333,10 +1343,10 @@ function chooseNetzknotenLabelPlacement(feature, widthPx, heightPx, resolution, 
     const orderedCorners = [];
     if (primary) orderedCorners.push(primary);
     if (oppositeIndex !== null) {
-      const opposite = scoredCandidates.find(candidate => candidate.index === oppositeIndex);
+      const opposite = viableCandidates.find(candidate => candidate.index === oppositeIndex);
       if (opposite) orderedCorners.push(opposite);
     }
-    scoredCandidates.forEach((candidate) => {
+    viableCandidates.forEach((candidate) => {
       if (!orderedCorners.some(entry => entry.index === candidate.index)) {
         orderedCorners.push(candidate);
       }
@@ -1370,11 +1380,13 @@ function getNetzknotenLabelPlacement(feature, widthPx, heightPx, resolution, zoo
   };
   if (!feature || typeof feature.get !== 'function') return fallback;
   const sizeKey = `${Math.round(widthPx)}x${Math.round(heightPx)}`;
+  const centerKey = getMapCenterCacheKey();
   const cache = feature.get('__nkLabelPlacement');
   if (cache
     && cache.rev === karteAbschnittGeometryRevision
     && cache.zoom === zoomBucket
     && cache.sizeKey === sizeKey
+    && cache.centerKey === centerKey
     && Number.isFinite(cache.anchorX)
     && Number.isFinite(cache.anchorY)
     && Number.isFinite(cache.dx)
@@ -1398,6 +1410,7 @@ function getNetzknotenLabelPlacement(feature, widthPx, heightPx, resolution, zoo
     rev: karteAbschnittGeometryRevision,
     zoom: zoomBucket,
     sizeKey,
+    centerKey,
     anchorX: normalized.anchorX,
     anchorY: normalized.anchorY,
     dx: normalized.dx,
@@ -1427,21 +1440,21 @@ function getNearbyNetzknotenFeaturesForBabPoint(point, widthPx, heightPx, resolu
   return nearbyFeatures;
 }
 
-function getBabLabelCenterAvoidExtent(resolution) {
+function getMapCenterAvoidExtent(resolution, halfSizePx) {
   if (!karteMap || !Number.isFinite(resolution) || resolution <= 0) return null;
+  if (!Number.isFinite(halfSizePx) || halfSizePx <= 0) return null;
   const view = typeof karteMap.getView === 'function' ? karteMap.getView() : null;
   const center = view && typeof view.getCenter === 'function' ? view.getCenter() : null;
   if (!Array.isArray(center) || center.length < 2) return null;
-  const halfSize = BAB_LABEL_CENTER_AVOID_PX * resolution;
   return [
-    center[0] - halfSize,
-    center[1] - halfSize,
-    center[0] + halfSize,
-    center[1] + halfSize
+    center[0] - (halfSizePx * resolution),
+    center[1] - (halfSizePx * resolution),
+    center[0] + (halfSizePx * resolution),
+    center[1] + (halfSizePx * resolution)
   ];
 }
 
-function getBabLabelCenterCacheKey() {
+function getMapCenterCacheKey() {
   if (!karteMap) return '';
   const view = typeof karteMap.getView === 'function' ? karteMap.getView() : null;
   const center = view && typeof view.getCenter === 'function' ? view.getCenter() : null;
@@ -1450,6 +1463,14 @@ function getBabLabelCenterCacheKey() {
   const y = Number(center[1]);
   if (!Number.isFinite(x) || !Number.isFinite(y)) return '';
   return `${Math.round(x)}|${Math.round(y)}`;
+}
+
+function getBabLabelCenterAvoidExtent(resolution) {
+  return getMapCenterAvoidExtent(resolution, BAB_LABEL_CENTER_AVOID_PX);
+}
+
+function getBabLabelCenterCacheKey() {
+  return getMapCenterCacheKey();
 }
 
 function getRenderedNetzknotenLabelExtent(feature, resolution, zoomBucket) {
@@ -2812,9 +2833,10 @@ function initKarteNetzknotenLayer(projection) {
     const resolutionKey = Number.isFinite(resolution) && resolution > 0
       ? Math.round(resolution * 100000) / 100000
       : null;
+    const centerKey = getMapCenterCacheKey();
     const nextCacheKey = shouldEvaluateFullLabels && resolutionKey !== null
-      ? `${karteAbschnittGeometryRevision}|${zoomBucket}|${resolutionKey}`
-      : `skip|${karteAbschnittGeometryRevision}|${zoomBucket}|${resolutionKey}`;
+      ? `${karteAbschnittGeometryRevision}|${zoomBucket}|${resolutionKey}|${centerKey}`
+      : `skip|${karteAbschnittGeometryRevision}|${zoomBucket}|${resolutionKey}|${centerKey}`;
     if (compactFallbackCacheKey === nextCacheKey) {
       return;
     }
