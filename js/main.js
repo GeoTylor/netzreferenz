@@ -89,8 +89,11 @@ let stationSliderActive = false;
 let lastAbschnittId = null;
 let karteZoomCenterFrame = null;
 let karteSnapFramePlacementStateKey = '';
-let karteSnapFrameBaseExtent = null;
-let karteSnapFrameAvoidExtentCache = new Map();
+let karteSnapFrameBaseRect = null;
+let karteSnapFrameAvoidRectCache = new Map();
+let karteSnapDotPlacementStateKey = '';
+let karteSnapDotBaseRect = null;
+let karteSnapDotAvoidRectCache = new Map();
 let netzknotenMeasureContext = null;
 let netzknotenSelectorIconCache = new Map();
 let netzknotenTextMetricsCache = new Map();
@@ -1166,12 +1169,12 @@ function doExtentsIntersect(a, b) {
   return a[0] < b[2] && a[2] > b[0] && a[1] < b[3] && a[3] > b[1];
 }
 
-function getSnapFramePlacementStateKey(resolution) {
-  if (!karteMap || !karteSearchFrame) return `none|${resolution}`;
+function getSnapElementPlacementStateKey(resolution, element) {
+  if (!karteMap || !element) return `none|${resolution}`;
   const target = karteMap.getTargetElement ? karteMap.getTargetElement() : document.getElementById('karteMap');
   if (!target) return `none|${resolution}`;
   const mapRect = target.getBoundingClientRect();
-  const frameRect = karteSearchFrame.getBoundingClientRect();
+  const elementRect = element.getBoundingClientRect();
   const view = typeof karteMap.getView === 'function' ? karteMap.getView() : null;
   const center = view && typeof view.getCenter === 'function' ? view.getCenter() : null;
   const x = Array.isArray(center) && Number.isFinite(center[0]) ? Math.round(center[0]) : 'x';
@@ -1181,11 +1184,19 @@ function getSnapFramePlacementStateKey(resolution) {
     x,
     y,
     res,
-    Math.round(frameRect.left - mapRect.left),
-    Math.round(frameRect.top - mapRect.top),
-    Math.round(frameRect.width),
-    Math.round(frameRect.height)
+    Math.round(elementRect.left - mapRect.left),
+    Math.round(elementRect.top - mapRect.top),
+    Math.round(elementRect.width),
+    Math.round(elementRect.height)
   ].join('|');
+}
+
+function getSnapFramePlacementStateKey(resolution) {
+  return getSnapElementPlacementStateKey(resolution, karteSearchFrame);
+}
+
+function getSnapDotPlacementStateKey(resolution) {
+  return getSnapElementPlacementStateKey(resolution, karteSearchDot);
 }
 
 function getSnapFrameAvoidExtent(resolution, paddingPx = 0) {
@@ -1193,33 +1204,68 @@ function getSnapFrameAvoidExtent(resolution, paddingPx = 0) {
   const stateKey = getSnapFramePlacementStateKey(resolution);
   if (stateKey !== karteSnapFramePlacementStateKey) {
     karteSnapFramePlacementStateKey = stateKey;
-    karteSnapFrameBaseExtent = getKarteSnapFrameExtent();
-    karteSnapFrameAvoidExtentCache = new Map();
+    karteSnapFrameBaseRect = getKarteSnapFramePixelRect();
+    karteSnapFrameAvoidRectCache = new Map();
   }
 
   const paddingKey = Number.isFinite(paddingPx) && paddingPx > 0
     ? Math.round(paddingPx * 10) / 10
     : 0;
   const cacheKey = `${stateKey}|${paddingKey}`;
-  if (karteSnapFrameAvoidExtentCache.has(cacheKey)) {
-    return karteSnapFrameAvoidExtentCache.get(cacheKey);
+  if (karteSnapFrameAvoidRectCache.has(cacheKey)) {
+    return karteSnapFrameAvoidRectCache.get(cacheKey);
   }
 
-  if (!karteSnapFrameBaseExtent) {
-    karteSnapFrameAvoidExtentCache.set(cacheKey, null);
+  if (!karteSnapFrameBaseRect) {
+    karteSnapFrameAvoidRectCache.set(cacheKey, null);
     return null;
   }
 
-  const padding = paddingKey * resolution;
+  const padding = paddingKey;
   const extent = !padding
-    ? karteSnapFrameBaseExtent.slice()
+    ? karteSnapFrameBaseRect.slice()
     : [
-        karteSnapFrameBaseExtent[0] - padding,
-        karteSnapFrameBaseExtent[1] - padding,
-        karteSnapFrameBaseExtent[2] + padding,
-        karteSnapFrameBaseExtent[3] + padding
+        karteSnapFrameBaseRect[0] - padding,
+        karteSnapFrameBaseRect[1] - padding,
+        karteSnapFrameBaseRect[2] + padding,
+        karteSnapFrameBaseRect[3] + padding
       ];
-  karteSnapFrameAvoidExtentCache.set(cacheKey, extent);
+  karteSnapFrameAvoidRectCache.set(cacheKey, extent);
+  return extent;
+}
+
+function getSnapDotAvoidExtent(resolution, paddingPx = 0) {
+  if (!Number.isFinite(resolution) || resolution <= 0) return null;
+  const stateKey = getSnapDotPlacementStateKey(resolution);
+  if (stateKey !== karteSnapDotPlacementStateKey) {
+    karteSnapDotPlacementStateKey = stateKey;
+    karteSnapDotBaseRect = getKarteSearchDotPixelRect();
+    karteSnapDotAvoidRectCache = new Map();
+  }
+
+  const paddingKey = Number.isFinite(paddingPx) && paddingPx > 0
+    ? Math.round(paddingPx * 10) / 10
+    : 0;
+  const cacheKey = `${stateKey}|${paddingKey}`;
+  if (karteSnapDotAvoidRectCache.has(cacheKey)) {
+    return karteSnapDotAvoidRectCache.get(cacheKey);
+  }
+
+  if (!karteSnapDotBaseRect) {
+    karteSnapDotAvoidRectCache.set(cacheKey, null);
+    return null;
+  }
+
+  const padding = paddingKey;
+  const extent = !padding
+    ? karteSnapDotBaseRect.slice()
+    : [
+        karteSnapDotBaseRect[0] - padding,
+        karteSnapDotBaseRect[1] - padding,
+        karteSnapDotBaseRect[2] + padding,
+        karteSnapDotBaseRect[3] + padding
+      ];
+  karteSnapDotAvoidRectCache.set(cacheKey, extent);
   return extent;
 }
 
@@ -1231,18 +1277,129 @@ function getSnapFrameCacheKey(resolution, paddingPx = 0) {
   return `${stateKey}|${paddingKey}`;
 }
 
+function getSnapDotCacheKey(resolution, paddingPx = 0) {
+  const stateKey = getSnapDotPlacementStateKey(resolution);
+  const paddingKey = Number.isFinite(paddingPx) && paddingPx > 0
+    ? Math.round(paddingPx * 10) / 10
+    : 0;
+  return `${stateKey}|${paddingKey}`;
+}
+
 function scorePointLabelCandidate(point, candidate, widthPx, heightPx, resolution, avoidExtent) {
-  const extent = getPointLabelExtent(point, candidate, widthPx, heightPx, resolution);
-  const blocked = avoidExtent && doExtentsIntersect(extent, avoidExtent) ? 1 : 0;
-  const distanceSq = (candidate.dx * candidate.dx) + (candidate.dy * candidate.dy);
+  if (!Array.isArray(point) || point.length < 2) {
+    return {
+      anchorX: candidate.anchorX,
+      anchorY: candidate.anchorY,
+      dx: candidate.dx,
+      dy: candidate.dy,
+      index: candidate.index,
+      blocked: 0,
+      distanceSq: (candidate.dx * candidate.dx) + (candidate.dy * candidate.dy)
+    };
+  }
+
+  const resolved = resolvePointLabelDisplacement(point, candidate, widthPx, heightPx, avoidExtent);
   return {
     anchorX: candidate.anchorX,
     anchorY: candidate.anchorY,
-    dx: candidate.dx,
-    dy: candidate.dy,
+    dx: resolved.dx,
+    dy: resolved.dy,
     index: candidate.index,
-    blocked,
-    distanceSq
+    blocked: resolved.blocked,
+    distanceSq: (resolved.dx * resolved.dx) + (resolved.dy * resolved.dy)
+  };
+}
+
+function getPointLabelPixelRect(pointPx, candidate, widthPx, heightPx) {
+  const topLeftPxX = candidate.dx - (candidate.anchorX * widthPx);
+  const topLeftPxY = -candidate.dy - (candidate.anchorY * heightPx);
+
+  const minX = pointPx[0] + topLeftPxX;
+  const maxX = minX + widthPx;
+  const minY = pointPx[1] + topLeftPxY;
+  const maxY = minY + heightPx;
+  return [minX, minY, maxX, maxY];
+}
+
+function getPointLabelAxisClearance(rect, avoidRect, axis, direction) {
+  if (!Array.isArray(rect) || rect.length < 4 || !Array.isArray(avoidRect) || avoidRect.length < 4) return null;
+  if (axis === 'x') {
+    if (direction > 0) return Math.max(0, avoidRect[2] - rect[0]);
+    if (direction < 0) return Math.max(0, rect[2] - avoidRect[0]);
+    return null;
+  }
+  if (axis === 'y') {
+    if (direction > 0) return Math.max(0, avoidRect[3] - rect[1]);
+    if (direction < 0) return Math.max(0, rect[3] - avoidRect[1]);
+    return null;
+  }
+  return null;
+}
+
+function resolvePointLabelDisplacement(pointPx, candidate, widthPx, heightPx, avoidRect) {
+  let dx = candidate.dx;
+  let dy = candidate.dy;
+  let rect = getPointLabelPixelRect(pointPx, {
+    anchorX: candidate.anchorX,
+    anchorY: candidate.anchorY,
+    dx,
+    dy
+  }, widthPx, heightPx);
+
+  if (!avoidRect || !doExtentsIntersect(rect, avoidRect)) {
+    return { dx, dy, blocked: 0 };
+  }
+
+  const signX = Math.sign(dx);
+  const signY = Math.sign(dy);
+
+  if (signX !== 0 && signY !== 0) {
+    const xClearance = getPointLabelAxisClearance(rect, avoidRect, 'x', signX);
+    const yClearance = getPointLabelAxisClearance(rect, avoidRect, 'y', signY);
+    const step = Math.ceil(Math.min(xClearance, yClearance));
+    dx += signX * step;
+    dy += signY * step;
+  } else if (signX !== 0) {
+    const step = Math.ceil(getPointLabelAxisClearance(rect, avoidRect, 'x', signX));
+    dx += signX * step;
+  } else if (signY !== 0) {
+    const step = Math.ceil(getPointLabelAxisClearance(rect, avoidRect, 'y', signY));
+    dy += signY * step;
+  } else {
+    const options = [
+      { axis: 'x', direction: -1 },
+      { axis: 'x', direction: 1 },
+      { axis: 'y', direction: -1 },
+      { axis: 'y', direction: 1 }
+    ].map((option) => ({
+      ...option,
+      step: Math.ceil(getPointLabelAxisClearance(rect, avoidRect, option.axis, option.direction))
+    }));
+    options.sort((a, b) => {
+      if (a.step !== b.step) return a.step - b.step;
+      if (a.axis !== b.axis) return a.axis.localeCompare(b.axis);
+      return a.direction - b.direction;
+    });
+    const selected = options[0];
+    if (selected) {
+      if (selected.axis === 'x') {
+        dx += selected.direction * selected.step;
+      } else {
+        dy += selected.direction * selected.step;
+      }
+    }
+  }
+
+  rect = getPointLabelPixelRect(pointPx, {
+    anchorX: candidate.anchorX,
+    anchorY: candidate.anchorY,
+    dx,
+    dy
+  }, widthPx, heightPx);
+  return {
+    dx,
+    dy,
+    blocked: avoidRect && doExtentsIntersect(rect, avoidRect) ? 1 : 0
   };
 }
 
@@ -1260,36 +1417,41 @@ function chooseNetzknotenLabelPlacement(feature, widthPx, heightPx, resolution) 
   const geometry = typeof feature.getGeometry === 'function' ? feature.getGeometry() : null;
   const point = geometry && typeof geometry.getCoordinates === 'function' ? geometry.getCoordinates() : null;
   if (!Array.isArray(point) || point.length < 2) return fallback;
+  const pointPx = karteMap && typeof karteMap.getPixelFromCoordinate === 'function'
+    ? karteMap.getPixelFromCoordinate(point)
+    : null;
+  if (!Array.isArray(pointPx) || pointPx.length < 2) return fallback;
 
   const stackIndex = getNetzknotenStackIndex(feature);
   const stackSize = getNetzknotenStackSize(feature);
-  const avoidExtent = getSnapFrameAvoidExtent(resolution, KARTE_SNAP_FRAME_LABEL_PADDING_PX);
+  const avoidExtent = getSnapDotAvoidExtent(resolution, 0);
   const scoredCandidates = getNetzknotenLabelCandidates().map(candidate => (
-    scorePointLabelCandidate(point, candidate, widthPx, heightPx, resolution, avoidExtent)
+    scorePointLabelCandidate(pointPx, candidate, widthPx, heightPx, resolution, avoidExtent)
   ));
-  const unblockedCandidates = scoredCandidates.filter(candidate => candidate.blocked === 0);
-  if (!unblockedCandidates.length) return null;
-  unblockedCandidates.sort((a, b) => {
+  const viableCandidates = scoredCandidates.filter(candidate => candidate.blocked === 0);
+  const orderedCandidates = viableCandidates.length ? viableCandidates : scoredCandidates;
+  orderedCandidates.sort((a, b) => {
+    if (a.blocked !== b.blocked) return a.blocked - b.blocked;
     if (a.distanceSq !== b.distanceSq) return a.distanceSq - b.distanceSq;
     return a.index - b.index;
   });
 
-  const primary = unblockedCandidates[0];
+  const primary = orderedCandidates[0];
   let selected = primary || fallback;
   if (stackSize === 2 && stackIndex === 1) {
     const oppositeIndex = getNetzknotenOppositeCornerIndex(primary ? primary.index : null);
-    const opposite = unblockedCandidates.find(candidate => candidate.index === oppositeIndex);
-    const fallbackSecond = unblockedCandidates.find(candidate => candidate.index !== primary.index) || primary;
+    const opposite = orderedCandidates.find(candidate => candidate.index === oppositeIndex);
+    const fallbackSecond = orderedCandidates.find(candidate => candidate.index !== primary.index) || primary;
     selected = opposite || fallbackSecond;
   } else if (stackSize > 1 && stackIndex > 0) {
     const oppositeIndex = getNetzknotenOppositeCornerIndex(primary ? primary.index : null);
     const orderedCorners = [];
     if (primary) orderedCorners.push(primary);
     if (oppositeIndex !== null) {
-      const opposite = unblockedCandidates.find(candidate => candidate.index === oppositeIndex);
+      const opposite = orderedCandidates.find(candidate => candidate.index === oppositeIndex);
       if (opposite) orderedCorners.push(opposite);
     }
-    unblockedCandidates.forEach((candidate) => {
+    orderedCandidates.forEach((candidate) => {
       if (!orderedCorners.some(entry => entry.index === candidate.index)) {
         orderedCorners.push(candidate);
       }
@@ -1317,19 +1479,12 @@ function chooseNetzknotenLabelPlacement(feature, widthPx, heightPx, resolution) 
 function getNetzknotenLabelPlacement(feature, widthPx, heightPx, resolution, zoomBucket) {
   if (!feature || typeof feature.get !== 'function') return null;
   const sizeKey = `${Math.round(widthPx)}x${Math.round(heightPx)}`;
-  const snapFrameKey = getSnapFrameCacheKey(resolution, KARTE_SNAP_FRAME_LABEL_PADDING_PX);
+  const snapDotKey = getSnapDotCacheKey(resolution, 0);
   const cache = feature.get('__nkLabelPlacement');
   if (cache
     && cache.zoom === zoomBucket
     && cache.sizeKey === sizeKey
-    && cache.snapFrameKey === snapFrameKey
-    && cache.isHidden === true) {
-    return null;
-  }
-  if (cache
-    && cache.zoom === zoomBucket
-    && cache.sizeKey === sizeKey
-    && cache.snapFrameKey === snapFrameKey
+    && cache.snapDotKey === snapDotKey
     && Number.isFinite(cache.anchorX)
     && Number.isFinite(cache.anchorY)
     && Number.isFinite(cache.dx)
@@ -1343,15 +1498,6 @@ function getNetzknotenLabelPlacement(feature, widthPx, heightPx, resolution, zoo
   }
 
   const placement = chooseNetzknotenLabelPlacement(feature, widthPx, heightPx, resolution);
-  if (!placement) {
-    feature.set('__nkLabelPlacement', {
-      zoom: zoomBucket,
-      sizeKey,
-      snapFrameKey,
-      isHidden: true
-    }, true);
-    return null;
-  }
   const normalized = {
     anchorX: Number.isFinite(placement.anchorX) ? placement.anchorX : NETZKNOTEN_LABEL_FALLBACK_ANCHOR_X,
     anchorY: Number.isFinite(placement.anchorY) ? placement.anchorY : NETZKNOTEN_LABEL_FALLBACK_ANCHOR_Y,
@@ -1361,8 +1507,7 @@ function getNetzknotenLabelPlacement(feature, widthPx, heightPx, resolution, zoo
   feature.set('__nkLabelPlacement', {
     zoom: zoomBucket,
     sizeKey,
-    snapFrameKey,
-    isHidden: false,
+    snapDotKey,
     anchorX: normalized.anchorX,
     anchorY: normalized.anchorY,
     dx: normalized.dx,
@@ -1380,11 +1525,15 @@ function chooseBabLabelPlacement(feature, widthPx, heightPx, resolution, zoomBuc
   const geometry = typeof feature.getGeometry === 'function' ? feature.getGeometry() : null;
   const point = geometry && typeof geometry.getCoordinates === 'function' ? geometry.getCoordinates() : null;
   if (!Array.isArray(point) || point.length < 2) return fallback;
+  const pointPx = karteMap && typeof karteMap.getPixelFromCoordinate === 'function'
+    ? karteMap.getPixelFromCoordinate(point)
+    : null;
+  if (!Array.isArray(pointPx) || pointPx.length < 2) return fallback;
 
   const shouldUseOffPointPlacement = shouldShowNetzknotenLabel(resolution);
-  const avoidExtent = getSnapFrameAvoidExtent(resolution, KARTE_SNAP_FRAME_LABEL_PADDING_PX);
+  const avoidExtent = getSnapDotAvoidExtent(resolution, 0);
   const scoredCandidates = getBabLabelCandidates(!shouldUseOffPointPlacement).map((candidate) => (
-    scorePointLabelCandidate(point, candidate, widthPx, heightPx, resolution, avoidExtent)
+    scorePointLabelCandidate(pointPx, candidate, widthPx, heightPx, resolution, avoidExtent)
   ));
   const unblockedCandidates = scoredCandidates.filter(candidate => candidate.blocked === 0);
   const viableCandidates = unblockedCandidates.length ? unblockedCandidates : scoredCandidates;
@@ -1401,12 +1550,12 @@ function getBabLabelPlacement(feature, widthPx, heightPx, resolution, zoomBucket
   const fallback = { anchorX: 0.5, anchorY: 0.5, dx: 0, dy: 0 };
   if (!feature || typeof feature.get !== 'function') return fallback;
   const sizeKey = `${Math.round(widthPx * 10) / 10}x${Math.round(heightPx * 10) / 10}`;
-  const snapFrameKey = getSnapFrameCacheKey(resolution, KARTE_SNAP_FRAME_LABEL_PADDING_PX);
+  const snapDotKey = getSnapDotCacheKey(resolution, 0);
   const cache = feature.get('__babLabelPlacement');
   if (cache
     && cache.zoom === zoomBucket
     && cache.sizeKey === sizeKey
-    && cache.snapFrameKey === snapFrameKey
+    && cache.snapDotKey === snapDotKey
     && Number.isFinite(cache.anchorX)
     && Number.isFinite(cache.anchorY)
     && Number.isFinite(cache.dx)
@@ -1429,7 +1578,7 @@ function getBabLabelPlacement(feature, widthPx, heightPx, resolution, zoomBucket
   feature.set('__babLabelPlacement', {
     zoom: zoomBucket,
     sizeKey,
-    snapFrameKey,
+    snapDotKey,
     anchorX: normalized.anchorX,
     anchorY: normalized.anchorY,
     dx: normalized.dx,
@@ -2111,15 +2260,46 @@ function getKarteLensFitPadding(mapTarget) {
 }
 
 function getKarteSnapFrameExtent() {
-  if (!karteMap || !karteSearchFrame) return null;
+  return getKarteOverlayElementExtent(karteSearchFrame);
+}
+
+function getKarteSearchDotExtent() {
+  return getKarteOverlayElementExtent(karteSearchDot);
+}
+
+function getKarteSnapFramePixelRect() {
+  return getKarteOverlayElementPixelRect(karteSearchFrame);
+}
+
+function getKarteSearchDotPixelRect() {
+  return getKarteOverlayElementPixelRect(karteSearchDot);
+}
+
+function getKarteOverlayElementPixelRect(element) {
+  if (!karteMap || !element) return null;
   const target = karteMap.getTargetElement ? karteMap.getTargetElement() : document.getElementById('karteMap');
   if (!target) return null;
   const mapRect = target.getBoundingClientRect();
-  const frameRect = karteSearchFrame.getBoundingClientRect();
+  const elementRect = element.getBoundingClientRect();
+  if (!mapRect.width || !mapRect.height) return null;
+  return [
+    elementRect.left - mapRect.left,
+    elementRect.top - mapRect.top,
+    elementRect.right - mapRect.left,
+    elementRect.bottom - mapRect.top
+  ];
+}
+
+function getKarteOverlayElementExtent(element) {
+  if (!karteMap || !element) return null;
+  const target = karteMap.getTargetElement ? karteMap.getTargetElement() : document.getElementById('karteMap');
+  if (!target) return null;
+  const mapRect = target.getBoundingClientRect();
+  const elementRect = element.getBoundingClientRect();
   if (!mapRect.width || !mapRect.height) return null;
 
-  const topLeftPx = [frameRect.left - mapRect.left, frameRect.top - mapRect.top];
-  const bottomRightPx = [frameRect.right - mapRect.left, frameRect.bottom - mapRect.top];
+  const topLeftPx = [elementRect.left - mapRect.left, elementRect.top - mapRect.top];
+  const bottomRightPx = [elementRect.right - mapRect.left, elementRect.bottom - mapRect.top];
   const topLeftCoord = karteMap.getCoordinateFromPixel(topLeftPx);
   const bottomRightCoord = karteMap.getCoordinateFromPixel(bottomRightPx);
   if (!topLeftCoord || !bottomRightCoord || !ol.extent) return null;
