@@ -836,11 +836,75 @@ body {
 }
 
 .block--kollektion {
+    display: flex;
+    flex-direction: column;
     background-color: var(--ts-input-bg);
     background-image: linear-gradient(
         rgba(var(--block-bg-rgb, 195, 213, 229), 0.3),
         rgba(var(--block-bg-rgb, 195, 213, 229), 0.3)
     );
+}
+
+.blockKollektionIntro {
+    margin: 0;
+    flex: 1 1 auto;
+    color: var(--ts-input-placeholder);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.blockKollektionHead,
+.blockKollektionBody,
+.blockKollektionFoot {
+    width: 100%;
+}
+
+.blockKollektionBody {
+    flex: 1 1 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.blockKollektionTitle,
+.blockKollektionSubtitle,
+.blockKollektionText,
+.blockKollektionFeedback {
+    margin: 0;
+    color: inherit;
+    width: 100%;
+    text-align: justify;
+    text-align-last: center;
+}
+
+.blockKollektionTitle {
+    font-family: 'roboto-bold', sans-serif;
+    font-size: 24px;
+    line-height: 1.15;
+    margin-bottom: 8px;
+}
+
+.blockKollektionSubtitle {
+    font-family: 'roboto-bold', sans-serif;
+    font-size: 18px;
+    line-height: 1.2;
+    margin-bottom: 18px;
+}
+
+.blockKollektionText,
+.blockKollektionFeedback {
+    font-size: var(--ts-input-font-size);
+    line-height: 1.4;
+    text-justify: inter-word;
+}
+
+.blockKollektionText {
+    margin: 0;
+}
+
+.blockKollektionFoot {
+    padding-top: 12px;
 }
 
 .direktsucheTools {
