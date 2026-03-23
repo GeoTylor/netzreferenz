@@ -39,6 +39,10 @@ let absOptgroupsAll = [];
 let karteMap = null;
 let karteMapAerialLayer = null;
 let karteMapBaseLayer = null;
+let karteMapFallbackAerialLayers = [];
+let karteMapFallbackBaseLayers = [];
+let karteFallbackCoverageCircle = null;
+let karteFallbackProjection = null;
 let karteLensToggleBtn = null;
 let karteLensEnabled = false;
 let karteLensResizeObserver = null;
@@ -477,6 +481,63 @@ function initKarteMap() {
   const baseLayerId = 'by_webkarte_grau';
   const aerialLayerId = 'by_dop';
   const matrixSet = 'adv_utm32';
+  const stateFallbackBufferMeters = 60;
+  const stateFallbackConfigs = [
+    {
+      base: {
+        url: 'https://owsproxy.lgl-bw.de/owsproxy/ows/WMS_LGL-BW_ATKIS_DTK_25_K_A',
+        extent4326: [7.2, 47.4, 10.7, 50.0],
+        params: {
+          LAYERS: 'RDS_LY_DTK25K_EIN',
+          STYLES: 'DTK_Graustufen',
+          FORMAT: 'image/png',
+          VERSION: '1.3.0',
+          TRANSPARENT: false
+        },
+        opacity: 0.5,
+        zIndex: 4.1
+      },
+      aerial: {
+        url: 'https://owsproxy.lgl-bw.de/owsproxy/ows/WMS_LGL-BW_ATKIS_DOP_20_C',
+        extent4326: [7.2, 47.4, 10.7, 50.0],
+        params: {
+          LAYERS: 'IMAGES_DOP_20_RGB',
+          FORMAT: 'image/jpeg',
+          VERSION: '1.3.0',
+          TRANSPARENT: false
+        },
+        opacity: 1,
+        zIndex: 4.25
+      }
+    },
+    {
+      base: {
+        url: 'https://geodienste.sachsen.de/wms_geosn_dtk-pg-grau/guest',
+        extent4326: [11.042520854719895, 49.95076050263497, 15.292440689403955, 52.17011971633021],
+        params: {
+          LAYERS: 'sn_dtk_pg_grau',
+          FORMAT: 'image/png',
+          VERSION: '1.3.0',
+          TRANSPARENT: false
+        },
+        opacity: 0.5,
+        zIndex: 4.11
+      },
+      aerial: {
+        url: 'https://geodienste.sachsen.de/wms_geosn_dop-rgb/guest',
+        extent4326: [11.788898, 50.150604, 15.08686, 51.72093],
+        params: {
+          LAYERS: 'sn_dop_020',
+          FORMAT: 'image/jpeg',
+          VERSION: '1.3.0',
+          TRANSPARENT: false
+        },
+        opacity: 1,
+        zIndex: 4.26
+      }
+    }
+  ];
+  karteFallbackProjection = projection;
 
   fetch(capabilitiesUrl)
     .then((res) => res.text())
@@ -522,20 +583,47 @@ function initKarteMap() {
       const tileGridExtent = baseOptions.tileGrid && baseOptions.tileGrid.getExtent
         ? baseOptions.tileGrid.getExtent()
         : null;
-      const germanyExtent4326 = [5.5, 47.0, 15.5, 55.2];
-      let germanyExtent = null;
+      const abschnittExtent = getKarteFeaturesExtent(karteAbschnittFeatures);
+      updateKarteFallbackCoverageFromExtent(abschnittExtent, projection, stateFallbackBufferMeters);
 
-      try {
-        germanyExtent = ol.proj.transformExtent(
-          germanyExtent4326,
-          'EPSG:4326',
-          projection
-        );
-      } catch (err) {
-        console.warn('Germany extent transform failed:', err);
-      }
+      karteMapFallbackAerialLayers = [];
+      karteMapFallbackBaseLayers = [];
+      stateFallbackConfigs.forEach((config) => {
+        const baseLayer = createKarteClippedTileWmsLayer({
+          url: config.base.url,
+          params: config.base.params,
+          projection,
+          extent4326: config.base.extent4326,
+          getCircle: () => karteFallbackCoverageCircle,
+          opacity: config.base.opacity,
+          zIndex: config.base.zIndex,
+          role: 'base'
+        });
+        if (baseLayer) {
+          karteMapFallbackBaseLayers.push(baseLayer);
+          karteMap.addLayer(baseLayer);
+        }
 
-      const extentToFit = tileGridExtent || germanyExtent;
+        const aerialLayer = createKarteClippedTileWmsLayer({
+          url: config.aerial.url,
+          params: config.aerial.params,
+          projection,
+          extent4326: config.aerial.extent4326,
+          getCircle: () => karteFallbackCoverageCircle,
+          opacity: config.aerial.opacity,
+          zIndex: config.aerial.zIndex,
+          visible: karteLensEnabled,
+          className: 'ol-layer karteAerialLayer',
+          role: 'aerial'
+        });
+        if (aerialLayer) {
+          karteMapFallbackAerialLayers.push(aerialLayer);
+          karteMap.addLayer(aerialLayer);
+        }
+      });
+      syncKarteFallbackLayerCoverage(projection);
+
+      const extentToFit = tileGridExtent || abschnittExtent;
       if (extentToFit && !karteAbschnittExtentFitted) {
         if (tileGridExtent && (!projection.getExtent || !projection.getExtent())) {
           projection.setExtent(tileGridExtent);
@@ -551,6 +639,183 @@ function initKarteMap() {
     .catch((err) => {
       console.error('WMTS Karte konnte nicht geladen werden:', err);
     });
+}
+
+function createKarteCoverageCircleFromExtent(extent, bufferMeters = 0) {
+  if (!Array.isArray(extent) || extent.length < 4) return null;
+  const minX = Number(extent[0]);
+  const minY = Number(extent[1]);
+  const maxX = Number(extent[2]);
+  const maxY = Number(extent[3]);
+  if (![minX, minY, maxX, maxY].every(Number.isFinite)) return null;
+  const center = [(minX + maxX) / 2, (minY + maxY) / 2];
+  const halfWidth = Math.abs(maxX - minX) / 2;
+  const halfHeight = Math.abs(maxY - minY) / 2;
+  return {
+    center,
+    radius: Math.hypot(halfWidth, halfHeight) + Math.max(0, Number(bufferMeters) || 0)
+  };
+}
+
+function getKarteCoverageCircleExtent(circle) {
+  if (!circle || !Array.isArray(circle.center) || circle.center.length < 2 || !Number.isFinite(circle.radius)) {
+    return null;
+  }
+  const radius = Math.max(0, circle.radius);
+  return [
+    circle.center[0] - radius,
+    circle.center[1] - radius,
+    circle.center[0] + radius,
+    circle.center[1] + radius
+  ];
+}
+
+function getKarteFeaturesExtent(features) {
+  if (!Array.isArray(features) || !features.length || !ol || !ol.extent) return null;
+  const extent = ol.extent.createEmpty();
+  features.forEach((feature) => {
+    const geometry = feature && typeof feature.getGeometry === 'function' ? feature.getGeometry() : null;
+    if (!geometry) return;
+    ol.extent.extend(extent, geometry.getExtent());
+  });
+  return ol.extent.isEmpty(extent) ? null : extent;
+}
+
+function updateKarteFallbackCoverageFromExtent(extent, projection, bufferMeters = 60) {
+  karteFallbackProjection = projection || karteFallbackProjection;
+  karteFallbackCoverageCircle = createKarteCoverageCircleFromExtent(extent, bufferMeters);
+  syncKarteFallbackLayerCoverage(karteFallbackProjection);
+}
+
+function transformKarteExtent4326(extent4326, projection) {
+  if (!Array.isArray(extent4326) || extent4326.length < 4 || !projection) return null;
+  try {
+    return ol.proj.transformExtent(extent4326, 'EPSG:4326', projection);
+  } catch (err) {
+    console.warn('Fallback extent transform failed:', err);
+    return null;
+  }
+}
+
+function intersectKarteExtents(first, second) {
+  if (!Array.isArray(first) || first.length < 4 || !Array.isArray(second) || second.length < 4) {
+    return null;
+  }
+  const minX = Math.max(first[0], second[0]);
+  const minY = Math.max(first[1], second[1]);
+  const maxX = Math.min(first[2], second[2]);
+  const maxY = Math.min(first[3], second[3]);
+  if (!(minX < maxX && minY < maxY)) return null;
+  return [minX, minY, maxX, maxY];
+}
+
+function getKarteLayerExtentIntersection(extent4326, projection, clipExtent) {
+  const projectedExtent = transformKarteExtent4326(extent4326, projection);
+  if (!projectedExtent) return null;
+  return intersectKarteExtents(projectedExtent, clipExtent);
+}
+
+function getKarteFallbackLayerDisplayExtent(layer, projection, clipExtent) {
+  const extent4326 = layer && typeof layer.get === 'function'
+    ? layer.get('__fallbackExtent4326')
+    : null;
+  if (!extent4326 || !projection || !clipExtent) return null;
+  return getKarteLayerExtentIntersection(extent4326, projection, clipExtent);
+}
+
+function syncKarteFallbackLayerCoverage(projection) {
+  if (!projection) return;
+  const clipExtent = getKarteCoverageCircleExtent(karteFallbackCoverageCircle);
+  const updateLayer = (layer) => {
+    if (!layer) return;
+    const displayExtent = getKarteFallbackLayerDisplayExtent(layer, projection, clipExtent);
+    const role = typeof layer.get === 'function' ? layer.get('__fallbackRole') : '';
+    const active = Array.isArray(displayExtent) && displayExtent.length >= 4;
+    if (typeof layer.set === 'function') {
+      layer.set('__fallbackCoverageVisible', active, true);
+    }
+    if (typeof layer.setExtent === 'function') {
+      layer.setExtent(active ? displayExtent : undefined);
+    }
+    if (typeof layer.setVisible === 'function') {
+      layer.setVisible(role === 'aerial' ? (active && karteLensEnabled) : active);
+    }
+  };
+  karteMapFallbackBaseLayers.forEach(updateLayer);
+  karteMapFallbackAerialLayers.forEach(updateLayer);
+}
+
+function createKarteClippedTileWmsLayer({
+  url,
+  params,
+  projection,
+  extent4326,
+  getCircle,
+  opacity = 1,
+  zIndex = 0,
+  visible = true,
+  className,
+  role = ''
+}) {
+  if (!url || !params || !projection || !Array.isArray(extent4326) || extent4326.length < 4 || typeof getCircle !== 'function') {
+    return null;
+  }
+  const baseExtent = transformKarteExtent4326(extent4326, projection);
+  if (!baseExtent) return null;
+  const layer = new ol.layer.Tile({
+    source: new ol.source.TileWMS({
+      url,
+      params,
+      projection,
+      crossOrigin: 'anonymous'
+    }),
+    opacity,
+    zIndex,
+    visible: false,
+    extent: baseExtent,
+    className
+  });
+  layer.set('__fallbackExtent4326', extent4326.slice(), true);
+  layer.set('__fallbackRole', role, true);
+  layer.set('__fallbackCoverageVisible', false, true);
+  attachKarteCircularClip(layer, getCircle);
+  return layer;
+}
+
+function attachKarteCircularClip(layer, getCircle) {
+  if (!layer || typeof layer.on !== 'function') return;
+  let clipActive = false;
+  layer.on('prerender', (evt) => {
+    const context = evt && evt.context;
+    if (!context || typeof context.save !== 'function' || typeof context.arc !== 'function') return;
+    if (!karteMap || !ol.render || typeof ol.render.getRenderPixel !== 'function') return;
+    const circle = typeof getCircle === 'function' ? getCircle() : null;
+    const view = karteMap.getView ? karteMap.getView() : null;
+    const resolution = view && typeof view.getResolution === 'function' ? view.getResolution() : null;
+    if (!circle || !Array.isArray(circle.center) || circle.center.length < 2 || !Number.isFinite(circle.radius)) return;
+    if (!Number.isFinite(resolution) || resolution <= 0) return;
+    const centerPx = karteMap.getPixelFromCoordinate(circle.center);
+    if (!Array.isArray(centerPx) || centerPx.length < 2) return;
+    const radiusPx = circle.radius / resolution;
+    if (!Number.isFinite(radiusPx) || radiusPx <= 0) return;
+    const renderCenterPx = ol.render.getRenderPixel(evt, centerPx);
+    const renderEdgePx = ol.render.getRenderPixel(evt, [centerPx[0] + radiusPx, centerPx[1]]);
+    const renderRadius = Math.abs(renderEdgePx[0] - renderCenterPx[0]);
+    if (!Number.isFinite(renderRadius) || renderRadius <= 0) return;
+    context.save();
+    context.beginPath();
+    context.arc(renderCenterPx[0], renderCenterPx[1], renderRadius, 0, 2 * Math.PI);
+    context.clip();
+    clipActive = true;
+  });
+  layer.on('postrender', (evt) => {
+    if (!clipActive) return;
+    const context = evt && evt.context;
+    if (context && typeof context.restore === 'function') {
+      context.restore();
+    }
+    clipActive = false;
+  });
 }
 
 function normalizeGeoJsonCrsName(name) {
@@ -2217,6 +2482,14 @@ function setKarteLensEnabled(enabled, mapTarget) {
   if (karteMapAerialLayer && typeof karteMapAerialLayer.setVisible === 'function') {
     karteMapAerialLayer.setVisible(karteLensEnabled);
   }
+  karteMapFallbackAerialLayers.forEach((layer) => {
+    if (layer && typeof layer.setVisible === 'function') {
+      const active = typeof layer.get === 'function'
+        ? layer.get('__fallbackCoverageVisible') === true
+        : false;
+      layer.setVisible(active && karteLensEnabled);
+    }
+  });
   updateAtlasOutput();
 }
 
@@ -2692,6 +2965,8 @@ function initKarteAbschnittLayer(projection) {
         karteAbschnittSource.clear();
         karteAbschnittSource.addFeatures(features);
       }
+      const abschnittExtent = getKarteFeaturesExtent(features);
+      updateKarteFallbackCoverageFromExtent(abschnittExtent, projection);
       karteAbschnittGeometryRevision += 1;
       refreshNetzknotenLabelDisplacements();
 
@@ -2703,14 +2978,8 @@ function initKarteAbschnittLayer(projection) {
       }
 
       if (karteMap && !karteAbschnittExtentFitted && features.length && ol.extent) {
-        const extent = ol.extent.createEmpty();
-        features.forEach((feature) => {
-          const geometry = feature.getGeometry();
-          if (!geometry) return;
-          ol.extent.extend(extent, geometry.getExtent());
-        });
-        if (!ol.extent.isEmpty(extent)) {
-          karteMap.getView().fit(extent, {
+        if (abschnittExtent) {
+          karteMap.getView().fit(abschnittExtent, {
             padding: getKarteLensFitPadding(),
             duration: 0,
             maxZoom: 12
