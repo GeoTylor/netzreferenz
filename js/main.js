@@ -1700,15 +1700,10 @@ function initKarteGeocoder(mapTarget) {
   if (karteGeocoder) return;
   if (typeof Geocoder !== 'function') return;
 
-  const direktsucheTarget = document.getElementById('direktsucheTools');
   const wrap = document.createElement('div');
   wrap.className = 'karteGeocoderWrap';
   wrap.setAttribute('aria-hidden', 'false');
-  if (direktsucheTarget) {
-    direktsucheTarget.appendChild(wrap);
-  } else {
-    mapTarget.appendChild(wrap);
-  }
+  mapTarget.appendChild(wrap);
 
   const featureStyle = createKarteGeocoderFeatureStyle(mapTarget);
   const geocoder = new Geocoder('nominatim', {
