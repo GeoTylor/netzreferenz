@@ -3947,9 +3947,12 @@ function renderAbsSelectedRow(data, escape) {
   };
   const vasText = formatEndpoint(data.vas, data.vkt);
   const nasText = formatEndpoint(data.nas, data.nkt);
+  const aoaText = data.aoa !== undefined && data.aoa !== null && String(data.aoa).trim() !== ''
+    ? String(data.aoa).trim()
+    : `${String(data.vnk || '').trim()}${String(data.nnk || '').trim()}`;
   return `
     <div class="absSelectedRow">
-      <div class="absSelectedCell absSelectedCell--abs">ABS ${escape(data.abs)} ${escape(vasText)} → ${escape(nasText)} ● ${escape(data.vnk)}${escape(data.nnk)} ● KM ${metersToKm(data.vkm)} bis ${metersToKm(data.nkm)} ● ${metersToKm(data.lng)} km</div>
+      <div class="absSelectedCell absSelectedCell--abs">ABS ${escape(data.abs)} ${escape(vasText)} → ${escape(nasText)} ● ${escape(aoaText)} ● KM ${metersToKm(data.vkm)} bis ${metersToKm(data.nkm)} ● ${metersToKm(data.lng)} km</div>
     </div>
   `;
 }
