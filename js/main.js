@@ -1123,13 +1123,14 @@ function createNetzknotenBabShieldPart(babText) {
   return {
     width,
     height,
-    render(x, y, { textColor, strokeColor }) {
+    render(x, y, { textColor, strokeColor, strokeWidth = 1.15 }) {
       const safeTextColor = textColor || '#ffffff';
       const safeStrokeColor = strokeColor || '#ffffff';
+      const safeStrokeWidth = Number.isFinite(strokeWidth) && strokeWidth > 0 ? strokeWidth : 1.15;
       const baselineY = y + baselineOffset;
       const shieldPoints = renderScaledBabShieldPoints(x, y, width, height);
       return `
-    <polygon points="${shieldPoints}" fill="none" stroke="${safeStrokeColor}" stroke-width="1.15" stroke-opacity="1" stroke-linejoin="round" shape-rendering="geometricPrecision" />
+    <polygon points="${shieldPoints}" fill="none" stroke="${safeStrokeColor}" stroke-width="${safeStrokeWidth}" stroke-opacity="1" stroke-linejoin="round" shape-rendering="geometricPrecision" />
     <text x="${x + (width / 2)}" y="${baselineY}" text-anchor="middle"
       font-family="'ddin-regular','roboto-regular',sans-serif" font-size="${fontSize}" fill="${safeTextColor}">${escapeSvgText(text)}</text>`;
     }
@@ -1150,7 +1151,11 @@ function createNetzknotenSignSvg({ asText, ktText, type, babText }) {
   const useNoIconVariant = !hasType;
   const hasKt = !!ktText && !useNoIconVariant;
   const signBackground = useNoIconVariant ? signNoIconBg : signBlue;
+  const signOutlineColor = signBlue;
+  const signOutlineWidth = 1;
   const bodyTextColor = useNoIconVariant ? signNoIconText : white;
+  const babShieldStrokeColor = useNoIconVariant ? signOutlineColor : white;
+  const babShieldStrokeWidth = useNoIconVariant ? signOutlineWidth : 1.15;
 
   const bodyFont = "11px 'ddin-expandedbold', sans-serif";
   const badgeFont = "9px 'ddin-bold', 'roboto-bold', sans-serif";
@@ -1233,7 +1238,8 @@ function createNetzknotenSignSvg({ asText, ktText, type, babText }) {
   const babShieldSvg = babPart && babShield
     ? babShield.render(babPart.x, babYPos, {
       textColor: bodyTextColor,
-      strokeColor: white
+      strokeColor: babShieldStrokeColor,
+      strokeWidth: babShieldStrokeWidth
     })
     : '';
 
@@ -1264,7 +1270,7 @@ function createNetzknotenSignSvg({ asText, ktText, type, babText }) {
     : '';
 
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
-    <rect x="0.5" y="0.5" width="${width - 1}" height="${height - 1}" rx="6" fill="${signBackground}" stroke="${signBlue}" stroke-width="1" />
+    <rect x="0.5" y="0.5" width="${width - 1}" height="${height - 1}" rx="6" fill="${signBackground}" stroke="${signOutlineColor}" stroke-width="${signOutlineWidth}" />
     <rect x="2" y="2" width="${width - 4}" height="${height - 4}" rx="5" fill="none" stroke="${white}" stroke-width="2" />
     ${babShieldSvg}
     ${typeBadge}
