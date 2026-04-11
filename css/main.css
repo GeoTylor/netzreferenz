@@ -615,7 +615,7 @@ body {
     border-radius: 0;
     font-family: 'roboto-bold', sans-serif;
     font-size: 12px;
-    font-weight: 600;
+    font-weight: normal;
     letter-spacing: 0.02em;
     white-space: nowrap;
     pointer-events: none;
@@ -646,6 +646,7 @@ body {
 
 .karteSnapBarLabel {
     padding: 0 6px;
+    font-weight: normal;
 }
 
 .karteMap--search .karteSnapFrame {
