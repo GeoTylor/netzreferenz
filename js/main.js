@@ -1093,6 +1093,21 @@ function renderNetzknotenTypeIcon(iconData, x, y, targetWidth, targetHeight) {
   return `<polygon points="${pointsText}" fill="#ffffff" />`;
 }
 
+function renderScaledBabShieldPoints(x, y, width, height) {
+  return BAB_SIGN_SHIELD_POLYGON_POINTS
+    .split(',')
+    .map((pair) => {
+      const parts = pair.trim().split(/\s+/);
+      if (parts.length < 2) return '';
+      const px = Number(parts[0]);
+      const py = Number(parts[1]);
+      if (!Number.isFinite(px) || !Number.isFinite(py)) return '';
+      return `${(x + ((px / 100) * width)).toFixed(3)} ${(y + ((py / 100) * height)).toFixed(3)}`;
+    })
+    .filter(Boolean)
+    .join(' ');
+}
+
 function createNetzknotenBabShieldPart(babText) {
   const text = normalizeBabDisplayText(babText);
   if (!text) return null;
@@ -1103,8 +1118,6 @@ function createNetzknotenBabShieldPart(babText) {
   const textWidth = Math.max(0, textMetrics.left + textMetrics.right);
   const height = 14;
   const width = Math.max(22, Math.ceil(textWidth + 12));
-  const scaleX = width / 100;
-  const scaleY = height / 100;
   const baselineOffset = ((height - (textMetrics.ascent + textMetrics.descent)) / 2) + textMetrics.ascent;
 
   return {
@@ -1114,8 +1127,9 @@ function createNetzknotenBabShieldPart(babText) {
       const safeTextColor = textColor || '#ffffff';
       const safeStrokeColor = strokeColor || '#ffffff';
       const baselineY = y + baselineOffset;
+      const shieldPoints = renderScaledBabShieldPoints(x, y, width, height);
       return `
-    <polygon points="${BAB_SIGN_SHIELD_POLYGON_POINTS}" fill="none" stroke="${safeStrokeColor}" stroke-width="1" vector-effect="non-scaling-stroke" transform="translate(${x} ${y}) scale(${scaleX} ${scaleY})" />
+    <polygon points="${shieldPoints}" fill="none" stroke="${safeStrokeColor}" stroke-width="1.15" stroke-opacity="1" stroke-linejoin="round" shape-rendering="geometricPrecision" />
     <text x="${x + (width / 2)}" y="${baselineY}" text-anchor="middle"
       font-family="'ddin-regular','roboto-regular',sans-serif" font-size="${fontSize}" fill="${safeTextColor}">${escapeSvgText(text)}</text>`;
     }
