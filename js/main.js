@@ -60,6 +60,8 @@ let karteNetzknotenSource = null;
 let karteNetzknotenLayer = null;
 let karteNetzknotenFeatures = [];
 let karteAbschnittGeometryRevision = 0;
+let karteAbschnittCollisionItems = [];
+let karteAbschnittCollisionRevision = -1;
 let karteAbschnittExtentFitted = false;
 let karteInitialBabFitted = false;
 let karteSearchActive = false;
@@ -103,6 +105,7 @@ let netzknotenSelectorIconCache = new Map();
 let netzknotenTextMetricsCache = new Map();
 let netzknotenLabelSignCache = new Map();
 let netzknotenCompactLabelSignCache = new Map();
+let netzknotenLineLabelCandidatesCache = null;
 const COPY_STATUS_DURATION_MS = 1600;
 const COPY_STATUS_FADE_MS = 180;
 const copySuccessTickTargets = new Set([
@@ -128,6 +131,9 @@ const BAB_LABEL_ICON_SCALE = 0.42;
 const BAB_LABEL_POINT_GAP_PX = 8;
 const NETZKNOTEN_FULL_LABEL_MIN_ZOOM = 13;
 const NETZKNOTEN_LABEL_POINT_GAP_PX = 3;
+const NETZKNOTEN_LABEL_LINE_CLEARANCE_PX = 4;
+const NETZKNOTEN_LABEL_LINE_AVOID_STEP_PX = 4;
+const NETZKNOTEN_LABEL_LINE_AVOID_MAX_EXTRA_PX = 48;
 const NETZKNOTEN_LABEL_FALLBACK_ANCHOR_X = 0;
 const NETZKNOTEN_LABEL_FALLBACK_ANCHOR_Y = 1;
 const NETZKNOTEN_SIGN_MAX_AS_CHARS = 42;
@@ -1087,11 +1093,41 @@ function renderNetzknotenTypeIcon(iconData, x, y, targetWidth, targetHeight) {
   return `<polygon points="${pointsText}" fill="#ffffff" />`;
 }
 
-function createNetzknotenSignSvg({ asText, ktText, type }) {
+function createNetzknotenBabShieldPart(babText) {
+  const text = normalizeBabDisplayText(babText);
+  if (!text) return null;
+
+  const fontSize = 10;
+  const font = `${fontSize}px 'ddin-regular', sans-serif`;
+  const textMetrics = measureTextMetrics(text, font);
+  const textWidth = Math.max(0, textMetrics.left + textMetrics.right);
+  const height = 14;
+  const width = Math.max(22, Math.ceil(textWidth + 12));
+  const scaleX = width / 100;
+  const scaleY = height / 100;
+  const baselineOffset = ((height - (textMetrics.ascent + textMetrics.descent)) / 2) + textMetrics.ascent;
+
+  return {
+    width,
+    height,
+    render(x, y, { textColor, strokeColor }) {
+      const safeTextColor = textColor || '#ffffff';
+      const safeStrokeColor = strokeColor || '#ffffff';
+      const baselineY = y + baselineOffset;
+      return `
+    <polygon points="${BAB_SIGN_SHIELD_POLYGON_POINTS}" fill="none" stroke="${safeStrokeColor}" stroke-width="1" vector-effect="non-scaling-stroke" transform="translate(${x} ${y}) scale(${scaleX} ${scaleY})" />
+    <text x="${x + (width / 2)}" y="${baselineY}" text-anchor="middle"
+      font-family="'ddin-regular','roboto-regular',sans-serif" font-size="${fontSize}" fill="${safeTextColor}">${escapeSvgText(text)}</text>`;
+    }
+  };
+}
+
+function createNetzknotenSignSvg({ asText, ktText, type, babText }) {
   const signBlue = '#005a8c';
   const signNoIconBg = '#e9f5ff';
   const signNoIconText = '#627d98';
   const white = '#ffffff';
+  const babShield = createNetzknotenBabShieldPart(babText);
   const hasType = !!type;
   const typeIconKind = getNetzknotenTypeIconKind(type);
   const typeIconData = typeIconKind ? getNetzknotenSelectorIconData(typeIconKind) : null;
@@ -1133,6 +1169,7 @@ function createNetzknotenSignSvg({ asText, ktText, type }) {
   const contentPadY = NETZKNOTEN_SIGN_CONTENT_PAD_Y;
   let x = contentPadX;
   const partsWidth = [];
+  if (babShield) partsWidth.push(babShield.width);
   if (typeWidth) partsWidth.push(typeWidth);
   if (ktWidth) partsWidth.push(ktWidth);
   partsWidth.push(bodyWidth);
@@ -1143,11 +1180,13 @@ function createNetzknotenSignSvg({ asText, ktText, type }) {
     Math.ceil(ktTextHeight + (NETZKNOTEN_KT_PILL_PADDING_Y * 2))
   );
   const bodyTextHeight = bodyMetrics.ascent + bodyMetrics.descent;
-  const contentHeight = Math.max(typeHeight, ktHeight, bodyTextHeight);
+  const babHeight = babShield ? babShield.height : 0;
+  const contentHeight = Math.max(babHeight, typeHeight, ktHeight, bodyTextHeight);
   const width = Math.max(NETZKNOTEN_SIGN_MIN_WIDTH, Math.ceil(contentWidth + (contentPadX * 2)));
   const height = Math.max(NETZKNOTEN_SIGN_MIN_HEIGHT, Math.ceil(contentHeight + (contentPadY * 2)));
   const centerY = height / 2;
   const typeY = centerY + 0.2;
+  const babYPos = babShield ? Math.round((height - babShield.height) / 2) : 0;
   const typeYPos = Math.round((height - typeHeight) / 2);
   const ktYPos = Math.round((height - ktHeight) / 2);
   const ktBaselineOffset = ((ktHeight - ktTextHeight) / 2) + pillMetrics.ascent;
@@ -1158,6 +1197,10 @@ function createNetzknotenSignSvg({ asText, ktText, type }) {
   const bodyY = sharedBaselineY;
   const bodyStartX = [];
 
+  if (babShield) {
+    bodyStartX.push({ kind: 'bab', x, width: babShield.width });
+    x += babShield.width + spacing;
+  }
   if (typeWidth) {
     bodyStartX.push({ kind: 'type', x, width: typeWidth });
     x += typeWidth + spacing;
@@ -1168,9 +1211,17 @@ function createNetzknotenSignSvg({ asText, ktText, type }) {
   }
   bodyStartX.push({ kind: 'body', x, width: bodyWidth });
 
+  const babPart = bodyStartX.find(part => part.kind === 'bab');
   const typePart = bodyStartX.find(part => part.kind === 'type');
   const ktPart = bodyStartX.find(part => part.kind === 'kt');
   const bodyPart = bodyStartX.find(part => part.kind === 'body');
+
+  const babShieldSvg = babPart && babShield
+    ? babShield.render(babPart.x, babYPos, {
+      textColor: bodyTextColor,
+      strokeColor: white
+    })
+    : '';
 
   const typeBadge = (typePart && hasTypeTextBadge)
     ? `
@@ -1201,6 +1252,7 @@ function createNetzknotenSignSvg({ asText, ktText, type }) {
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
     <rect x="0.5" y="0.5" width="${width - 1}" height="${height - 1}" rx="6" fill="${signBackground}" stroke="${signBlue}" stroke-width="1" />
     <rect x="2" y="2" width="${width - 4}" height="${height - 4}" rx="5" fill="none" stroke="${white}" stroke-width="2" />
+    ${babShieldSvg}
     ${typeBadge}
     ${typeIcon}
     ${ktBadge}
@@ -1243,7 +1295,7 @@ function normalizeBabDisplayText(value) {
   if (!source) return '';
   const match = source.match(/(\d+)/);
   if (match) return match[1];
-  return source.replace(/^A\s*/i, '');
+  return '';
 }
 
 function createBabShieldSvg({ babText }) {
@@ -1285,6 +1337,7 @@ function createBabShieldSvg({ babText }) {
 function getNetzknotenSign(feature, useCompactLabel) {
   const kt = normalizeNetzknotenKtValue(feature && typeof feature.get === 'function' ? feature.get('kt') : '');
   const asParts = normalizeNetzknotenAsParts(feature && typeof feature.get === 'function' ? feature.get('as') : '');
+  const bab = normalizeBabDisplayText(feature && typeof feature.get === 'function' ? feature.get('bab') : '');
   if (useCompactLabel) {
     if (!kt) return null;
     const signKey = `compact|${kt}`;
@@ -1296,13 +1349,14 @@ function getNetzknotenSign(feature, useCompactLabel) {
     return { sign, signKey };
   }
   if (!asParts.text) return null;
-  const signKey = `full|${asParts.type}|${kt}|${asParts.text}`;
+  const signKey = `full|${bab}|${asParts.type}|${kt}|${asParts.text}`;
   let sign = netzknotenLabelSignCache.get(signKey);
   if (!sign) {
     sign = createNetzknotenSignSvg({
       type: asParts.type,
       ktText: kt,
-      asText: asParts.text
+      asText: asParts.text,
+      babText: bab
     });
     netzknotenLabelSignCache.set(signKey, sign);
   }
@@ -1346,6 +1400,28 @@ function getNetzknotenLabelCandidates() {
     { anchorX: 0, anchorY: 0, dx: gap, dy: -gap, index: 2 },
     { anchorX: 1, anchorY: 0, dx: -gap, dy: -gap, index: 3 }
   ];
+}
+
+function getNetzknotenLineLabelCandidates() {
+  if (netzknotenLineLabelCandidatesCache) return netzknotenLineLabelCandidatesCache;
+
+  const candidates = [];
+  const baseCandidates = getNetzknotenLabelCandidates();
+  for (let extra = 0; extra <= NETZKNOTEN_LABEL_LINE_AVOID_MAX_EXTRA_PX; extra += NETZKNOTEN_LABEL_LINE_AVOID_STEP_PX) {
+    baseCandidates.forEach((candidate) => {
+      const signX = Math.sign(candidate.dx);
+      const signY = Math.sign(candidate.dy);
+      candidates.push({
+        ...candidate,
+        dx: candidate.dx + (signX * extra),
+        dy: candidate.dy + (signY * extra),
+        extra
+      });
+    });
+  }
+
+  netzknotenLineLabelCandidatesCache = candidates;
+  return netzknotenLineLabelCandidatesCache;
 }
 
 function getNetzknotenOppositeCornerIndex(index) {
@@ -1429,9 +1505,68 @@ function getNetzknotenLabelExtent(point, candidate, widthPx, heightPx, resolutio
   return getPointLabelExtent(point, candidate, widthPx, heightPx, resolution);
 }
 
+function getPaddedExtent(extent, padding) {
+  if (!Array.isArray(extent) || extent.length < 4) return null;
+  const safePadding = Number.isFinite(padding) && padding > 0 ? padding : 0;
+  if (!safePadding) return extent.slice();
+  return [
+    extent[0] - safePadding,
+    extent[1] - safePadding,
+    extent[2] + safePadding,
+    extent[3] + safePadding
+  ];
+}
+
 function doExtentsIntersect(a, b) {
   if (!Array.isArray(a) || a.length < 4 || !Array.isArray(b) || b.length < 4) return false;
   return a[0] < b[2] && a[2] > b[0] && a[1] < b[3] && a[3] > b[1];
+}
+
+function doExtentsOverlapOrTouch(a, b) {
+  if (!Array.isArray(a) || a.length < 4 || !Array.isArray(b) || b.length < 4) return false;
+  return a[0] <= b[2] && a[2] >= b[0] && a[1] <= b[3] && a[3] >= b[1];
+}
+
+function getKarteAbschnittCollisionItems() {
+  if (karteAbschnittCollisionRevision === karteAbschnittGeometryRevision) {
+    return karteAbschnittCollisionItems;
+  }
+
+  karteAbschnittCollisionRevision = karteAbschnittGeometryRevision;
+  karteAbschnittCollisionItems = Array.isArray(karteAbschnittFeatures)
+    ? karteAbschnittFeatures
+      .map((feature) => {
+        const geometry = feature && typeof feature.getGeometry === 'function' ? feature.getGeometry() : null;
+        if (!geometry || typeof geometry.intersectsExtent !== 'function') return null;
+        const extent = typeof geometry.getExtent === 'function' ? geometry.getExtent() : null;
+        return { geometry, extent };
+      })
+      .filter(Boolean)
+    : [];
+  return karteAbschnittCollisionItems;
+}
+
+function doesExtentIntersectAbschnittLines(extent, resolution) {
+  if (!Array.isArray(extent) || extent.length < 4) return false;
+  const items = getKarteAbschnittCollisionItems();
+  if (!items.length) return false;
+
+  const padding = Number.isFinite(resolution) && resolution > 0
+    ? NETZKNOTEN_LABEL_LINE_CLEARANCE_PX * resolution
+    : 0;
+  const paddedExtent = getPaddedExtent(extent, padding);
+  if (!paddedExtent) return false;
+
+  return items.some(({ geometry, extent: geometryExtent }) => {
+    if (geometryExtent && !doExtentsOverlapOrTouch(paddedExtent, geometryExtent)) return false;
+    return geometry.intersectsExtent(paddedExtent);
+  });
+}
+
+function getNetzknotenPlacementResolutionKey(resolution) {
+  return Number.isFinite(resolution) && resolution > 0
+    ? Math.round(resolution * 100000) / 100000
+    : 'r';
 }
 
 function getSnapElementPlacementStateKey(resolution, element) {
@@ -1575,6 +1710,32 @@ function scorePointLabelCandidate(point, candidate, widthPx, heightPx, resolutio
   };
 }
 
+function scoreNetzknotenLineLabelCandidate(point, candidate, widthPx, heightPx, resolution) {
+  if (!Array.isArray(point) || point.length < 2) {
+    return {
+      anchorX: candidate.anchorX,
+      anchorY: candidate.anchorY,
+      dx: candidate.dx,
+      dy: candidate.dy,
+      index: candidate.index,
+      blocked: 0,
+      distanceSq: (candidate.dx * candidate.dx) + (candidate.dy * candidate.dy)
+    };
+  }
+
+  const extent = getNetzknotenLabelExtent(point, candidate, widthPx, heightPx, resolution);
+  const blocked = doesExtentIntersectAbschnittLines(extent, resolution) ? 1 : 0;
+  return {
+    anchorX: candidate.anchorX,
+    anchorY: candidate.anchorY,
+    dx: candidate.dx,
+    dy: candidate.dy,
+    index: candidate.index,
+    blocked,
+    distanceSq: (candidate.dx * candidate.dx) + (candidate.dy * candidate.dy)
+  };
+}
+
 function getPointLabelPixelRect(pointPx, candidate, widthPx, heightPx) {
   const topLeftPxX = candidate.dx - (candidate.anchorX * widthPx);
   const topLeftPxY = -candidate.dy - (candidate.anchorY * heightPx);
@@ -1682,16 +1843,11 @@ function chooseNetzknotenLabelPlacement(feature, widthPx, heightPx, resolution) 
   const geometry = typeof feature.getGeometry === 'function' ? feature.getGeometry() : null;
   const point = geometry && typeof geometry.getCoordinates === 'function' ? geometry.getCoordinates() : null;
   if (!Array.isArray(point) || point.length < 2) return fallback;
-  const pointPx = karteMap && typeof karteMap.getPixelFromCoordinate === 'function'
-    ? karteMap.getPixelFromCoordinate(point)
-    : null;
-  if (!Array.isArray(pointPx) || pointPx.length < 2) return fallback;
 
   const stackIndex = getNetzknotenStackIndex(feature);
   const stackSize = getNetzknotenStackSize(feature);
-  const avoidExtent = getSnapDotAvoidExtent(resolution, 0);
-  const scoredCandidates = getNetzknotenLabelCandidates().map(candidate => (
-    scorePointLabelCandidate(pointPx, candidate, widthPx, heightPx, resolution, avoidExtent)
+  const scoredCandidates = getNetzknotenLineLabelCandidates().map(candidate => (
+    scoreNetzknotenLineLabelCandidate(point, candidate, widthPx, heightPx, resolution)
   ));
   const viableCandidates = scoredCandidates.filter(candidate => candidate.blocked === 0);
   const orderedCandidates = viableCandidates.length ? viableCandidates : scoredCandidates;
@@ -1744,12 +1900,18 @@ function chooseNetzknotenLabelPlacement(feature, widthPx, heightPx, resolution) 
 function getNetzknotenLabelPlacement(feature, widthPx, heightPx, resolution, zoomBucket) {
   if (!feature || typeof feature.get !== 'function') return null;
   const sizeKey = `${Math.round(widthPx)}x${Math.round(heightPx)}`;
-  const snapDotKey = getSnapDotCacheKey(resolution, 0);
+  const resolutionKey = getNetzknotenPlacementResolutionKey(resolution);
+  const abschnittRevision = karteAbschnittGeometryRevision;
+  const stackIndex = getNetzknotenStackIndex(feature);
+  const stackSize = getNetzknotenStackSize(feature);
   const cache = feature.get('__nkLabelPlacement');
   if (cache
     && cache.zoom === zoomBucket
     && cache.sizeKey === sizeKey
-    && cache.snapDotKey === snapDotKey
+    && cache.resolutionKey === resolutionKey
+    && cache.abschnittRevision === abschnittRevision
+    && cache.stackIndex === stackIndex
+    && cache.stackSize === stackSize
     && Number.isFinite(cache.anchorX)
     && Number.isFinite(cache.anchorY)
     && Number.isFinite(cache.dx)
@@ -1772,7 +1934,10 @@ function getNetzknotenLabelPlacement(feature, widthPx, heightPx, resolution, zoo
   feature.set('__nkLabelPlacement', {
     zoom: zoomBucket,
     sizeKey,
-    snapDotKey,
+    resolutionKey,
+    abschnittRevision,
+    stackIndex,
+    stackSize,
     anchorX: normalized.anchorX,
     anchorY: normalized.anchorY,
     dx: normalized.dx,
