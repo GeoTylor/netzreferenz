@@ -109,6 +109,7 @@ let netzknotenCompactLabelSignCache = new Map();
 let netzknotenLineLabelCandidatesCache = null;
 const COPY_STATUS_DURATION_MS = 1600;
 const COPY_STATUS_FADE_MS = 180;
+const MAP_SCALE_PIXEL_SIZE_METERS = 0.00028;
 const copySuccessTickTargets = new Set([
   'babOutput',
   'absOutput',
@@ -1359,7 +1360,7 @@ function createBabShieldSvg({ babText }) {
     <rect x="0.5" y="0.5" width="${width - 1}" height="${height - 1}" rx="4" fill="${white}" stroke="${badgeBorderBlue}" stroke-width="1" />
     <polygon points="${BAB_SIGN_SHIELD_POLYGON_POINTS}" fill="${signBlue}" transform="translate(${shieldX} ${outerPadY}) scale(${scaleX} ${scaleY})" />
     <text x="${shieldX + (outputShieldWidth / 2)}" y="${baselineY}" text-anchor="middle"
-      font-family="'roboto-bold',sans-serif" font-size="${fontSize}" font-weight="600" fill="${white}">${escapeSvgText(text)}</text>
+      font-family="'roboto-bold',sans-serif" font-size="${fontSize}" font-weight="normal" style="font-synthesis:none;-webkit-font-smoothing:antialiased" fill="${white}">${escapeSvgText(text)}</text>
   </svg>`;
   return { svg, width, height };
 }
@@ -2779,6 +2780,29 @@ function updateLatLonOutput() {
 }
 
 function getKarteScaleRatioText() {
+  if (karteMap && typeof karteMap.getView === 'function') {
+    const view = karteMap.getView();
+    const resolution = view && typeof view.getResolution === 'function' ? view.getResolution() : null;
+    if (Number.isFinite(resolution) && resolution > 0) {
+      const center = view && typeof view.getCenter === 'function' ? view.getCenter() : null;
+      const projection = view && typeof view.getProjection === 'function' ? view.getProjection() : null;
+      let pointResolutionMeters = null;
+      if (window.ol && ol.proj && typeof ol.proj.getPointResolution === 'function' && projection) {
+        pointResolutionMeters = ol.proj.getPointResolution(projection, resolution, center || undefined, 'm');
+      }
+      if (!Number.isFinite(pointResolutionMeters) || pointResolutionMeters <= 0) {
+        const metersPerUnit = projection && typeof projection.getMetersPerUnit === 'function'
+          ? projection.getMetersPerUnit()
+          : 1;
+        pointResolutionMeters = resolution * (Number.isFinite(metersPerUnit) && metersPerUnit > 0 ? metersPerUnit : 1);
+      }
+      const scaleRatio = Math.round(pointResolutionMeters / MAP_SCALE_PIXEL_SIZE_METERS);
+      if (Number.isFinite(scaleRatio) && scaleRatio > 0) {
+        const formatter = new Intl.NumberFormat('de-DE', { maximumFractionDigits: 0 });
+        return `1 : ${formatter.format(scaleRatio)}`;
+      }
+    }
+  }
   if (!karteScaleControl || !karteScaleControl.element) return '';
   const textEl = karteScaleControl.element.querySelector('.ol-scale-text');
   if (!textEl) return '';
