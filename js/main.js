@@ -83,6 +83,7 @@ let karteSearchSelectingAbschnitt = false;
 let karteSearchPendingStationKm = null;
 let karteSearchSuppressCenterUntil = 0;
 let karteSearchGeocoderPending = false;
+let karteSearchCoordinateJumpTimeout = null;
 let karteGeocoder = null;
 let karteGeocoderWrap = null;
 let karteGeocoderInput = null;
@@ -285,6 +286,15 @@ function createKarteGeocoderFeatureStyle(mapTarget) {
 function clearKarteGeocoderMarker() {
   if (!karteGeocoderSource || typeof karteGeocoderSource.clear !== 'function') return;
   karteGeocoderSource.clear();
+}
+
+function clearKarteGeocoderResults() {
+  if (!karteGeocoderWrap) return;
+  const resultList = karteGeocoderWrap.querySelector('ul.gcd-txt-result');
+  if (!resultList) return;
+  while (resultList.firstChild) {
+    resultList.firstChild.remove();
+  }
 }
 
 function syncKarteLensToggleSize(mapTarget) {
@@ -2159,7 +2169,7 @@ function initKarteGeocoder(mapTarget) {
   const geocoder = new Geocoder('nominatim', {
     provider: createBayernGeocoderProvider(),
     lang: 'de-DE',
-    placeholder: 'Adresse | Ort | POI',
+    placeholder: 'Adresse | Koordinate',
     targetType: 'text-input',
     keepOpen: true,
     limit: 6,
@@ -2195,15 +2205,45 @@ function initKarteGeocoder(mapTarget) {
 
   const input = wrap.querySelector('.gcd-txt-input');
   if (input) {
-    input.setAttribute('aria-label', 'Adresse suchen');
+    input.setAttribute('aria-label', 'Adresse oder Koordinaten suchen');
     karteGeocoderInput = input;
-    input.addEventListener('input', () => clearKarteGeocoderMarker());
+    input.addEventListener('input', () => {
+      clearKarteGeocoderMarker();
+      clearKarteGeocoderResults();
+    });
+    input.addEventListener('keypress', handleKarteUnifiedSearchKeypress, true);
   }
 
   const searchButton = wrap.querySelector('.gcd-txt-search');
   if (searchButton) {
     searchButton.addEventListener('click', () => clearKarteGeocoderMarker());
+    searchButton.addEventListener('click', handleKarteUnifiedSearchClick, true);
   }
+}
+
+function handleKarteUnifiedSearchKeypress(evt) {
+  const isEnter = evt && (evt.key ? evt.key === 'Enter' : evt.which ? evt.which === 13 : evt.keyCode === 13);
+  if (!isEnter) return;
+  submitKarteUnifiedSearch(evt);
+}
+
+function handleKarteUnifiedSearchClick(evt) {
+  submitKarteUnifiedSearch(evt);
+}
+
+function submitKarteUnifiedSearch(evt) {
+  if (!karteGeocoderInput) return false;
+  const center = parseKarteCoordinateSearch(karteGeocoderInput.value || '');
+  if (!center) return false;
+  if (evt) {
+    evt.preventDefault();
+    evt.stopPropagation();
+    if (typeof evt.stopImmediatePropagation === 'function') {
+      evt.stopImmediatePropagation();
+    }
+  }
+  jumpKarteMapToCoordinate(center);
+  return true;
 }
 
 function setKarteSearchActive(isActive, mapTarget) {
@@ -2564,6 +2604,122 @@ function formatLatLonCenter(center) {
   return `${latText} ${lonText}`;
 }
 
+function parseCoordinateNumber(value) {
+  if (value === undefined || value === null) return NaN;
+  const normalized = String(value).trim().replace(',', '.');
+  if (!normalized) return NaN;
+  return Number(normalized);
+}
+
+function isFiniteMapCoordinate(coord) {
+  return Array.isArray(coord) && coord.length >= 2
+    && Number.isFinite(Number(coord[0]))
+    && Number.isFinite(Number(coord[1]));
+}
+
+function getKarteViewProjection() {
+  if (!karteMap || !karteMap.getView || !window.ol || !ol.proj) return null;
+  const view = karteMap.getView();
+  return view && typeof view.getProjection === 'function' ? view.getProjection() : null;
+}
+
+function transformKarteLatLonToCenter(lat, lon) {
+  const safeLat = Number(lat);
+  const safeLon = Number(lon);
+  if (!Number.isFinite(safeLat) || !Number.isFinite(safeLon)) return null;
+  if (Math.abs(safeLat) > 90 || Math.abs(safeLon) > 180) return null;
+  const viewProjection = getKarteViewProjection();
+  if (!viewProjection || !window.ol || !ol.proj) return null;
+  const coord = ol.proj.transform([safeLon, safeLat], 'EPSG:4326', viewProjection);
+  return isFiniteMapCoordinate(coord) ? coord : null;
+}
+
+function transformKarteUtmToCenter(zone, easting, northing) {
+  const safeZone = Number(zone);
+  const safeEasting = Number(easting);
+  const safeNorthing = Number(northing);
+  if (!Number.isInteger(safeZone) || safeZone < 1 || safeZone > 60) return null;
+  if (!Number.isFinite(safeEasting) || !Number.isFinite(safeNorthing)) return null;
+  if (safeEasting <= 100000 || safeEasting >= 900000 || safeNorthing <= 0 || safeNorthing >= 10000000) return null;
+  const viewProjection = getKarteViewProjection();
+  if (!viewProjection || !window.ol || !ol.proj) return null;
+  const sourceProjection = `EPSG:258${safeZone}`;
+  if (!ol.proj.get(sourceProjection)) return null;
+  const coord = ol.proj.transform([safeEasting, safeNorthing], sourceProjection, viewProjection);
+  return isFiniteMapCoordinate(coord) ? coord : null;
+}
+
+function parseKarteUtmCoordinate(text) {
+  const raw = String(text || '').trim();
+  if (!raw) return null;
+  const match = raw.match(/^(\d{1,2})\s*([C-HJ-NP-X])?[\s;]+([+-]?\d+(?:[.,]\d+)?)[\s;]+([+-]?\d+(?:[.,]\d+)?)$/i);
+  if (!match) return null;
+  return transformKarteUtmToCenter(
+    Number(match[1]),
+    parseCoordinateNumber(match[3]),
+    parseCoordinateNumber(match[4])
+  );
+}
+
+function parseKarteGoogleMapsCoordinate(text) {
+  const raw = String(text || '').trim();
+  if (!raw) return null;
+
+  let decoded = raw;
+  try {
+    decoded = decodeURIComponent(raw);
+  } catch (err) {
+    decoded = raw;
+  }
+
+  const decimal = '([+-]?\\d+(?:\\.\\d+)?)';
+  const patterns = [
+    new RegExp(`@${decimal},${decimal}(?:[,/?#]|$)`, 'i'),
+    new RegExp(`[?&](?:q|query|ll)=${decimal},${decimal}(?:[&#]|$)`, 'i')
+  ];
+
+  for (const pattern of patterns) {
+    const match = decoded.match(pattern);
+    if (!match) continue;
+    const lat = Number(match[1]);
+    const lon = Number(match[2]);
+    const coord = transformKarteLatLonToCenter(lat, lon);
+    if (coord) return coord;
+  }
+
+  return null;
+}
+
+function parseKarteDecimalLatLonCoordinate(text) {
+  const raw = String(text || '').trim();
+  if (!raw) return null;
+  const numberTokens = raw.match(/[+-]?\d+(?:[.,]\d+)?/g);
+  if (!numberTokens || numberTokens.length !== 2) return null;
+  const lat = parseCoordinateNumber(numberTokens[0]);
+  const lon = parseCoordinateNumber(numberTokens[1]);
+  return transformKarteLatLonToCenter(lat, lon);
+}
+
+function parseKarteCoordinateSearch(text) {
+  const raw = String(text || '').trim();
+  if (!raw) return null;
+  return parseKarteUtmCoordinate(raw)
+    || parseKarteGoogleMapsCoordinate(raw)
+    || parseKarteDecimalLatLonCoordinate(raw);
+}
+
+function jumpKarteMapToCoordinate(center) {
+  if (!karteMap || !isFiniteMapCoordinate(center)) return;
+  const view = karteMap.getView ? karteMap.getView() : null;
+  if (!view || typeof view.setCenter !== 'function') return;
+  karteSearchHasUserInteraction = false;
+  resetKarteSearchDot();
+  clearKarteGeocoderMarker();
+  clearKarteGeocoderResults();
+  view.setCenter([Number(center[0]), Number(center[1])]);
+  scheduleKarteSearchCoordinateJump();
+}
+
 function getUtmBandLetter(lat) {
   if (!Number.isFinite(lat) || lat < -80 || lat > 84) return '';
   const bands = 'CDEFGHJKLMNPQRSTUVWX';
@@ -2885,6 +3041,23 @@ function scheduleKarteSearchDotUpdate() {
 function scheduleKarteSearchGeocoderJump() {
   karteSearchHasUserInteraction = true;
   karteSearchGeocoderPending = true;
+}
+
+function scheduleKarteSearchCoordinateJump() {
+  suppressMapSearchCenterFor(GEOCODER_PAN_SUPPRESS_CENTER_MS);
+  karteSearchHasUserInteraction = true;
+  if (karteSearchCoordinateJumpTimeout) {
+    clearTimeout(karteSearchCoordinateJumpTimeout);
+  }
+  karteSearchCoordinateJumpTimeout = setTimeout(() => {
+    karteSearchCoordinateJumpTimeout = null;
+    if (karteMap && typeof karteMap.renderSync === 'function') {
+      karteMap.renderSync();
+    }
+    scheduleKarteSearchDotUpdate();
+    scheduleKarteSearchBarUpdate();
+    handleKarteSearchGeocoderJump();
+  }, 80);
 }
 
 function flashKarteSnapCorners() {
