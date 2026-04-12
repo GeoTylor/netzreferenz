@@ -402,6 +402,10 @@ body {
     box-shadow: var(--ts-input-focus-glow);
 }
 
+.karteGeocoderWrap.has-message .ol-geocoder .gcd-txt-input {
+    color: #ff823a;
+}
+
 .karteGeocoderWrap .ol-geocoder .gcd-txt-glass {
     display: none;
 }
@@ -465,6 +469,51 @@ body {
 
 .karteGeocoderWrap .ol-geocoder ul.gcd-txt-result > li > a:hover {
     background-color: #e2ebf3;
+}
+
+.karteGeocoderMessage {
+    position: absolute;
+    left: 2px;
+    top: calc(var(--karte-search-control-height, var(--ts-input-height)) - 1px);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 2px 6px 2px 10px;
+    font-size: 12px;
+    line-height: 1.2;
+    color: #ff823a;
+    background-color: #f5f7fa;
+    border-radius: 6px;
+    min-height: 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-2px);
+    transition: opacity 0.15s ease, transform 0.15s ease;
+    pointer-events: none;
+}
+
+.karteGeocoderMessage.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.karteGeocoderMessageBtn {
+    border: 1px solid #ff823a;
+    background-color: #ff823a;
+    color: #f5f7fa;
+    border-radius: 6px;
+    padding: 1px 6px;
+    font-family: 'roboto-bold', sans-serif;
+    font-size: 10px;
+    line-height: 1.2;
+    cursor: pointer;
+}
+
+.karteGeocoderMessageBtn:focus-visible {
+    outline: 2px solid rgba(255, 130, 58, 0.45);
+    outline-offset: 2px;
 }
 
 .karteLensToggleBtn {

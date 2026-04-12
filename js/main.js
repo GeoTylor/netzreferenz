@@ -87,6 +87,9 @@ let karteSearchCoordinateJumpTimeout = null;
 let karteGeocoder = null;
 let karteGeocoderWrap = null;
 let karteGeocoderInput = null;
+let karteGeocoderMessage = null;
+let karteGeocoderMessageText = null;
+let karteGeocoderMessageBtn = null;
 let karteGeocoderSource = null;
 let karteGeocoderSyncingMarker = false;
 let karteScaleControl = null;
@@ -177,9 +180,14 @@ const A99_EXTENT_BUFFER_RATIO = 0.08;
 let suppressBabChange = false;
 const GEOCODER_VIEWBOX = `${GEOCODER_VIEWBOX_4326[0]},${GEOCODER_VIEWBOX_4326[3]},${GEOCODER_VIEWBOX_4326[2]},${GEOCODER_VIEWBOX_4326[1]}`;
 
-function createBayernGeocoderProvider() {
+function createBayernGeocoderProvider({ onSearchStart, onEmptyResult } = {}) {
+  let lastQuery = '';
   return {
     getParameters({ query, limit, lang }) {
+      lastQuery = String(query || '').trim();
+      if (lastQuery && typeof onSearchStart === 'function') {
+        onSearchStart(lastQuery);
+      }
       return {
         url: 'https://nominatim.openstreetmap.org/search',
         params: {
@@ -194,7 +202,12 @@ function createBayernGeocoderProvider() {
       };
     },
     handleResponse(response) {
-      if (!Array.isArray(response) || !response.length) return [];
+      if (!Array.isArray(response) || !response.length) {
+        if (lastQuery && typeof onEmptyResult === 'function') {
+          onEmptyResult(lastQuery);
+        }
+        return [];
+      }
       return response.map((item) => ({
         lon: item.lon,
         lat: item.lat,
@@ -295,6 +308,31 @@ function clearKarteGeocoderResults() {
   if (!resultList) return;
   while (resultList.firstChild) {
     resultList.firstChild.remove();
+  }
+}
+
+function setKarteGeocoderMessage(message = '') {
+  if (!karteGeocoderMessage) return;
+  const hasMessage = !!message;
+  if (karteGeocoderMessageText) {
+    karteGeocoderMessageText.textContent = message;
+  } else {
+    karteGeocoderMessage.textContent = message;
+  }
+  karteGeocoderMessage.classList.toggle('is-visible', hasMessage);
+  if (karteGeocoderWrap) {
+    karteGeocoderWrap.classList.toggle('has-message', hasMessage);
+  }
+}
+
+function isKarteGeocoderMessageVisible() {
+  return !!(karteGeocoderMessage && karteGeocoderMessage.classList.contains('is-visible'));
+}
+
+function dismissKarteGeocoderMessage() {
+  setKarteGeocoderMessage('');
+  if (karteGeocoderInput) {
+    karteGeocoderInput.focus();
   }
 }
 
@@ -2168,7 +2206,13 @@ function initKarteGeocoder(mapTarget) {
 
   const featureStyle = createKarteGeocoderFeatureStyle(mapTarget);
   const geocoder = new Geocoder('nominatim', {
-    provider: createBayernGeocoderProvider(),
+    provider: createBayernGeocoderProvider({
+      onSearchStart: () => setKarteGeocoderMessage(''),
+      onEmptyResult: (query) => {
+        if (karteGeocoderInput && karteGeocoderInput.value.trim() !== query) return;
+        setKarteGeocoderMessage('Kein Ergebnis');
+      }
+    }),
     lang: 'de-DE',
     placeholder: 'Adresse | Koordinate',
     targetType: 'text-input',
@@ -2183,6 +2227,7 @@ function initKarteGeocoder(mapTarget) {
   karteMap.addControl(geocoder);
   if (typeof geocoder.on === 'function') {
     geocoder.on('addresschosen', () => {
+      setKarteGeocoderMessage('');
       suppressMapSearchCenterFor(GEOCODER_PAN_SUPPRESS_CENTER_MS);
       scheduleKarteSearchGeocoderJump();
     });
@@ -2211,6 +2256,7 @@ function initKarteGeocoder(mapTarget) {
     input.addEventListener('input', () => {
       clearKarteGeocoderMarker();
       clearKarteGeocoderResults();
+      setKarteGeocoderMessage('');
     });
     input.addEventListener('keypress', handleKarteUnifiedSearchKeypress, true);
   }
@@ -2220,11 +2266,38 @@ function initKarteGeocoder(mapTarget) {
     searchButton.addEventListener('click', () => clearKarteGeocoderMarker());
     searchButton.addEventListener('click', handleKarteUnifiedSearchClick, true);
   }
+
+  const message = document.createElement('div');
+  message.className = 'karteGeocoderMessage';
+  message.setAttribute('aria-live', 'polite');
+  const messageText = document.createElement('span');
+  messageText.className = 'karteGeocoderMessageText';
+  const messageBtn = document.createElement('button');
+  messageBtn.className = 'karteGeocoderMessageBtn';
+  messageBtn.type = 'button';
+  messageBtn.setAttribute('aria-label', 'Suchmeldung schließen');
+  messageBtn.textContent = 'OK';
+  message.appendChild(messageText);
+  message.appendChild(messageBtn);
+  wrap.appendChild(message);
+  karteGeocoderMessage = message;
+  karteGeocoderMessageText = messageText;
+  karteGeocoderMessageBtn = messageBtn;
+  karteGeocoderMessageBtn.addEventListener('click', dismissKarteGeocoderMessage);
 }
 
 function handleKarteUnifiedSearchKeypress(evt) {
   const isEnter = evt && (evt.key ? evt.key === 'Enter' : evt.which ? evt.which === 13 : evt.keyCode === 13);
   if (!isEnter) return;
+  if (isKarteGeocoderMessageVisible()) {
+    evt.preventDefault();
+    evt.stopPropagation();
+    if (typeof evt.stopImmediatePropagation === 'function') {
+      evt.stopImmediatePropagation();
+    }
+    dismissKarteGeocoderMessage();
+    return;
+  }
   submitKarteUnifiedSearch(evt);
 }
 
@@ -2243,6 +2316,7 @@ function submitKarteUnifiedSearch(evt) {
       evt.stopImmediatePropagation();
     }
   }
+  setKarteGeocoderMessage('');
   jumpKarteMapToCoordinate(center);
   return true;
 }
