@@ -1239,7 +1239,7 @@ function createNetzknotenSignSvg({ asText, ktText, type, babText }) {
   const signOutlineColor = signBlue;
   const signOutlineWidth = 1;
   const bodyTextColor = useNoIconVariant ? signNoIconText : white;
-  const babShieldStrokeColor = useNoIconVariant ? signOutlineColor : white;
+  const babShieldStrokeColor = useNoIconVariant ? bodyTextColor : white;
   const babShieldStrokeWidth = useNoIconVariant ? signOutlineWidth : 1.15;
 
   const bodyFont = "11px 'ddin-expandedbold', sans-serif";
