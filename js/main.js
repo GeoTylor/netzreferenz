@@ -91,6 +91,7 @@ let karteGeocoderMessage = null;
 let karteGeocoderMessageText = null;
 let karteGeocoderMessageBtn = null;
 let karteGeocoderSource = null;
+let karteGeocoderLayer = null;
 let karteGeocoderSyncingMarker = false;
 let karteScaleControl = null;
 let kartePinchZooming = false;
@@ -300,6 +301,41 @@ function createKarteGeocoderFeatureStyle(mapTarget) {
 function clearKarteGeocoderMarker() {
   if (!karteGeocoderSource || typeof karteGeocoderSource.clear !== 'function') return;
   karteGeocoderSource.clear();
+}
+
+function ensureKarteGeocoderMarkerLayer() {
+  if (!karteMap || !karteGeocoderLayer) return false;
+  const layers = typeof karteMap.getLayers === 'function' ? karteMap.getLayers() : null;
+  if (!layers || typeof layers.forEach !== 'function') return false;
+  let hasLayer = false;
+  layers.forEach((layer) => {
+    if (layer === karteGeocoderLayer) {
+      hasLayer = true;
+    }
+  });
+  if (!hasLayer && typeof karteMap.addLayer === 'function') {
+    karteMap.addLayer(karteGeocoderLayer);
+  }
+  return true;
+}
+
+function addKarteGeocoderMarker(center) {
+  if (!karteGeocoderSource || !isFiniteMapCoordinate(center)) return;
+  if (!window.ol || !ol.Feature || !ol.geom || !ol.geom.Point) return;
+  if (!ensureKarteGeocoderMarkerLayer()) return;
+
+  const feature = new ol.Feature(new ol.geom.Point([Number(center[0]), Number(center[1])]));
+  const featureStyle = karteGeocoder && karteGeocoder.options
+    ? karteGeocoder.options.featureStyle
+    : null;
+  if (featureStyle && typeof feature.setStyle === 'function') {
+    feature.setStyle(featureStyle);
+  }
+
+  karteGeocoderSyncingMarker = true;
+  karteGeocoderSource.clear();
+  karteGeocoderSource.addFeature(feature);
+  karteGeocoderSyncingMarker = false;
 }
 
 function clearKarteGeocoderResults() {
@@ -2233,9 +2269,9 @@ function initKarteGeocoder(mapTarget) {
     });
   }
   karteGeocoderSource = typeof geocoder.getSource === 'function' ? geocoder.getSource() : null;
-  const geocoderLayer = typeof geocoder.getLayer === 'function' ? geocoder.getLayer() : null;
-  if (geocoderLayer && typeof geocoderLayer.setZIndex === 'function') {
-    geocoderLayer.setZIndex(9);
+  karteGeocoderLayer = typeof geocoder.getLayer === 'function' ? geocoder.getLayer() : null;
+  if (karteGeocoderLayer && typeof karteGeocoderLayer.setZIndex === 'function') {
+    karteGeocoderLayer.setZIndex(9);
   }
   if (karteGeocoderSource && typeof karteGeocoderSource.on === 'function') {
     karteGeocoderSource.on('addfeature', (evt) => {
@@ -2791,6 +2827,7 @@ function jumpKarteMapToCoordinate(center) {
   resetKarteSearchDot();
   clearKarteGeocoderMarker();
   clearKarteGeocoderResults();
+  addKarteGeocoderMarker(center);
   view.setCenter([Number(center[0]), Number(center[1])]);
   scheduleKarteSearchCoordinateJump();
 }
