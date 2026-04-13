@@ -1198,7 +1198,7 @@ function createNetzknotenBabShieldPart(babText) {
   if (!text) return null;
 
   const fontSize = 10;
-  const font = `${fontSize}px 'ddin-regular', sans-serif`;
+  const font = `${fontSize}px 'ddin-bold', sans-serif`;
   const textMetrics = measureTextMetrics(text, font);
   const textWidth = Math.max(0, textMetrics.left + textMetrics.right);
   const height = 14;
@@ -1217,7 +1217,7 @@ function createNetzknotenBabShieldPart(babText) {
       return `
     <polygon points="${shieldPoints}" fill="none" stroke="${safeStrokeColor}" stroke-width="${safeStrokeWidth}" stroke-opacity="1" stroke-linejoin="round" shape-rendering="geometricPrecision" />
     <text x="${x + (width / 2)}" y="${baselineY}" text-anchor="middle"
-      font-family="'ddin-regular','roboto-regular',sans-serif" font-size="${fontSize}" fill="${safeTextColor}">${escapeSvgText(text)}</text>`;
+      font-family="'ddin-bold','roboto-bold',sans-serif" font-size="${fontSize}" fill="${safeTextColor}">${escapeSvgText(text)}</text>`;
     }
   };
 }
@@ -1419,13 +1419,13 @@ function createBabShieldSvg({ babText }) {
   const shieldX = outerPadX;
   const maxTextWidth = outputShieldWidth - 10;
   const baseFontSize = 28;
-  const baseFont = `${baseFontSize}px 'roboto-bold', sans-serif`;
+  const baseFont = `${baseFontSize}px 'ddin-bold', sans-serif`;
   const baseTextMetrics = text ? measureTextMetrics(text, baseFont) : null;
   const baseTextWidth = baseTextMetrics ? Math.max(0, baseTextMetrics.left + baseTextMetrics.right) : 0;
   const fontSize = baseTextWidth > maxTextWidth && baseTextWidth > 0
     ? Math.max(20, Math.floor((baseFontSize * (maxTextWidth / baseTextWidth)) * 10) / 10)
     : baseFontSize;
-  const font = `${fontSize}px 'roboto-bold', sans-serif`;
+  const font = `${fontSize}px 'ddin-bold', sans-serif`;
   const textMetrics = text ? measureTextMetrics(text, font) : null;
   const baselineY = textMetrics
     ? outerPadY + ((outputShieldHeight - (textMetrics.ascent + textMetrics.descent)) / 2) + textMetrics.ascent
@@ -1434,7 +1434,7 @@ function createBabShieldSvg({ babText }) {
     <rect x="0.5" y="0.5" width="${width - 1}" height="${height - 1}" rx="4" fill="${white}" stroke="${badgeBorderBlue}" stroke-width="1" />
     <polygon points="${BAB_SIGN_SHIELD_POLYGON_POINTS}" fill="${signBlue}" transform="translate(${shieldX} ${outerPadY}) scale(${scaleX} ${scaleY})" />
     <text x="${shieldX + (outputShieldWidth / 2)}" y="${baselineY}" text-anchor="middle"
-      font-family="'roboto-bold',sans-serif" font-size="${fontSize}" font-weight="normal" style="font-synthesis:none;-webkit-font-smoothing:antialiased" fill="${white}">${escapeSvgText(text)}</text>
+      font-family="'ddin-bold','roboto-bold',sans-serif" font-size="${fontSize}" font-weight="normal" style="font-synthesis:none;-webkit-font-smoothing:antialiased" fill="${white}">${escapeSvgText(text)}</text>
   </svg>`;
   return { svg, width, height };
 }
