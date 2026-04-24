@@ -1236,9 +1236,9 @@ function createNetzknotenSignSvg({ asText, ktText, type, babText }) {
   const useNoIconVariant = !hasType;
   const hasKt = !!ktText && !useNoIconVariant;
   const signBackground = useNoIconVariant ? signNoIconBg : signBlue;
-  const signOutlineColor = signBlue;
-  const signOutlineWidth = 1;
   const bodyTextColor = useNoIconVariant ? signNoIconText : white;
+  const signOutlineColor = useNoIconVariant ? bodyTextColor : signBlue;
+  const signOutlineWidth = 1;
   const babShieldStrokeColor = useNoIconVariant ? bodyTextColor : white;
   const babShieldStrokeWidth = useNoIconVariant ? signOutlineWidth : 1.15;
 
@@ -3919,7 +3919,7 @@ function selectAbschnittFromMapSearch({ option, stationKm, coordinate, skipCente
           ? stationContainer.querySelector('.ts-number-input')
           : null;
         if (input) {
-          input.value = Number(stationKm).toFixed(3);
+          input.value = formatStationInputValue(stationKm);
           const ev = new Event('change', { bubbles: true });
           input.dispatchEvent(ev);
         } else {
@@ -4528,11 +4528,25 @@ function getSelectedBabOption() {
   return babSelect.options[value] || null;
 }
 
+function parseDecimalInputValue(value) {
+  const text = String(value ?? '').trim().replace(/\s+/g, '');
+  if (!text) return null;
+  const normalized = text.includes(',')
+    ? text.replace(/\./g, '').replace(',', '.')
+    : text;
+  const num = Number.parseFloat(normalized);
+  return Number.isFinite(num) ? num : null;
+}
+
+function formatStationInputValue(valueKm) {
+  const num = Number(valueKm);
+  return Number.isFinite(num) ? formatKmThreeDecimals(num) : '';
+}
+
 function getStationInputValue() {
   const input = document.getElementById('stationInput');
   if (!input) return null;
-  const num = parseFloat(input.value);
-  return Number.isFinite(num) ? num : null;
+  return parseDecimalInputValue(input.value);
 }
 
 function setOutputValue(outputEl, value, { html = false } = {}) {
@@ -5652,7 +5666,7 @@ function setStationFromKilometer(absOption, globalKm) {
     : null;
 
   if (input) {
-    input.value = clamped.toFixed(3);
+    input.value = formatStationInputValue(clamped);
     const ev = new Event('change', { bubbles: true });
     input.dispatchEvent(ev);
   } else {
@@ -5669,7 +5683,7 @@ function resetStationState() {
       stationContainer.setAttribute('data-max', '');
       input.min = '0';
       input.max = '';
-      input.value = '0.000';
+      input.value = formatStationInputValue(0);
       const ev = new Event('change', { bubbles: true });
       input.dispatchEvent(ev);
     }
@@ -5891,7 +5905,7 @@ function wireBabToAbs() {
         input.max = maxStr;
         input.step = '0.001';
         if (!isMapSearchSelection) {
-          input.value = '0.000';
+          input.value = formatStationInputValue(0);
 
           const ev = new Event('change', { bubbles: true });
           input.dispatchEvent(ev);
@@ -5931,7 +5945,7 @@ function wireBabToAbs() {
       input.max = maxStr;
       input.step = '0.001';
       if (!isMapSearchSelection) {
-        input.value = '0.000';
+        input.value = formatStationInputValue(0);
 
         const ev = new Event('change', { bubbles: true });
         input.dispatchEvent(ev);
@@ -6001,10 +6015,7 @@ function initTsNumberInputs() {
     const isStationInput = !!container.closest('.stationRow');
     const stepperButtons = container.querySelectorAll('.ts-number-stepper-btn');
 
-    const parseMaybe = (val) => {
-      const num = parseFloat(val);
-      return Number.isFinite(num) ? num : null;
-    };
+    const parseMaybe = (val) => parseDecimalInputValue(val);
 
     const getMin = () => {
       return parseMaybe(input.min) ??
@@ -6052,22 +6063,22 @@ function initTsNumberInputs() {
     };
 
     const normalizeAndSync = () => {
-      let val = parseFloat(input.value);
+      let val = parseMaybe(input.value);
       if (!Number.isFinite(val)) {
         if (input.value === '' || input.value === null) return;
         val = getMin();
       }
       val = clamp(val);
-      input.value = val.toFixed(3);
+      input.value = isStationInput ? formatStationInputValue(val) : val.toFixed(3);
       syncSliders(val);
     };
 
-    // Keep slider in sync while stepping with the native spinner or keyboard
+    // Keep slider in sync while typing or stepping.
     input.addEventListener('input', () => {
       if (isStationInput) {
         clearKilometerFilterOnStationInput();
       }
-      const val = parseFloat(input.value);
+      const val = parseMaybe(input.value);
       if (!Number.isFinite(val)) return;
       syncSliders(clamp(val));
     });
@@ -6094,13 +6105,15 @@ function initTsNumberInputs() {
         if (input.disabled) return;
         const step = getStep();
         const precision = getStepPrecision(step);
-        let val = parseFloat(input.value);
+        let val = parseMaybe(input.value);
         if (!Number.isFinite(val)) {
           val = getMin();
           if (!Number.isFinite(val)) val = 0;
         }
         const next = clamp(roundToPrecision(val + (direction * step), precision));
-        input.value = Number.isFinite(precision) ? next.toFixed(precision) : String(next);
+        input.value = isStationInput
+          ? formatStationInputValue(next)
+          : (Number.isFinite(precision) ? next.toFixed(precision) : String(next));
         input.dispatchEvent(new Event('input', { bubbles: true }));
         input.dispatchEvent(new Event('change', { bubbles: true }));
         if (document.activeElement !== input) {
@@ -6535,7 +6548,7 @@ function initStationSliders() {
       const numericVal = Number(val);
 
       if (!suppressSliderUpdate) {
-        stationInput.value = val;
+        stationInput.value = formatStationInputValue(numericVal);
         setStationValue(val, { source: sliderInstance });
       }
 
