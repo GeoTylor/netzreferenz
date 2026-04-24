@@ -6073,6 +6073,26 @@ function initTsNumberInputs() {
       syncSliders(val);
     };
 
+    const applyStep = (direction) => {
+      if (input.disabled) return;
+      const step = getStep();
+      const precision = getStepPrecision(step);
+      let val = parseMaybe(input.value);
+      if (!Number.isFinite(val)) {
+        val = getMin();
+        if (!Number.isFinite(val)) val = 0;
+      }
+      const next = clamp(roundToPrecision(val + (direction * step), precision));
+      input.value = isStationInput
+        ? formatStationInputValue(next)
+        : (Number.isFinite(precision) ? next.toFixed(precision) : String(next));
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+      input.dispatchEvent(new Event('change', { bubbles: true }));
+      if (document.activeElement !== input) {
+        input.focus({ preventScroll: true });
+      }
+    };
+
     // Keep slider in sync while typing or stepping.
     input.addEventListener('input', () => {
       if (isStationInput) {
@@ -6085,7 +6105,16 @@ function initTsNumberInputs() {
 
     input.addEventListener('keydown', (event) => {
       if (!isStationInput) return;
-      if (['Tab', 'Shift', 'Control', 'Alt', 'Meta', 'Escape'].includes(event.key)) return;
+      if (event.altKey || event.ctrlKey || event.metaKey) return;
+      if (event.key === 'ArrowUp') {
+        event.preventDefault();
+        applyStep(1);
+        return;
+      }
+      if (event.key === 'ArrowDown') {
+        event.preventDefault();
+        applyStep(-1);
+      }
     });
 
     // Clamp & fix decimals on commit (blur/enter)
@@ -6099,26 +6128,6 @@ function initTsNumberInputs() {
           btn.disabled = input.disabled;
           btn.setAttribute('aria-disabled', String(input.disabled));
         });
-      };
-
-      const applyStep = (direction) => {
-        if (input.disabled) return;
-        const step = getStep();
-        const precision = getStepPrecision(step);
-        let val = parseMaybe(input.value);
-        if (!Number.isFinite(val)) {
-          val = getMin();
-          if (!Number.isFinite(val)) val = 0;
-        }
-        const next = clamp(roundToPrecision(val + (direction * step), precision));
-        input.value = isStationInput
-          ? formatStationInputValue(next)
-          : (Number.isFinite(precision) ? next.toFixed(precision) : String(next));
-        input.dispatchEvent(new Event('input', { bubbles: true }));
-        input.dispatchEvent(new Event('change', { bubbles: true }));
-        if (document.activeElement !== input) {
-          input.focus({ preventScroll: true });
-        }
       };
 
       stepperButtons.forEach((btn) => {
